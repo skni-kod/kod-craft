@@ -1,5 +1,8 @@
 #include "lib/raylib/src/raylib.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "lib/raygui.h"
+
 int main() {
     InitWindow(800, 450, "Kod Craft");
 
