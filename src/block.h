@@ -21,6 +21,6 @@ extern std::vector<Block*> blockList;
 
 void defineBlock(std::string name, bool solid = true);
 
-int getBlockCount();
+int getDefinedBlockCount();
 
 #endif

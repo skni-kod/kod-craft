@@ -22,7 +22,7 @@ int main() {
     //load data from python files
     defineGameData();
 
-    printf("Defined %d blocks.\n", getBlockCount());
+    printf("Defined %d blocks.\n", getDefinedBlockCount());
 
     while (!WindowShouldClose()){
         BeginDrawing();
