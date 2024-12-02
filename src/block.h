@@ -6,6 +6,8 @@
 class Block {
 private:
     int id;
+    std::string name;
+    bool solid;
 public:
     Block();
 };
