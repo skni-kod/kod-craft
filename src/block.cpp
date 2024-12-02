@@ -1,5 +1,7 @@
 #include "block.h"
 
-void defineBlock(Blcok* block) {
+ std::vector<Block*> blockList;
+
+void defineBlock(Block* block) {
     blockList.push_back(block);
 }
