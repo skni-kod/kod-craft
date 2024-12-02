@@ -3,6 +3,8 @@
 #define RAYGUI_IMPLEMENTATION
 #include "lib/raygui.h"
 
+#include<python3.11/Python.h>
+
 int main() {
     InitWindow(800, 450, "Kod Craft");
 
