@@ -31,3 +31,7 @@ bool Block::isSolid() {
 void defineBlock(std::string name, bool solid) {
     blockList.push_back(new Block(name, solid));
 }
+
+int getBlockCount() {
+    return nextID;
+}
