@@ -3,6 +3,8 @@
 
 #include<vector>
 
+#include "chunk.h"
+
 class Dimension {
 private:
     std::vector<Chunk*> chunks;
