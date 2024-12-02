@@ -10,6 +10,9 @@ private:
     bool solid;
 public:
     Block();
+
+    std::string getName();
+    bool isSolid();
 };
 
 extern std::vector<Block*> blockList;
