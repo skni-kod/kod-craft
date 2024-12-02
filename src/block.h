@@ -9,7 +9,8 @@ private:
     std::string name;
     bool solid;
 public:
-    Block();
+    Block(std::string name, bool solid);
+    Block(int id);
 
     std::string getName();
     bool isSolid();

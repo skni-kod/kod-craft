@@ -2,8 +2,21 @@
 
 std::vector<Block*> blockList;
 
-void defineBlock(Block* block) {
-    blockList.push_back(block);
+Block::Block(std::string name, bool solid) {
+    this->id = nextID++;
+    this->name = name;
+    this->solid = solid;
+}
+
+Block::Block(int id) {
+    this->id = id;
+
+    Block *refrenceBlock = blockList[id];
+
+    this->name = refrenceBlock->getName();
+    this->solid = refrenceBlock->isSolid();
+}
+
 
 std::string Block::getName() {
     return this->name;
