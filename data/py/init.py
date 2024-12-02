@@ -1,3 +1,9 @@
 import game
 
-print("Hello World!")
+game.defineBlock("air",
+    solid = False
+    )
+
+game.defineBlock("stone",
+    solid = True
+    )
