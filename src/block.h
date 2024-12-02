@@ -8,7 +8,7 @@ private:
     int id;
 public:
     Block();
-}
+};
 
 extern std::vector<Block*> blockList;
 
