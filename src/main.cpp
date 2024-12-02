@@ -4,6 +4,7 @@
 #include "lib/raygui.h"
 
 #include "py.h"
+#include "block.h"
 
 enum GameState {
     STATE_MAIN_MENU,
@@ -20,6 +21,8 @@ int main() {
 
     //load data from python files
     defineGameData();
+
+    printf("Defined %d blocks.\n", getBlockCount());
 
     while (!WindowShouldClose()){
         BeginDrawing();
