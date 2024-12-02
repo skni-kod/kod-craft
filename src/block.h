@@ -2,6 +2,7 @@
 #define BLOCK_H
 
 #include <vector>
+#include <string>
 
 class Block {
 private:
