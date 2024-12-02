@@ -18,7 +18,7 @@ static PyObject *py_createBlock(PyObject *self, PyObject *args, PyObject *kwargs
     )) return NULL;
 
 
-    Block block = Block();
+    defineBlock(name, solid);
 
     return PyBool_FromLong(0);
 }

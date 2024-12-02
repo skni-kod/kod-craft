@@ -27,4 +27,7 @@ std::string Block::getName() {
 bool Block::isSolid() {
     return this->solid;
 }
+
+void defineBlock(std::string name, bool solid) {
+    blockList.push_back(new Block(name, solid));
 }
