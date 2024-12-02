@@ -12,5 +12,6 @@ add_executable(kod-craft
     src/world.cpp
     src/chunk.cpp
     src/block.cpp
+    src/py.cpp
 )
 target_link_libraries(kod-craft "raylib" Python::Python)
