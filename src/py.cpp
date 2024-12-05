@@ -6,7 +6,7 @@
 bool isPythonInitalized = false;
 
 
-static PyObject *py_createBlock(PyObject *self, PyObject *args, PyObject *kwargs) {
+static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *name;
     int solid = 1;
 
@@ -24,7 +24,7 @@ static PyObject *py_createBlock(PyObject *self, PyObject *args, PyObject *kwargs
 }
 
 static PyMethodDef pyMethods[] = {
-    {"defineBlock", (PyCFunction)py_createBlock, METH_VARARGS | METH_KEYWORDS,
+    {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
     {NULL, NULL, 0, NULL}
 };
