@@ -8,7 +8,7 @@ game.defineBlock("stone",
     solid = True
     )
 
-def generateEmptyChunk(x, y, size):
+def generateEmptyChunk(x, y, z, size):
     return 0
 
 game.defineDimension("kodland", generateEmptyChunk)
