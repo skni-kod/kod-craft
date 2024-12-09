@@ -28,15 +28,19 @@ Block::Block(int id) {
 
 
 std::string Block::getName() {
-    return this->name;
+    return this->propeties->name;
 }
 
 bool Block::isSolid() {
-    return this->solid;
+    return this->propeties->solid;
 }
 
 void defineBlock(std::string name, bool solid) {
-    blockList.push_back(new Block(name, solid));
+    BlockTemplate* newBlock = new BlockTemplate(name)
+
+    newBlock.solid = solid;
+
+    blockList.push_back(newBlock);
 }
 
 int getDefinedBlockCount() {
