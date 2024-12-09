@@ -22,11 +22,6 @@ int main() {
 
     loadWorld();
 
-    //load data from python files
-    defineGameData();
-
-    printf("Defined %d blocks.\n", getDefinedBlockCount());
-
     while (!WindowShouldClose()){
         BeginDrawing();
         ClearBackground(RAYWHITE);
