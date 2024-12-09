@@ -28,6 +28,10 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
+BlockTemplate::BlockTemplate(std::string name) {
+    this->name = name;
+}
+
 void defineBlock(std::string name, bool solid) {
     BlockTemplate* newBlock = new BlockTemplate(name);
 
