@@ -11,6 +11,6 @@ private:
     int chunkSize;
 public:
     Dimension(int chunkSize);
-}
+};
 
 #endif

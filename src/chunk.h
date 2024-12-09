@@ -11,6 +11,6 @@ private:
     Block*** blocks;
 public:
     Chunk(int size);
-}
+};
 
 #endif
