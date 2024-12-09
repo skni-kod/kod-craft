@@ -1,4 +1,4 @@
-#include "lib/raylib/src/raylib.h"
+#include "raylib.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "lib/raygui.h"
@@ -6,7 +6,6 @@
 #include "py.h"
 #include "block.h"
 #include "world.h"
-
 #include "states.h"
 
 GameState gameState;
@@ -22,6 +21,11 @@ int main() {
     printf("Defined %d blocks.\n", getDefinedBlockCount());
 
     loadWorld();
+
+    //load data from python files
+    defineGameData();
+
+    printf("Defined %d blocks.\n", getDefinedBlockCount());
 
     while (!WindowShouldClose()){
         BeginDrawing();

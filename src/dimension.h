@@ -6,6 +6,8 @@
 
 #include "chunk.h"
 
+class DimensionTemplate;
+
 class Dimension {
 private:
     std::vector<Chunk*> chunks;
