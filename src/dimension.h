@@ -22,11 +22,13 @@ public:
     int chunkSize;
     std::string name;
 
-    DimensionTemplate(int chunkSize, std::string name);
+    PyObject * generateChunkCallback;
+
+    DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name);
 };
 
 extern std::vector<DimensionTemplate*> dimensionList;
 
-void defineDimension(std::string name, int chunkSize);
+void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize);
 
 #endif
