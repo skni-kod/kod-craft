@@ -4,6 +4,13 @@ int nextID = 0;
 
 std::vector<BlockTemplate*> blockList;
 
+BlockTemplate* findBlockTemplate(std::string name) {
+    for (int i = 0; i < blockList.size(); i++) {
+        if (blockList[i].name == name) return blockList[i];
+    }
+    return nullptr;
+}
+
 Block::Block(std::string name, bool solid) {
     this->id = nextID++;
     this->name = name;
