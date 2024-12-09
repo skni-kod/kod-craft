@@ -26,7 +26,7 @@ public:
     BlockTemplate(std::string name);
 };
 
-extern std::vector<Block*> blockList;
+extern std::vector<BlockTemplate*> blockList;
 
 void defineBlock(std::string name, bool solid = true);
 
