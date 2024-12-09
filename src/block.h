@@ -23,7 +23,7 @@ public:
     std::string name;
     bool solid;
 
-    Block(std::string name);
+    BlockTemplate(std::string name);
 };
 
 extern std::vector<Block*> blockList;
