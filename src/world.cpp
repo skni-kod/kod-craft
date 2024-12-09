@@ -1,8 +1,13 @@
 
 #include "states.h"
 #include "world.h"
+#include "dimension.h"
 
-World::World() {}
+World::World() {
+    for (int i = 0; i < dimensions.length; i++) {
+        this->dimensions.push_back( new Dimension(i) );
+    }
+}
 
 World * world;
 
