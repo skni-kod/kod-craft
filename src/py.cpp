@@ -2,6 +2,7 @@
 #include<Python.h>
 
 #include "block.h"
+#include "dimension.h"
 
 bool isPythonInitalized = false;
 
