@@ -1,7 +1,5 @@
 #include "block.h"
 
-int nextID = 0;
-
 std::vector<BlockTemplate*> blockList;
 
 BlockTemplate* findBlockTemplate(std::string name) {
@@ -41,5 +39,5 @@ void defineBlock(std::string name, bool solid) {
 }
 
 int getDefinedBlockCount() {
-    return nextID;
+    return blockList.size();
 }
