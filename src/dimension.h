@@ -21,4 +21,6 @@ public:
     std::string name;
 };
 
+extern std::vector<DimensionTemplate*> dimensionList;
+
 #endif
