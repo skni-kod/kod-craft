@@ -17,7 +17,7 @@ Chunk::Chunk(Dimension* parent, int x, int y, int z) {
     for (int bX = 0; bX < chunkSize; bX++) {
         this->blocks[bX] = (Block**) malloc(chunkSize * sizeof(Block*));
         for (int bY = 0; bY < chunkSize; bY++) {
-            this->blocks[bY] = (Block*) malloc(chunkSize * sizeof(Block));
+            this->blocks[bX][bY] = (Block*) malloc(chunkSize * sizeof(Block));
 
             for (int bY = 0; bY < chunkSize; bY++) {
                 
