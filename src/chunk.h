@@ -1,10 +1,12 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+class Chunk;
+
 #include<Python.h>
 #include "block.h"
 
-class Dimension;
+#include "dimension.h"
 
 class Chunk {
 private:

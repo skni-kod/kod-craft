@@ -1,6 +1,8 @@
 #ifndef DIMENSION_H
 #define DIMENSION_H
 
+class Dimension;
+
 #include<vector>
 #include<string>
 
