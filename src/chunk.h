@@ -10,12 +10,12 @@ class Chunk;
 
 class Chunk {
 private:
-    Dimension* parent;
+    Dimension* dimension;
     Block*** blocks;
 
     int x, y, z;
 public:
-    Chunk(Dimension* parent, int x, int y, int z);
+    Chunk(Dimension* dimension, int x, int y, int z);
 };
 
 #endif

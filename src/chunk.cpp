@@ -1,14 +1,14 @@
 
 #include "chunk.h"
 
-Chunk::Chunk(Dimension* parent, int x, int y, int z) {
-    this->parent = parent;
+Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
+    this->dimension = dimension;
 
     this->x = x;
     this->y = y;
     this->z = z;
 
-    int chunkSize = parent->getChunkSize();
+    int chunkSize = dimension->getChunkSize();
 
 
     // allocate memory
