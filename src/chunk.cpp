@@ -8,7 +8,7 @@ Chunk::Chunk(Dimension* parent, int x, int y, int z) {
     this->y = y;
     this->z = z;
 
-    int chunkSize = parent.getChunkSize();
+    int chunkSize = parent->getChunkSize();
 
 
     // allocate memory
