@@ -15,6 +15,8 @@ private:
     DimensionTemplate * propeties;
 public:
     Dimension(int chunkSize);
+
+    void draw();
 };
 
 class DimensionTemplate {
