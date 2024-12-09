@@ -15,3 +15,6 @@ DimensionTemplate::DimensionTemplate(int chunkSize, std::string name) {
     dimensionList.push_back(this);
 }
 
+void defineDimension(std::string name, int chunkSize) {
+    dimensionList.push_back( new DimensionTemplate(chunkSize, name) );
+}

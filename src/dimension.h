@@ -25,4 +25,6 @@ public:
 
 extern std::vector<DimensionTemplate*> dimensionList;
 
+void defineDimension(std::string name, int chunkSize);
+
 #endif

@@ -23,9 +23,28 @@ static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
+    char *name;
+    int chunkSize = 8;
+
+    static char *kwlist[] = {(char*)"name", (char*)"chunkSize", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "s|i", kwlist,
+        &name, &solid
+    )) return NULL;
+
+
+    defineDimension(name, chunkSize);
+
+    return PyBool_FromLong(0);
+}
+
 static PyMethodDef pyMethods[] = {
     {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
+    {"defineDimension", (PyCFunction)py_defineDimension, METH_VARARGS | METH_KEYWORDS,
+     "Define a dimension defineDimension(name, chunkSize=32)."},
     {NULL, NULL, 0, NULL}
 };
 
