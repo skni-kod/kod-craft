@@ -31,7 +31,7 @@ static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kw
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
         "s|i", kwlist,
-        &name, &solid
+        &name, &chunkSize
     )) return NULL;
 
 
