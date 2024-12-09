@@ -7,3 +7,5 @@ game.defineBlock("air",
 game.defineBlock("stone",
     solid = True
     )
+
+game.defineDimension("kodland")
