@@ -10,4 +10,6 @@ public:
     World();
 }
 
+void loadWorld();
+
 #endif
