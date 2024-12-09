@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+class BlockTemplate;
+
 class Block {
 private:
     BlockTemplate* propeties;
