@@ -12,6 +12,10 @@ int Dimension::getChunkSize() {
     return this->chunkSize;
 }
 
+DimensionTemplate* Dimension::getTemplate() {
+    return this->propeties;
+}
+
 DimensionTemplate::DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name) {
     this->chunkSize = chunkSize;
     this->name = name;

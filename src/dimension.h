@@ -18,6 +18,7 @@ private:
 public:
     Dimension(int chunkSize);
 
+    DimensionTemplate* getTemplate();
     int getChunkSize();
 };
 
