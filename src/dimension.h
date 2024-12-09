@@ -19,6 +19,8 @@ class DimensionTemplate {
 public:
     int chunkSize;
     std::string name;
+
+    DimensionTemplate(int chunkSize, std::string name);
 };
 
 extern std::vector<DimensionTemplate*> dimensionList;
