@@ -6,11 +6,7 @@
 #include "py.h"
 #include "block.h"
 
-enum GameState {
-    STATE_MAIN_MENU,
-    STATE_LOADING_GAME,
-    STATE_IN_GAME
-};
+#include "states.h"
 
 GameState gameState;
 
