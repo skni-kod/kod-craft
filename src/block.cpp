@@ -2,7 +2,7 @@
 
 int nextID = 0;
 
-std::vector<Block*> blockList;
+std::vector<BlockTemplate*> blockList;
 
 Block::Block(std::string name, bool solid) {
     this->id = nextID++;

@@ -6,15 +6,22 @@
 
 class Block {
 private:
-    int id;
-    std::string name;
-    bool solid;
+    BlockTemplate* propeties;
 public:
-    Block(std::string name, bool solid);
     Block(int id);
+    Block(std::string name);
 
     std::string getName();
     bool isSolid();
+};
+
+class BlockTemplate {
+public:
+    int id;
+    std::string name;
+    bool solid;
+
+    Block(std::string name);
 };
 
 extern std::vector<Block*> blockList;
