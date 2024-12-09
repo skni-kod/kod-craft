@@ -11,19 +11,12 @@ BlockTemplate* findBlockTemplate(std::string name) {
     return nullptr;
 }
 
-Block::Block(std::string name, bool solid) {
-    this->id = nextID++;
-    this->name = name;
-    this->solid = solid;
+Block::Block(std::string name) {
+    this->propeties = findBlockTemplate(name);
 }
 
 Block::Block(int id) {
-    this->id = id;
-
-    Block *refrenceBlock = blockList[id];
-
-    this->name = refrenceBlock->getName();
-    this->solid = refrenceBlock->isSolid();
+    this->propeties = blockList[i];
 }
 
 
