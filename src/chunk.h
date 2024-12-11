@@ -1,6 +1,8 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+typedef signed int ChunkPos;
+
 class Chunk;
 
 #include<Python.h>
@@ -13,9 +15,9 @@ private:
     Dimension* dimension;
     Block*** blocks;
 
-    int x, y, z;
+    ChunkPos x, y, z;
 public:
-    Chunk(Dimension* dimension, int x, int y, int z);
+    Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z);
 };
 
 #endif

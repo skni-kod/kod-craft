@@ -12,9 +12,11 @@ int Dimension::getChunkSize() {
     return this->chunkSize;
 }
 
-int Dimension::worldToChunkPos(int pos) {
-    if (pos<0 && !(pos%this.chunkSize==0)) pos-=this.chunkSize;
-    pos/=this.chunkSize;
+ChunkPos Dimension::worldToChunkPos(WorldPos pos) {
+    int chunkSize = this->chunkSize;
+
+    if (pos<0 && !(pos % chunkSize == 0)) pos-=chunkSize;
+    pos/=chunkSize;
 
     return pos;
 }

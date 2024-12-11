@@ -1,6 +1,8 @@
 #ifndef DIMENSION_H
 #define DIMENSION_H
 
+typedef signed long WorldPos;
+
 class Dimension;
 
 #include<vector>
@@ -21,7 +23,7 @@ public:
     DimensionTemplate* getTemplate();
     int getChunkSize();
 
-    int worldToChunkPos(int pos);
+    ChunkPos worldToChunkPos(WorldPos pos);
 };
 
 class DimensionTemplate {
