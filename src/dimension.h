@@ -20,6 +20,8 @@ public:
 
     DimensionTemplate* getTemplate();
     int getChunkSize();
+
+    int worldToChunkPos(int pos);
 };
 
 class DimensionTemplate {

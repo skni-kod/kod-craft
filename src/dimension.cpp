@@ -12,6 +12,13 @@ int Dimension::getChunkSize() {
     return this->chunkSize;
 }
 
+int Dimension::worldToChunkPos(int pos) {
+    if (pos<0 && !(pos%this.chunkSize==0)) pos-=this.chunkSize;
+    pos/=this.chunkSize;
+
+    return pos;
+}
+
 DimensionTemplate* Dimension::getTemplate() {
     return this->propeties;
 }
