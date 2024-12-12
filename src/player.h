@@ -1,6 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+class Player;
+
+#include "dimension.h"
+
 class Player {
 private:
     Dimension* dimension;
