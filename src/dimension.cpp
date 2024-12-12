@@ -25,6 +25,23 @@ DimensionTemplate* Dimension::getTemplate() {
     return this->propeties;
 }
 
+Chunk* Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
+    ChunkPos chunkX = this->worldToChunkPos(x);
+    ChunkPos chunkY = this->worldToChunkPos(y);
+    ChunkPos chunkZ = this->worldToChunkPos(z);
+
+    for (int i = 0; i < this->chunks.size(); i++) {
+        Chunk* chunk = this->chunks[i];
+
+        if (chunkX!=chunk->getX()) continue;
+        if (chunkY!=chunk->getY()) continue;
+        if (chunkZ!=chunk->getZ()) continue;
+
+        return chunk;
+    }
+
+    return this->createChunk(chunkX, chunkY, chunkZ);
+}
 DimensionTemplate::DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name) {
     this->chunkSize = chunkSize;
     this->name = name;

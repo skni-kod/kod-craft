@@ -17,6 +17,8 @@ private:
     std::vector<Chunk*> chunks;
     int chunkSize;
     DimensionTemplate * propeties;
+
+    Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
 public:
     Dimension(int chunkSize);
 
