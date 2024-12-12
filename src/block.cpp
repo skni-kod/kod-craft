@@ -1,37 +1,43 @@
 #include "block.h"
 
-int nextID = 0;
+std::vector<BlockTemplate*> blockList;
 
-std::vector<Block*> blockList;
+BlockTemplate* findBlockTemplate(std::string name) {
+    for (int i = 0; i < blockList.size(); i++) {
+        if (blockList[i]->name == name) return blockList[i];
+    }
+    return nullptr;
+}
 
-Block::Block(std::string name, bool solid) {
-    this->id = nextID++;
-    this->name = name;
-    this->solid = solid;
+Block::Block(std::string name) {
+    this->propeties = findBlockTemplate(name);
 }
 
 Block::Block(int id) {
-    this->id = id;
-
-    Block *refrenceBlock = blockList[id];
-
-    this->name = refrenceBlock->getName();
-    this->solid = refrenceBlock->isSolid();
+    this->propeties = blockList[id];
 }
 
 
 std::string Block::getName() {
-    return this->name;
+    return this->propeties->name;
 }
 
 bool Block::isSolid() {
-    return this->solid;
+    return this->propeties->solid;
+}
+
+BlockTemplate::BlockTemplate(std::string name) {
+    this->name = name;
 }
 
 void defineBlock(std::string name, bool solid) {
-    blockList.push_back(new Block(name, solid));
+    BlockTemplate* newBlock = new BlockTemplate(name);
+
+    newBlock->solid = solid;
+
+    blockList.push_back(newBlock);
 }
 
 int getDefinedBlockCount() {
-    return nextID;
+    return blockList.size();
 }

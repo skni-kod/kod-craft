@@ -4,20 +4,29 @@
 #include <vector>
 #include <string>
 
+class BlockTemplate;
+
 class Block {
 private:
-    int id;
-    std::string name;
-    bool solid;
+    BlockTemplate* propeties;
 public:
-    Block(std::string name, bool solid);
     Block(int id);
+    Block(std::string name);
 
     std::string getName();
     bool isSolid();
 };
 
-extern std::vector<Block*> blockList;
+class BlockTemplate {
+public:
+    int id;
+    std::string name;
+    bool solid;
+
+    BlockTemplate(std::string name);
+};
+
+extern std::vector<BlockTemplate*> blockList;
 
 void defineBlock(std::string name, bool solid = true);
 

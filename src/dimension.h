@@ -1,6 +1,10 @@
 #ifndef DIMENSION_H
 #define DIMENSION_H
 
+typedef signed long WorldPos;
+
+class Dimension;
+
 #include<vector>
 #include<string>
 
@@ -13,10 +17,20 @@ private:
     std::vector<Chunk*> chunks;
     int chunkSize;
     DimensionTemplate * propeties;
+
+    Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
+    Chunk* createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
 public:
     Dimension(int chunkSize);
 
     void draw();
+
+    DimensionTemplate* getTemplate();
+    int getChunkSize();
+
+    void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
+
+    ChunkPos worldToChunkPos(WorldPos pos);
 };
 
 class DimensionTemplate {
@@ -24,11 +38,13 @@ public:
     int chunkSize;
     std::string name;
 
-    DimensionTemplate(int chunkSize, std::string name);
+    PyObject * generateChunkCallback;
+
+    DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name);
 };
 
 extern std::vector<DimensionTemplate*> dimensionList;
 
-void defineDimension(std::string name, int chunkSize);
+void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize);
 
 #endif
