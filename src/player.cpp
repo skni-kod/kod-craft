@@ -9,3 +9,7 @@ Player::Player() {
 void Player::draw() {
     this->dimension->draw();
 }
+
+void Player::setDimension(Dimension* dimension) {
+    this->dimension = dimension;
+}

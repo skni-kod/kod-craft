@@ -13,6 +13,8 @@ private:
 public:
     Player();
 
+    void setDimension(Dimension* dimension);
+
     void draw();
 };
 
