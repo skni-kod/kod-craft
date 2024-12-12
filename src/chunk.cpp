@@ -32,3 +32,15 @@ Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
         }
     }
 }
+
+ChunkPos Chunk::getX() {
+    return this->x;
+}
+
+ChunkPos Chunk::getX() {
+    return this->y;
+}
+
+ChunkPos Chunk::getX() {
+    return this->z;
+}

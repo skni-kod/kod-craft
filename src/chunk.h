@@ -18,6 +18,10 @@ private:
     ChunkPos x, y, z;
 public:
     Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z);
+
+    ChunkPos getX();
+    ChunkPos getY();
+    ChunkPos getZ();
 };
 
 #endif
