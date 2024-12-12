@@ -22,6 +22,8 @@ public:
     ChunkPos getX();
     ChunkPos getY();
     ChunkPos getZ();
+
+    void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
 };
 
 #endif

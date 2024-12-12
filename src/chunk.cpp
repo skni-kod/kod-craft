@@ -33,6 +33,16 @@ Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
     }
 }
 
+void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
+    int chunkSize = this->dimension->getChunkSize();
+
+    x = x%chunkSize;
+    y = y%chunkSize;
+    z = z%chunkSize;
+
+    this->blocks[x][y][z] = block;
+}
+
 ChunkPos Chunk::getX() {
     return this->x;
 }
