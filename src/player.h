@@ -3,6 +3,9 @@
 
 class Player {
 private:
+    Dimension* dimension;
+
+    double x, y, z;
 public:
     Player();
 };
