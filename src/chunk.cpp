@@ -37,10 +37,10 @@ ChunkPos Chunk::getX() {
     return this->x;
 }
 
-ChunkPos Chunk::getX() {
+ChunkPos Chunk::getY() {
     return this->y;
 }
 
-ChunkPos Chunk::getX() {
+ChunkPos Chunk::getZ() {
     return this->z;
 }
