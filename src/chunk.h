@@ -11,6 +11,8 @@ private:
     Block*** blocks;
 public:
     Chunk(int size);
+
+    void draw();
 };
 
 #endif

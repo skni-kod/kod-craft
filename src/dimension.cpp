@@ -17,7 +17,7 @@ DimensionTemplate::DimensionTemplate(int chunkSize, std::string name) {
 
 void Dimension::draw() {
     for (int i = 0; i < chunks.size(); i++) {
-        // chunks[i]->draw();
+        chunks[i]->draw();
     }
 }
 
