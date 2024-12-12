@@ -19,6 +19,7 @@ private:
     DimensionTemplate * propeties;
 
     Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
+    Chunk* createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
 public:
     Dimension(int chunkSize);
 

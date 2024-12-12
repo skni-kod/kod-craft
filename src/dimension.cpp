@@ -42,6 +42,13 @@ Chunk* Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
 
     return this->createChunk(chunkX, chunkY, chunkZ);
 }
+
+Chunk* Dimension::createChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
+    Chunk* chunk = new Chunk(this, x, y, z);
+
+    this->chunks.push_back(chunk);
+    return chunk;
+}
 DimensionTemplate::DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name) {
     this->chunkSize = chunkSize;
     this->name = name;
