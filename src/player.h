@@ -8,6 +8,8 @@ private:
     double x, y, z;
 public:
     Player();
+
+    void draw();
 };
 
 #endif
