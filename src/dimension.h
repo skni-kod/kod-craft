@@ -26,7 +26,7 @@ public:
     DimensionTemplate* getTemplate();
     int getChunkSize();
 
-    void setBlock(WorldPos x, WorldPos y, WorldPos z);
+    void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
 
     ChunkPos worldToChunkPos(WorldPos pos);
 };
