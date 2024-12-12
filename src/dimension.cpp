@@ -52,7 +52,7 @@ Chunk* Dimension::createChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
 
 void Dimension::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     Chunk* chunk = this->findChunk(x, y, z);
-    chunk->setBlock(x, y, z);
+    chunk->setBlock(block, x, y, z);
 }
 
 DimensionTemplate::DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name) {
