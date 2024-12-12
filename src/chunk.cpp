@@ -1,7 +1,7 @@
 #include "chunk.h"
 
 void Chunk::draw() {
-    int chunkSize = this->parent->getChunkSize();
+    int chunkSize = this->dimension->getChunkSize();
 
     for (int x = 0; x < chunkSize; x++)
     for (int y = 0; y < chunkSize; y++)
