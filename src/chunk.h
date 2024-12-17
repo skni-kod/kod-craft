@@ -1,9 +1,12 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include <vector>
+
 class Chunk;
 
 #include<Python.h>
+
 #include "block.h"
 
 #include "dimension.h"
@@ -11,7 +14,7 @@ class Chunk;
 class Chunk {
 private:
     Dimension* dimension;
-    Block* blocks;
+    std::vector<Block> blocks;
 
     int x, y, z;
 public:
