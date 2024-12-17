@@ -26,14 +26,14 @@ class BlockTemplate {
 public:
     int id;
     std::string name;
-    bool solid;
+    bool solid, visible;
 
     BlockTemplate(std::string name);
 };
 
 extern std::vector<BlockTemplate*> blockList;
 
-void defineBlock(std::string name, bool solid = true);
+void defineBlock(std::string name, bool solid = true, bool visible = true);
 
 int getDefinedBlockCount();
 

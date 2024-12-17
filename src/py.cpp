@@ -10,16 +10,17 @@ bool isPythonInitalized = false;
 static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *name;
     int solid = 1;
+    int visible = 1;
 
-    static char *kwlist[] = {(char*)"name", (char*)"solid", NULL};
+    static char *kwlist[] = {(char*)"name", (char*)"solid", (char*)"visible", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "s|p", kwlist,
-        &name, &solid
+        "s|pp", kwlist,
+        &name, &solid, &visible
     )) return NULL;
 
 
-    defineBlock(name, solid);
+    defineBlock(name, solid, visible);
 
     return PyBool_FromLong(0);
 }
