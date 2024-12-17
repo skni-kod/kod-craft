@@ -1,11 +1,14 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+
 typedef signed int ChunkPos;
 
 class Chunk;
 
 #include<Python.h>
+#include <vector>
+
 #include "block.h"
 
 #include "dimension.h"
@@ -13,7 +16,12 @@ class Chunk;
 class Chunk {
 private:
     Dimension* dimension;
-    Block*** blocks;
+    std::vector<Block> blocks;
+
+    inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z) {
+        auto chunkSize = dimension->getChunkSize();
+        return this->blocks[(z * chunkSize * chunkSize) + (y * chunkSize) + x];
+    }
 
     ChunkPos x, y, z;
 public:
