@@ -1,7 +1,8 @@
 import game
 
 game.defineBlock("air",
-    solid = False
+    solid = False,
+    visible = False
     )
 
 game.defineBlock("stone",

@@ -1,5 +1,14 @@
-
 #include "chunk.h"
+
+void Chunk::draw() {
+    int chunkSize = this->dimension->getChunkSize();
+
+    for (int x = 0; x < chunkSize; x++)
+    for (int y = 0; y < chunkSize; y++)
+    for (int z = 0; z < chunkSize; z++) {
+        this->blocks[x][y][z].draw(x, y, z);
+    }
+}
 
 Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
     this->dimension = dimension;
@@ -31,4 +40,26 @@ Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
             }
         }
     }
+}
+
+void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
+    int chunkSize = this->dimension->getChunkSize();
+
+    x = x%chunkSize;
+    y = y%chunkSize;
+    z = z%chunkSize;
+
+    this->blocks[x][y][z] = block;
+}
+
+ChunkPos Chunk::getX() {
+    return this->x;
+}
+
+ChunkPos Chunk::getY() {
+    return this->y;
+}
+
+ChunkPos Chunk::getZ() {
+    return this->z;
 }
