@@ -47,6 +47,10 @@ void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     y = y%chunkSize;
     z = z%chunkSize;
 
+    if (x<0) x+=chunkSize;
+    if (y<0) y+=chunkSize;
+    if (z<0) z+=chunkSize;
+
     this->getBlock(x, y, z) = block;
 }
 
