@@ -4,6 +4,18 @@ Kod craft jest klonem Minecrafta zrobionym w C++ z biblioteką raylib i integrac
 
 ## Kompilacja
 
+### Nowa (wymaga perl'a)
+
+Wywołaj w terminaly polecenie:
+
+```cmd
+perl ./bs.pl
+```
+
+Skrypt poprowadzi cię dalej.
+
+### Stara
+
 Stwórz folder `build` obok folderu `src`
 w folderze build użyj poleceń:
 
