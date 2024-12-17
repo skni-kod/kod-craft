@@ -11,7 +11,7 @@ class Chunk;
 class Chunk {
 private:
     Dimension* dimension;
-    Block*** blocks;
+    Block* blocks;
 
     int x, y, z;
 public:
