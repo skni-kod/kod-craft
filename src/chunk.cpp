@@ -6,7 +6,7 @@ void Chunk::draw() {
     for (int x = 0; x < chunkSize; x++)
     for (int y = 0; y < chunkSize; y++)
     for (int z = 0; z < chunkSize; z++) {
-        this->blocks[x][y][z].draw(x, y, z);
+        this->getBlock(x, y, z).draw(x, y, z);
     }
 }
 
@@ -47,7 +47,7 @@ void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     y = y%chunkSize;
     z = z%chunkSize;
 
-    this->blocks[x][y][z] = block;
+    this->getBlock(x, y, z) = block;
 }
 
 inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
