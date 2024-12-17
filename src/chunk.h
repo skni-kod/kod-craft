@@ -18,10 +18,7 @@ private:
     Dimension* dimension;
     std::vector<Block> blocks;
 
-    inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z) {
-        auto chunkSize = dimension->getChunkSize();
-        return this->blocks[(z * chunkSize * chunkSize) + (y * chunkSize) + x];
-    }
+    inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
 
     ChunkPos x, y, z;
 public:
