@@ -3,6 +3,8 @@
 
 class Player;
 
+extern Player* player;
+
 #include "dimension.h"
 
 class Player {

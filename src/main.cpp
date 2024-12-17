@@ -7,6 +7,7 @@
 #include "block.h"
 #include "world.h"
 #include "states.h"
+#include "player.h"
 
 GameState gameState;
 
@@ -20,6 +21,7 @@ int main() {
 
     printf("Defined %d blocks.\n", getDefinedBlockCount());
 
+    player = new Player();
     loadWorld();
 
     while (!WindowShouldClose()){
