@@ -5,6 +5,9 @@
 #include <string>
 
 class BlockTemplate;
+class Block;
+
+#include "dimension.h"
 
 class Block {
 private:
@@ -15,6 +18,8 @@ public:
 
     std::string getName();
     bool isSolid();
+
+    void draw(WorldPos x, WorldPos y, WorldPos z);
 };
 
 class BlockTemplate {

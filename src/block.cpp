@@ -1,4 +1,5 @@
 #include "block.h"
+#include "raylib.h"
 
 std::vector<BlockTemplate*> blockList;
 
@@ -15,6 +16,10 @@ Block::Block(std::string name) {
 
 Block::Block(int id) {
     this->propeties = blockList[id];
+}
+
+void Block::draw(WorldPos x, WorldPos y, WorldPos z) {
+    DrawCube({(float)(x), (float)(y), (float)(z)}, 1, 1, 1, GOLD);
 }
 
 
