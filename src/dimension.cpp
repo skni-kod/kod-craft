@@ -25,13 +25,15 @@ DimensionTemplate* Dimension::getTemplate() {
     return this->propeties;
 }
 
-Chunk* Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
+chunk_ptr Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
     ChunkPos chunkX = this->worldToChunkPos(x);
     ChunkPos chunkY = this->worldToChunkPos(y);
     ChunkPos chunkZ = this->worldToChunkPos(z);
 
     for (int i = 0; i < this->chunks.size(); i++) {
-        Chunk* chunk = this->chunks[i];
+        weak_chunk tmp = this->chunks[i];
+        if (tmp.expired()) throw std::exception("Chunk pointer expired");
+        chunk_ptr chunk = tmp.lock();
 
         if (chunkX!=chunk->getX()) continue;
         if (chunkY!=chunk->getY()) continue;
@@ -43,15 +45,15 @@ Chunk* Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
     return this->createChunk(chunkX, chunkY, chunkZ);
 }
 
-Chunk* Dimension::createChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
-    Chunk* chunk = new Chunk(this, x, y, z);
+chunk_ptr Dimension::createChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
+    chunk_ptr chunk = std::make_shared<Chunk>(this, x, y, z);
 
     this->chunks.push_back(chunk);
     return chunk;
 }
 
 void Dimension::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
-    Chunk* chunk = this->findChunk(x, y, z);
+    chunk_ptr chunk = this->findChunk(x, y, z);
     chunk->setBlock(block, x, y, z);
 }
 
