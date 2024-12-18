@@ -23,10 +23,31 @@ set(PROJECT_HEADER_FILES
     src/world.h
 )
 
+set(PROJECT_PYTHON_FILES
+    data/py/init.py
+)
+
+set(PY_OUT ".")
+
+foreach(file IN LISTS PROJECT_PYTHON_FILES)
+    message(STATUS "${CMAKE_BINARY_DIR}/$<CONFIG>/${file}")
+    add_custom_command(
+        OUTPUT "${CMAKE_BINARY_DIR}/$<CONFIG>/${file}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${file}" "${CMAKE_BINARY_DIR}/$<CONFIG>/${file}"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${file}"
+    )
+    list(APPEND PY_OUT "${CMAKE_BINARY_DIR}/$<CONFIG>/${file}")
+endforeach()
+
+list(POP_FRONT PY_OUT)
+
+add_custom_target(PyData ALL DEPENDS ${PY_OUT})
+
 include_directories("${CMAKE_BINARY_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/src/lib/raylib/src")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/lib/raylib")
 add_executable(kod-craft)
+add_dependencies(kod-craft PyData)
 target_sources(kod-craft PRIVATE ${PROJECT_SOURCE_FILES} 
     PRIVATE FILE_SET HEADERS BASE_DIRS ${CMAKE_SOURCE_DIR} FILES ${PROJECT_HEADER_FILES}
 )
