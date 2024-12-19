@@ -7,7 +7,7 @@
 PyObject * onWorldLoadCallback = NULL;
 
 World::World() {
-    for (int i = 0; i < dimensions.size(); i++) {
+    for (int i = 0; i < dimensionList.size(); i++) {
         this->dimensions.push_back( new Dimension(i) );
     }
 }
