@@ -7,6 +7,7 @@
 #include "block.h"
 #include "world.h"
 #include "states.h"
+#include "player.h"
 
 GameState gameState;
 
@@ -25,6 +26,8 @@ int main() {
     while (!WindowShouldClose()){
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
+        if (gameState == STATE_IN_GAME) player->draw();
 
         EndDrawing();
     }
