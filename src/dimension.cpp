@@ -84,7 +84,7 @@ void Dimension::processTick() {
 }
 
 void Dimension::loadChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
-    this->findChunk(x, y, z);
+    this->findChunk(x*chunkSize, y*chunkSize, z*chunkSize);
 }
 
 void Dimension::loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int distance) {
