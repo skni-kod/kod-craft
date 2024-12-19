@@ -47,7 +47,7 @@ static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kw
 static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *dimensionName;
 
-    static char *kwlist[] = {(char*)"dimensionName" NULL};
+    static char *kwlist[] = {(char*)"dimensionName", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
         "s", kwlist,
