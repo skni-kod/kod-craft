@@ -18,5 +18,9 @@ void Player::setDimension(Dimension* dimension) {
 }
 
 void Player::setDimension(std::string dimension) {
-    this->setDimension(world->findDimension(dimension));
+    Dimension* dimensionFound = world->findDimension(dimension);
+
+    if (dimensionFound==NULL) return;
+
+    this->setDimension(dimensionFound);
 }
