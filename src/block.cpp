@@ -41,6 +41,7 @@ void defineBlock(std::string name, bool solid, bool visible) {
     BlockTemplate* newBlock = new BlockTemplate(name);
 
     newBlock->solid = solid;
+    newBlock->visible = visible;
 
     blockList.push_back(newBlock);
 }
