@@ -6,7 +6,7 @@ void Chunk::draw() {
     for (int x = 0; x < chunkSize; x++)
     for (int y = 0; y < chunkSize; y++)
     for (int z = 0; z < chunkSize; z++) {
-        this->getBlock(x, y, z).draw(x, y, z);
+        this->getBlock(x, y, z).draw(x + this->x*chunkSize, y + this->y*chunkSize, z + this->z*chunkSize);
     }
 }
 
