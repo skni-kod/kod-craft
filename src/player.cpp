@@ -1,4 +1,5 @@
 #include "player.h"
+#include "world.h"
 
 Player* player;
 

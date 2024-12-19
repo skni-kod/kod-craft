@@ -14,6 +14,10 @@ int Dimension::getChunkSize() {
     return this->chunkSize;
 }
 
+std::string Dimension::getName() {
+    return this->propeties->name;
+}
+
 ChunkPos Dimension::worldToChunkPos(WorldPos pos) {
     int chunkSize = this->chunkSize;
 

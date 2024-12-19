@@ -32,6 +32,7 @@ public:
 
     DimensionTemplate* getTemplate();
     int getChunkSize();
+    std::string getName();
 
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
 
