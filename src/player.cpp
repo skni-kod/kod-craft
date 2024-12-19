@@ -1,3 +1,5 @@
+#include "raylib.h"
+
 #include "player.h"
 #include "world.h"
 
@@ -12,7 +14,18 @@ Player::Player() {
 }
 
 void Player::draw() {
+    Camera3D camera = { 0 };
+
+    //TODO
+    camera.position = (Vector3){ (float)this->x, (float)this->y, (float)this->z };
+    camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
+    camera.fovy = 90.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
+
+    BeginMode3D(camera);
     this->dimension->draw();
+    EndMode3D();
 }
 
 void Player::setDimension(Dimension* dimension) {
