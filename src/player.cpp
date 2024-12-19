@@ -15,3 +15,7 @@ void Player::draw() {
 void Player::setDimension(Dimension* dimension) {
     this->dimension = dimension;
 }
+
+void Player::setDimension(std::string dimension) {
+    this->setDimension(world->findDimension(dimension));
+}

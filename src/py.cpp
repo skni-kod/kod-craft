@@ -4,6 +4,7 @@
 #include "block.h"
 #include "dimension.h"
 #include "world.h"
+#include "player.h"
 
 bool isPythonInitalized = false;
 
