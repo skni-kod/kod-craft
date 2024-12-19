@@ -12,7 +12,13 @@ game.defineBlock("stone",
 def generateEmptyChunk(x, y, z, size):
     return [[["air"]*size]*size]*size # size³ 3D array of "air"
 
-game.defineDimension("kodland", generateEmptyChunk)
+def generateFlatLand(x, y, z, size):
+    if z<0:
+        return [[["stone"]*size]*size]*size
+
+    return [[["air"]*size]*size]*size
+
+game.defineDimension("kodland", generateFlatLand)
 
 
 def onWorldLoad():
