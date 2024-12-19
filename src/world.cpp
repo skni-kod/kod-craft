@@ -4,6 +4,8 @@
 #include "dimension.h"
 #include "player.h"
 
+PyObject * onWorldLoadCallback = NULL;
+
 World::World() {
     for (int i = 0; i < dimensions.size(); i++) {
         this->dimensions.push_back( new Dimension(i) );
@@ -18,6 +20,8 @@ void loadWorld() {
     player = new Player();
 
     world = new World();
+
+    PyObject_CallObject(onWorldLoadCallback, Py_None);
 
     gameState = STATE_IN_GAME;
 }

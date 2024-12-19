@@ -12,4 +12,6 @@ public:
 
 void loadWorld();
 
+extern PyObject * onWorldLoadCallback;
+
 #endif

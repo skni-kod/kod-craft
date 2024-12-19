@@ -3,6 +3,7 @@
 
 #include "block.h"
 #include "dimension.h"
+#include "world.h"
 
 bool isPythonInitalized = false;
 
@@ -43,11 +44,27 @@ static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kw
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+    char *name;
+
+    static char *kwlist[] = {(char*)"onWorldLoadCallback", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &onWorldLoadCallback
+    )) return NULL;
+
+
+    return PyBool_FromLong(0);
+}
+
 static PyMethodDef pyMethods[] = {
     {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
     {"defineDimension", (PyCFunction)py_defineDimension, METH_VARARGS | METH_KEYWORDS,
      "Define a dimension defineDimension(name, generateChunkCallback, chunkSize=32)."},
+    {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
+     "Set a callback to run on world load."},
     {NULL, NULL, 0, NULL}
 };
 
