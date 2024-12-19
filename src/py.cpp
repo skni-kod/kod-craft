@@ -44,6 +44,21 @@ static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kw
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
+    char *dimensionName;
+
+    static char *kwlist[] = {(char*)"dimensionName" NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "s", kwlist,
+        &dimensionName
+    )) return NULL;
+
+    player->setDimension(dimensionName);
+
+    return PyBool_FromLong(0);
+}
+
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *name;
 
@@ -63,6 +78,8 @@ static PyMethodDef pyMethods[] = {
      "Define a block in the game to be used."},
     {"defineDimension", (PyCFunction)py_defineDimension, METH_VARARGS | METH_KEYWORDS,
      "Define a dimension defineDimension(name, generateChunkCallback, chunkSize=32)."},
+    {"setPlayerDimension", (PyCFunction)py_setPlayerDimension, METH_VARARGS | METH_KEYWORDS,
+     "Set player's dimension."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
     {NULL, NULL, 0, NULL}
