@@ -1,6 +1,8 @@
 #include "player.h"
 #include "world.h"
 
+#define renderDistance 10 //todo: replace with a setting
+
 Player* player;
 
 Player::Player() {
@@ -23,4 +25,8 @@ void Player::setDimension(std::string dimension) {
     if (dimensionFound==NULL) return;
 
     this->setDimension(dimensionFound);
+}
+
+void Player::processTick() {
+    this->dimension->loadAroundPosition((WorldPos)this->x, (WorldPos)this->y, (WorldPos)this->z, renderDistance);
 }

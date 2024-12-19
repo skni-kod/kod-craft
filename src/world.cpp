@@ -35,6 +35,8 @@ Dimension* World::findDimension(std::string name) {
 }
 
 void World::processTick() {
+    player->processTick();
+
     for (int i = 0; i < this->dimensions.size(); i++) {
         this->dimensions[i]->processTick();
     }
