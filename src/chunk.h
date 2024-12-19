@@ -31,6 +31,8 @@ public:
     ChunkPos getZ();
 
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
+
+    void processTick();
 };
 
 #endif

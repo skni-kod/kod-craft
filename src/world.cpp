@@ -33,3 +33,9 @@ Dimension* World::findDimension(std::string name) {
 
     return NULL;
 }
+
+void World::processTick() {
+    for (int i = 0; i < this->dimensions.size(); i++) {
+        this->dimensions[i]->processTick();
+    }
+}

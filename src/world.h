@@ -10,6 +10,8 @@ public:
     World();
 
     Dimension* findDimension(std::string name);
+
+    void processTick();
 };
 
 void loadWorld();

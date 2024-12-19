@@ -70,3 +70,6 @@ ChunkPos Chunk::getY() {
 ChunkPos Chunk::getZ() {
     return this->z;
 }
+
+void Chunk::processTick() {
+}

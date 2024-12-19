@@ -77,6 +77,12 @@ void Dimension::draw() {
     }
 }
 
+void Dimension::processTick() {
+    for (int i = 0; i < this->chunks.size(); i++) {
+        this->chunks[i]->processTick();
+    }
+}
+
 void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
     dimensionList.push_back( new DimensionTemplate(chunkSize, generateChunkCallback, name) );
 }

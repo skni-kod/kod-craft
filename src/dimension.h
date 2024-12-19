@@ -37,6 +37,8 @@ public:
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
 
     ChunkPos worldToChunkPos(WorldPos pos);
+
+    void processTick();
 };
 
 class DimensionTemplate {
