@@ -1,5 +1,7 @@
 #include "dimension.h"
 
+#include <stdexcept>
+
 std::vector<DimensionTemplate*> dimensionList;
 
 Dimension::Dimension(int type) {
@@ -32,7 +34,7 @@ chunk_ptr Dimension::findChunk(WorldPos x, WorldPos y, WorldPos z) {
 
     for (int i = 0; i < this->chunks.size(); i++) {
         weak_chunk tmp = this->chunks[i];
-        if (tmp.expired()) throw std::exception("Chunk pointer expired");
+        if (tmp.expired()) throw std::runtime_error("Chunk pointer expired");
         chunk_ptr chunk = tmp.lock();
 
         if (chunkX!=chunk->getX()) continue;
