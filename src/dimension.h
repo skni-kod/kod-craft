@@ -38,6 +38,7 @@ public:
 
     ChunkPos worldToChunkPos(WorldPos pos);
 
+    void loadChunk(ChunkPos x, ChunkPos y, ChunkPos z);
     void processTick();
 };
 

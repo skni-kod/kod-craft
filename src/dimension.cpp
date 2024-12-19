@@ -83,6 +83,10 @@ void Dimension::processTick() {
     }
 }
 
+void Dimension::loadChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
+    this->findChunk(x, y, z);
+}
+
 void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
     dimensionList.push_back( new DimensionTemplate(chunkSize, generateChunkCallback, name) );
 }
