@@ -25,3 +25,11 @@ void loadWorld() {
 
     gameState = STATE_IN_GAME;
 }
+
+Dimension* World::findDimension(std::string name) {
+    for (int i = 0; i < this->dimensions.size(); i++) {
+        if (this->dimensions[i]->getName() == name) return this->dimensions[i];
+    }
+
+    return NULL;
+}

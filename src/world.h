@@ -8,6 +8,8 @@ private:
     std::vector<Dimension*> dimensions;
 public:
     World();
+
+    Dimension* findDimension(std::string name);
 };
 
 void loadWorld();
