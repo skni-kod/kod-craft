@@ -87,6 +87,18 @@ void Dimension::loadChunk(ChunkPos x, ChunkPos y, ChunkPos z) {
     this->findChunk(x, y, z);
 }
 
+void Dimension::loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int distance) {
+    x = this->worldToChunkPos(x);
+    y = this->worldToChunkPos(y);
+    z = this->worldToChunkPos(z);
+
+    for (int dX = -distance; dX<=distance; dX++)
+    for (int dY = -distance; dY<=distance; dY++)
+    for (int dZ = -distance; dZ<=distance; dZ++) {
+        this->loadChunk(x + dX, y + dY, z + dZ);
+    }
+}
+
 void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
     dimensionList.push_back( new DimensionTemplate(chunkSize, generateChunkCallback, name) );
 }
