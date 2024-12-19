@@ -21,7 +21,7 @@ void loadWorld() {
 
     world = new World();
 
-    PyObject_CallObject(onWorldLoadCallback, Py_None);
+    PyObject_CallObject(onWorldLoadCallback, NULL);
 
     gameState = STATE_IN_GAME;
 }
