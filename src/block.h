@@ -8,6 +8,7 @@ class BlockTemplate;
 class Block;
 
 #include "dimension.h"
+#include "raylib.h"
 
 class Block {
 private:
@@ -28,12 +29,16 @@ public:
     std::string name;
     bool solid, visible;
 
+    Texture2D texture;
+
     BlockTemplate(std::string name);
+
+    void setTexture(std::string fileName);
 };
 
 extern std::vector<BlockTemplate*> blockList;
 
-void defineBlock(std::string name, bool solid = true, bool visible = true);
+BlockTemplate * defineBlock(std::string name, bool solid = true, bool visible = true);
 
 int getDefinedBlockCount();
 

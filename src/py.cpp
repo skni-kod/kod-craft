@@ -13,16 +13,21 @@ static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs
     char *name;
     int solid = 1;
     int visible = 1;
+    char *texture = NULL;
 
-    static char *kwlist[] = {(char*)"name", (char*)"solid", (char*)"visible", NULL};
+    static char *kwlist[] = {(char*)"name", (char*)"texture", (char*)"solid", (char*)"visible", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "s|pp", kwlist,
-        &name, &solid, &visible
+        "s|spp", kwlist,
+        &name, &texture, &solid, &visible
     )) return NULL;
 
 
-    defineBlock(name, solid, visible);
+    BlockTemplate * createdBlock = defineBlock(name, solid, visible);
+    
+    if (texture) {
+        createdBlock->setTexture(texture);
+    }
 
     return PyBool_FromLong(0);
 }
