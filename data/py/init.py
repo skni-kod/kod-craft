@@ -6,6 +6,7 @@ game.defineBlock("air",
     )
 
 game.defineBlock("stone",
+    texture = "stone.png",
     solid = True
     )
 
