@@ -27,7 +27,6 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        world->processTick(); //TODO: run every n ms instead of every frame
         if (gameState == STATE_IN_GAME) player->draw();
 
         DrawFPS(10, 10);

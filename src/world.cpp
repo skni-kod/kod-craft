@@ -4,6 +4,8 @@
 #include "dimension.h"
 #include "player.h"
 
+#include <chrono>
+
 PyObject * onWorldLoadCallback = NULL;
 
 World::World() {
@@ -13,6 +15,18 @@ World::World() {
 }
 
 World * world;
+
+void processTicksThreadFunction(World * world) {
+    while (1) {
+        auto targetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
+        world->processTick();
+        std::this_thread::sleep_until(targetTime);
+    }
+}
+
+void World::startTickProcessing() {
+    tickProcessingTrhead = std::thread(&processTicksThreadFunction, this);
+}
 
 void loadWorld() {
     gameState = STATE_LOADING_GAME;
