@@ -40,7 +40,7 @@ void loadWorld() {
 
     PyObject_CallObject(onWorldLoadCallback, NULL);
 
-    gameState = STATE_IN_GAME;
+    world->startTickProcessing();
 }
 
 Dimension* World::findDimension(std::string name) {
