@@ -3,7 +3,7 @@
 #include "player.h"
 #include "world.h"
 
-#define renderDistance 10 //todo: replace with a setting
+#define renderDistance 2 //todo: replace with a setting
 
 Player* player;
 
