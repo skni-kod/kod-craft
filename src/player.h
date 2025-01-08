@@ -6,17 +6,13 @@ class Player;
 extern Player* player;
 
 #include "dimension.h"
+#include "entity.h"
 
-class Player {
+class Player : public Entity {
 private:
-    Dimension* dimension;
 
-    double x, y, z;
 public:
     Player();
-
-    void setDimension(Dimension* dimension);
-    void setDimension(std::string dimension);
 
     void draw();
 

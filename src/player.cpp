@@ -8,9 +8,6 @@
 Player* player;
 
 Player::Player() {
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
 }
 
 void Player::draw() {
@@ -26,18 +23,6 @@ void Player::draw() {
     BeginMode3D(camera);
     this->dimension->draw();
     EndMode3D();
-}
-
-void Player::setDimension(Dimension* dimension) {
-    this->dimension = dimension;
-}
-
-void Player::setDimension(std::string dimension) {
-    Dimension* dimensionFound = world->findDimension(dimension);
-
-    if (dimensionFound==NULL) return;
-
-    this->setDimension(dimensionFound);
 }
 
 void Player::processTick() {

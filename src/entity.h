@@ -5,6 +5,7 @@
 #include <string>
 
 class Entity {
+protected:
     Dimension* dimension;
     double x, y, z;
 
