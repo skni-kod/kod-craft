@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+class Entity;
+
 #include "dimension.h"
 #include <string>
 
@@ -19,6 +21,8 @@ private:
     } data;
 public:
     EntityTask(TaskType type, void * data);
+
+    void exec(Entity* entity);
 };
 
 class Entity {
@@ -42,6 +46,8 @@ public:
     void initalize();
 
     Entity();
+
+    friend class EntityTask;
 };
 
 #endif

@@ -14,6 +14,24 @@ EntityTask::EntityTask(TaskType type, void * data) {
     }
 }
 
+void EntityTask::exec(Entity* entity) {
+    switch(this->type) {
+    case TASK_ENTITY_SET_DIMENSION:
+        entity->dimension = this->data.dimension;
+        break;
+    case TASK_ENTITY_SET_POSITION:
+        entity->x = this->data.position.x;
+        entity->y = this->data.position.y;
+        entity->z = this->data.position.z;
+        break;
+    case TASK_ENTITY_MOVE:
+        entity->x+= this->data.position.x;
+        entity->y+= this->data.position.y;
+        entity->z+= this->data.position.z;
+        break;
+    }
+}
+
 Entity::Entity() {
     x = 0;
     y = 0;
@@ -29,7 +47,7 @@ void Entity::addTask(EntityTask* task) {
 
 void Entity::execTasks() {
     for (int i = 0; i < this->tasks.size(); i++) {
-        this->tasks[i]->exec();
+        this->tasks[i]->exec(this);
     }
     this->tasks.clear();
 }
