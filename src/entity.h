@@ -31,6 +31,7 @@ protected:
     std::vector<EntityTask*> tasks;
 private:
     void addTask(EntityTask* task);
+    void execTasks();
 public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);

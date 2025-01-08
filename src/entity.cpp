@@ -27,6 +27,12 @@ void Entity::addTask(EntityTask* task) {
     this->tasks.push_back(task);
 }
 
+void Entity::execTasks() {
+    for (int i = 0; i < this->tasks.size(); i++) {
+        this->tasks[i]->exec();
+    }
+}
+
 void Entity::setDimension(Dimension* dimension) {
     EntityTask* task = new EntityTask(TASK_ENTITY_SET_DIMENSION, dimension);
     this->addTask(task);
