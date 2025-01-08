@@ -14,6 +14,8 @@ public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);
 
+    void draw();
+
     Entity();
 };
 
