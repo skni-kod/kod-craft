@@ -70,6 +70,16 @@ void Entity::setDimension(std::string dimension) {
     this->addTask(task);
 }
 
+void Entity::setPosition(EntityPosition position) {
+    EntityTask* task = new EntityTask(TASK_ENTITY_SET_POSITION, &position);
+    this->addTask(task);
+}
+
+void Entity::move(EntityPosition movement) {
+    EntityTask* task = new EntityTask(TASK_ENTITY_MOVE, &movement);
+    this->addTask(task);
+}
+
 void Entity::processTick() {
     this->execTasks();
 

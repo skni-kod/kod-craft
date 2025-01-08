@@ -48,6 +48,9 @@ public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);
 
+    void setPosition(EntityPosition position);
+    void move(EntityPosition movement);
+
     void draw();
     void processTick();
 
