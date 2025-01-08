@@ -15,7 +15,8 @@ void Entity::addTask(EntityTask* task) {
 }
 
 void Entity::setDimension(Dimension* dimension) {
-    this->dimension = dimension;
+    EntityTask* task = new EntityTask(TASK_ENTITY_SET_DIMENSION, dimension);
+    this->addTask(task);
 }
 
 void Entity::setDimension(std::string dimension) {
@@ -23,5 +24,6 @@ void Entity::setDimension(std::string dimension) {
 
     if (dimensionFound==NULL) return;
 
-    this->setDimension(dimensionFound);
+    EntityTask* task = new EntityTask(TASK_ENTITY_SET_DIMENSION, dimensionFound);
+    this->addTask(task);
 }
