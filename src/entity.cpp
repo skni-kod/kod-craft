@@ -67,6 +67,8 @@ void Entity::setDimension(std::string dimension) {
 }
 
 void Entity::initalize() {
+    this->execTasks();
+    
     if (this->dimension==NULL) return;
 
     this->initalized = true;
