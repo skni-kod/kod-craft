@@ -11,6 +11,7 @@ set(PROJECT_SOURCE_FILES
     src/block.cpp
     src/dimension.cpp
     src/py.cpp
+    src/entity.cpp
 )
 
 set(PROJECT_HEADER_FILES
@@ -21,6 +22,7 @@ set(PROJECT_HEADER_FILES
     src/py.h
     src/states.h
     src/world.h
+    src/entity.h
 )
 
 set(PROJECT_PYTHON_FILES
