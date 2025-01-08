@@ -36,6 +36,7 @@ public:
     void setDimension(std::string dimension);
 
     void draw();
+    void processTick();
 
     Entity();
 };
