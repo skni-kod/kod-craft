@@ -72,9 +72,17 @@ void Entity::setDimension(std::string dimension) {
     this->addTask(task);
 }
 
+void Entity::processTick() {
+    this->execTasks();
+
+    if (this->positionHasChanged) this->onPositionChanged();
+
+    this->positionHasChanged = false;
+}
+
 void Entity::initalize() {
     this->execTasks();
-    
+
     if (this->dimension==NULL) return;
 
     this->initalized = true;
