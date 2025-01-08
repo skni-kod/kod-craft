@@ -40,6 +40,7 @@ void loadWorld() {
 
     PyObject_CallObject(onWorldLoadCallback, NULL);
 
+    player->initalize();
     world->startTickProcessing();
 }
 
