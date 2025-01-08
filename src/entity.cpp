@@ -1,6 +1,15 @@
 #include "entity.h"
 #include "world.h"
 
+Entity::Entity() {
+    x = 0;
+    y = 0;
+    z = 0;
+
+    this->dimension = NULL;
+    this->initalized = false;
+}
+
 void Entity::setDimension(Dimension* dimension) {
     this->dimension = dimension;
 }
