@@ -10,7 +10,7 @@ Player* player;
 Player::Player() {
 }
 
-void Player::draw() {
+void Player::render() {
     Camera3D camera = { 0 };
 
     //TODO

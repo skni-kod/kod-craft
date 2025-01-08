@@ -14,7 +14,7 @@ private:
 public:
     Player();
 
-    void draw();
+    void render();
 
     void processTick();
 };

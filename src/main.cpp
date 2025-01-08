@@ -27,7 +27,7 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        if (gameState == STATE_IN_GAME) player->draw();
+        if (gameState == STATE_IN_GAME) player->render();
 
         DrawFPS(10, 10);
 
