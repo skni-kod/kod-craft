@@ -31,6 +31,7 @@ void Entity::execTasks() {
     for (int i = 0; i < this->tasks.size(); i++) {
         this->tasks[i]->exec();
     }
+    this->tasks.clear();
 }
 
 void Entity::setDimension(Dimension* dimension) {
