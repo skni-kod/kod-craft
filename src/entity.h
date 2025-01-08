@@ -1,6 +1,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "dimension.h"
+#include <string>
+
 class Entity {
     Dimension* dimension;
     double x, y, z;

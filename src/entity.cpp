@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "world.h"
 
 void Entity::setDimension(Dimension* dimension) {
     this->dimension = dimension;
