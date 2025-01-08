@@ -1,6 +1,19 @@
 #include "entity.h"
 #include "world.h"
 
+EntityTask::EntityTask(TaskType type, void * data) {
+    this->type = type;
+
+    switch(type) {
+    case TASK_ENTITY_SET_DIMENSION:
+        this->data.dimension = (Dimension*)data;
+        break;
+    case TASK_ENTITY_SET_POSITION:
+    case TASK_ENTITY_MOVE:
+        this->data.position = *(typeof(EntityTask::data.position)*)data;
+    }
+}
+
 Entity::Entity() {
     x = 0;
     y = 0;
