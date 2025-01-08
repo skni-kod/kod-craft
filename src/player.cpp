@@ -7,7 +7,7 @@
 
 Player* player;
 
-Player::Player() {
+Player::Player() : Entity() {
 }
 
 void Player::render() {
