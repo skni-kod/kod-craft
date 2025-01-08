@@ -33,9 +33,13 @@ protected:
     bool initalized;
 
     std::vector<EntityTask*> tasks;
+
+    virtual void onPositionChanged() {};
 private:
     void addTask(EntityTask* task);
     void execTasks();
+
+    bool positionHasChanged;
 public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);

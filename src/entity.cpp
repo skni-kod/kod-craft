@@ -23,11 +23,15 @@ void EntityTask::exec(Entity* entity) {
         entity->x = this->data.position.x;
         entity->y = this->data.position.y;
         entity->z = this->data.position.z;
+
+        entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_MOVE:
         entity->x+= this->data.position.x;
         entity->y+= this->data.position.y;
         entity->z+= this->data.position.z;
+
+        entity->positionHasChanged = true;
         break;
     }
 }
@@ -39,6 +43,8 @@ Entity::Entity() {
 
     this->dimension = NULL;
     this->initalized = false;
+
+    this->positionHasChanged = true;
 }
 
 void Entity::addTask(EntityTask* task) {
