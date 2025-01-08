@@ -30,5 +30,7 @@ void Player::render() {
 void Player::processTick() {
     if (!this->initalized) return;
 
+    this->Entity::processTick();
+
     this->dimension->loadAroundPosition((WorldPos)this->pos.x, (WorldPos)this->pos.y, (WorldPos)this->pos.z, renderDistance);
 }
