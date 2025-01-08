@@ -38,6 +38,8 @@ public:
     void draw();
     void processTick();
 
+    void initalize();
+
     Entity();
 };
 

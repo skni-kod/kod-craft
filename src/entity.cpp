@@ -40,3 +40,9 @@ void Entity::setDimension(std::string dimension) {
     EntityTask* task = new EntityTask(TASK_ENTITY_SET_DIMENSION, dimensionFound);
     this->addTask(task);
 }
+
+void Entity::initalize() {
+    if (this->dimension==NULL) return;
+
+    this->initalized = true;
+}
