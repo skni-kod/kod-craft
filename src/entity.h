@@ -7,7 +7,7 @@ class Entity {
 public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);
-    
+
     Entity();
 };
 
