@@ -10,7 +10,7 @@ EntityTask::EntityTask(TaskType type, void * data) {
         break;
     case TASK_ENTITY_SET_POSITION:
     case TASK_ENTITY_MOVE:
-        this->data.position = *(typeof(EntityTask::data.position)*)data;
+        this->data.position = *(EntityPosition*)data;
     }
 }
 
@@ -20,16 +20,14 @@ void EntityTask::exec(Entity* entity) {
         entity->dimension = this->data.dimension;
         break;
     case TASK_ENTITY_SET_POSITION:
-        entity->x = this->data.position.x;
-        entity->y = this->data.position.y;
-        entity->z = this->data.position.z;
+        entity->pos = this->data.position;
 
         entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_MOVE:
-        entity->x+= this->data.position.x;
-        entity->y+= this->data.position.y;
-        entity->z+= this->data.position.z;
+        entity->pos.x+= this->data.position.x;
+        entity->pos.y+= this->data.position.y;
+        entity->pos.z+= this->data.position.z;
 
         entity->positionHasChanged = true;
         break;
@@ -37,9 +35,9 @@ void EntityTask::exec(Entity* entity) {
 }
 
 Entity::Entity() {
-    x = 0;
-    y = 0;
-    z = 0;
+    this->pos.x = 0;
+    this->pos.y = 0;
+    this->pos.z = 0;
 
     this->dimension = NULL;
     this->initalized = false;

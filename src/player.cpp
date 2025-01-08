@@ -16,7 +16,7 @@ void Player::render() {
     Camera3D camera = { 0 };
 
     //TODO
-    camera.position = (Vector3){ (float)this->x, (float)this->y, (float)this->z };
+    camera.position = (Vector3){ (float)this->pos.x, (float)this->pos.y, (float)this->pos.z };
     camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
     camera.fovy = 90.0f;
@@ -29,6 +29,6 @@ void Player::render() {
 
 void Player::processTick() {
     if (!this->initalized) return;
-    
-    this->dimension->loadAroundPosition((WorldPos)this->x, (WorldPos)this->y, (WorldPos)this->z, renderDistance);
+
+    this->dimension->loadAroundPosition((WorldPos)this->pos.x, (WorldPos)this->pos.y, (WorldPos)this->pos.z, renderDistance);
 }
