@@ -10,6 +10,10 @@ Entity::Entity() {
     this->initalized = false;
 }
 
+void Entity::addTask(EntityTask* task) {
+    this->tasks.push_back(task);
+}
+
 void Entity::setDimension(Dimension* dimension) {
     this->dimension = dimension;
 }

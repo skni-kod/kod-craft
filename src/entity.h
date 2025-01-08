@@ -29,6 +29,8 @@ protected:
     bool initalized;
 
     std::vector<EntityTask*> tasks;
+private:
+    void addTask(EntityTask* task);
 public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);
