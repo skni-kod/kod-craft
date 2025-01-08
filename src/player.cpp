@@ -11,6 +11,8 @@ Player::Player() : Entity() {
 }
 
 void Player::render() {
+    if (!this->initalized) return;
+
     Camera3D camera = { 0 };
 
     //TODO
@@ -26,5 +28,7 @@ void Player::render() {
 }
 
 void Player::processTick() {
+    if (!this->initalized) return;
+    
     this->dimension->loadAroundPosition((WorldPos)this->x, (WorldPos)this->y, (WorldPos)this->z, renderDistance);
 }
