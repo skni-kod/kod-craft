@@ -27,6 +27,8 @@ protected:
     double x, y, z;
 
     bool initalized;
+
+    std::vector<EntityTask*> tasks;
 public:
     void setDimension(Dimension* dimension);
     void setDimension(std::string dimension);
