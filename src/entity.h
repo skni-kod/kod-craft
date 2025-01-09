@@ -52,6 +52,7 @@ public:
 
     void setPosition(EntityPosition position);
     void move(EntityPosition movement);
+    void applyFoce(EntityPosition force);
 
     void draw();
     void processTick();

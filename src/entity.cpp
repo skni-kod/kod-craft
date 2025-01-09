@@ -33,6 +33,10 @@ void EntityTask::exec(Entity* entity) {
 
         entity->positionHasChanged = true;
         break;
+    case TASK_ENTITY_ADD_VELOCITY:
+        entity->vel.x+= this->data.position.x;
+        entity->vel.y+= this->data.position.y;
+        entity->vel.z+= this->data.position.z;
     }
 }
 
@@ -83,6 +87,17 @@ void Entity::setPosition(EntityPosition position) {
 
 void Entity::move(EntityPosition movement) {
     EntityTask* task = new EntityTask(TASK_ENTITY_MOVE, &movement);
+    this->addTask(task);
+}
+
+void Entity::applyFoce(EntityPosition force) {
+    float weight = 1;
+
+    force.x/=weight;
+    force.y/=weight;
+    force.z/=weight;
+
+    EntityTask* task = new EntityTask(TASK_ENTITY_ADD_VELOCITY, &force);
     this->addTask(task);
 }
 
