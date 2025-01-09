@@ -100,8 +100,6 @@ static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
-    char *name;
-
     static char *kwlist[] = {(char*)"onWorldLoadCallback", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
@@ -114,8 +112,6 @@ static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObj
 }
 
 static PyObject *py_setOnPlayerPositionChangedCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
-    char *name;
-
     static char *kwlist[] = {(char*)"onPlayerPositionChangedCallback", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
