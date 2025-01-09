@@ -66,9 +66,9 @@ static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject 
 }
 
 static PyObject *py_setPlayerPosition(PyObject *self, PyObject *args, PyObject *kwargs) {
-    double *x;
-    double *y;
-    double *z;
+    double x;
+    double y;
+    double z;
 
     static char *kwlist[] = {(char*)"new Player X position", (char*)"new Player Y position", (char*)"new Player Z position", NULL};
 
@@ -77,15 +77,15 @@ static PyObject *py_setPlayerPosition(PyObject *self, PyObject *args, PyObject *
         &x, &y, &z
     )) return NULL;
 
-    player->setPosition({*x, *y, *z});
+    player->setPosition({x, y, z});
 
     return PyBool_FromLong(0);
 }
 
 static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs) {
-    double *x;
-    double *y;
-    double *z;
+    double x;
+    double y;
+    double z;
 
     static char *kwlist[] = {(char*)"player X position delta", (char*)"player Y position delta", (char*)"player Z position delta", NULL};
 
@@ -94,7 +94,7 @@ static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs)
         &x, &y, &z
     )) return NULL;
 
-    player->move({*x, *y, *z});
+    player->move({x, y, z});
 
     return PyBool_FromLong(0);
 }
