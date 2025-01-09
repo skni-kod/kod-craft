@@ -99,6 +99,23 @@ static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs)
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_playerApplyForce(PyObject *self, PyObject *args, PyObject *kwargs) {
+    double x;
+    double y;
+    double z;
+
+    static char *kwlist[] = {(char*)"force X axis", (char*)"force Y axis", (char*)"force Z axis", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    player->applyFoce({x, y, z});
+
+    return PyBool_FromLong(0);
+}
+
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     static char *kwlist[] = {(char*)"onWorldLoadCallback", NULL};
 
@@ -134,6 +151,8 @@ static PyMethodDef pyMethods[] = {
      "Set player's position directly."},
      {"movePlayer", (PyCFunction)py_movePlayer, METH_VARARGS | METH_KEYWORDS,
      "Change player's position by a delta."},
+     {"playerApplyForce", (PyCFunction)py_playerApplyForce, METH_VARARGS | METH_KEYWORDS,
+     "Change player's velocity."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
      {"setOnPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
