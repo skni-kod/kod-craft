@@ -65,6 +65,40 @@ static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject 
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_setPlayerPosition(PyObject *self, PyObject *args, PyObject *kwargs) {
+    double *x;
+    double *y;
+    double *z;
+
+    static char *kwlist[] = {(char*)"new Player X position", (char*)"new Player Y position", (char*)"new Player Z position", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    player->setPosition({*x, *y, *z});
+
+    return PyBool_FromLong(0);
+}
+
+static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs) {
+    double *x;
+    double *y;
+    double *z;
+
+    static char *kwlist[] = {(char*)"player X position delta", (char*)"player Y position delta", (char*)"player Z position delta", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    player->move({*x, *y, *z});
+
+    return PyBool_FromLong(0);
+}
+
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *name;
 
@@ -100,6 +134,10 @@ static PyMethodDef pyMethods[] = {
      "Define a dimension defineDimension(name, generateChunkCallback, chunkSize=32)."},
     {"setPlayerDimension", (PyCFunction)py_setPlayerDimension, METH_VARARGS | METH_KEYWORDS,
      "Set player's dimension."},
+     {"setPlayerPosition", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
+     "Set player's position directly."},
+     {"movePlayer", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
+     "Change player's position by a delta."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
      {"onPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
