@@ -87,6 +87,10 @@ void Entity::move(EntityPosition movement) {
 }
 
 void Entity::processTick() {
+    this->pos.x+= this->vel.x;
+    this->pos.y+= this->vel.y;
+    this->pos.z+= this->vel.z;
+
     this->execTasks();
 
     if (this->positionHasChanged) this->onPositionChanged();
