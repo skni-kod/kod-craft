@@ -7,6 +7,8 @@
 
 Player* player;
 
+PyObject * onPlayerPositionChangedCallback = NULL;
+
 Player::Player() : Entity() {
 }
 
@@ -33,4 +35,8 @@ void Player::processTick() {
     this->Entity::processTick();
 
     this->dimension->loadAroundPosition((WorldPos)this->pos.x, (WorldPos)this->pos.y, (WorldPos)this->pos.z, renderDistance);
+}
+
+void Player::onPositionChanged() {
+    if (onPlayerPositionChangedCallback) PyObject_CallObject(onPlayerPositionChangedCallback, NULL);
 }

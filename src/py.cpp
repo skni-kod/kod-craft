@@ -79,6 +79,20 @@ static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObj
     return PyBool_FromLong(0);
 }
 
+static PyObject *py_setOnPlayerPositionChangedCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+    char *name;
+
+    static char *kwlist[] = {(char*)"onPlayerPositionChangedCallback", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &onPlayerPositionChangedCallback
+    )) return NULL;
+
+
+    return PyBool_FromLong(0);
+}
+
 static PyMethodDef pyMethods[] = {
     {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
@@ -88,6 +102,8 @@ static PyMethodDef pyMethods[] = {
      "Set player's dimension."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
+     {"onPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
+     "Set a callback to run on player position change."},
     {NULL, NULL, 0, NULL}
 };
 

@@ -10,7 +10,7 @@ extern Player* player;
 
 class Player : public Entity {
 private:
-
+    void onPositionChanged();
 public:
     Player();
 
@@ -18,5 +18,7 @@ public:
 
     void processTick();
 };
+
+extern PyObject * onPlayerPositionChangedCallback;
 
 #endif
