@@ -10,7 +10,9 @@ EntityTask::EntityTask(TaskType type, void * data) {
         break;
     case TASK_ENTITY_SET_POSITION:
     case TASK_ENTITY_MOVE:
+    case TASK_ENTITY_ADD_VELOCITY:
         this->data.position = *(EntityPosition*)data;
+        break;
     }
 }
 
@@ -38,6 +40,10 @@ Entity::Entity() {
     this->pos.x = 0;
     this->pos.y = 0;
     this->pos.z = 0;
+
+    this->vel.x = 0;
+    this->vel.y = 0;
+    this->vel.z = 0;
 
     this->dimension = NULL;
     this->initalized = false;

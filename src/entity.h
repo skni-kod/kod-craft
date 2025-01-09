@@ -9,7 +9,8 @@ class Entity;
 enum TaskType {
     TASK_ENTITY_SET_POSITION,
     TASK_ENTITY_MOVE,
-    TASK_ENTITY_SET_DIMENSION
+    TASK_ENTITY_SET_DIMENSION,
+    TASK_ENTITY_ADD_VELOCITY
 };
 
 struct EntityPosition {
@@ -33,6 +34,7 @@ class Entity {
 protected:
     Dimension* dimension;
     EntityPosition pos;
+    EntityPosition vel;
 
     bool initalized;
 
