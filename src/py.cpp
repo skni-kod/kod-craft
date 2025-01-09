@@ -132,7 +132,7 @@ static PyMethodDef pyMethods[] = {
      "Set player's dimension."},
      {"setPlayerPosition", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
      "Set player's position directly."},
-     {"movePlayer", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
+     {"movePlayer", (PyCFunction)py_movePlayer, METH_VARARGS | METH_KEYWORDS,
      "Change player's position by a delta."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
