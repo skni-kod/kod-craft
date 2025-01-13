@@ -39,6 +39,18 @@ void Rotation::setRoll(double roll) {
     this->roll = roll;
 }
 
+void Rotation::rotatePitch(double pitch) {
+    this->pitch+= pitch;
+}
+
+void Rotation::rotateYaw(double yaw) {
+    this->yaw+= yaw;
+}
+
+void Rotation::rotateRoll(double roll) {
+    this->roll+= roll;
+}
+
 EntityTask::EntityTask(TaskType type, void * data) {
     this->type = type;
 
