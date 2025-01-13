@@ -79,6 +79,8 @@ Entity::Entity() {
     this->initalized = false;
 
     this->positionHasChanged = true;
+
+    this->rotation = Rotation();
 }
 
 void Entity::addTask(EntityTask* task) {

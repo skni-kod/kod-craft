@@ -48,6 +48,8 @@ protected:
     EntityPosition pos;
     EntityPosition vel;
 
+    Rotation* rotation;
+
     bool initalized;
 
     std::vector<EntityTask*> tasks;
