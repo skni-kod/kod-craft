@@ -12,6 +12,8 @@ PyObject * onPlayerPositionChangedCallback = NULL;
 Player::Player() : Entity() {
 }
 
+double sensitivity = 0.01;
+
 void Player::render() {
     if (!this->initalized) return;
 
@@ -19,9 +21,28 @@ void Player::render() {
 
     EntityPosition playerPosition = player->getInterpPosition();
 
+    Rotation* playerRotation = player->getRotation();
+    Vector2 mouseDelta = GetMouseDelta();
+
+    playerRotation->rotateYaw(-mouseDelta.x*sensitivity);
+    playerRotation->rotatePitch(mouseDelta.y*sensitivity);
+
+    Vector3 lookVector;
+
+    double playerYaw = playerRotation->getYaw();
+    double playerPitch = playerRotation->getPitch();
+
+    lookVector.x = cos(playerYaw) * cos(playerPitch);
+    lookVector.y = sin(playerYaw) * cos(playerPitch);
+    lookVector.z = sin(playerPitch);
+
+    lookVector.x+= (float)playerPosition.x;
+    lookVector.y+= (float)playerPosition.y;
+    lookVector.z+= (float)playerPosition.z;
+
     //TODO
     camera.position = (Vector3){ (float)playerPosition.x, (float)playerPosition.y, (float)playerPosition.z };
-    camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.target = lookVector;
     camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
     camera.fovy = 90.0f;
     camera.projection = CAMERA_PERSPECTIVE;
