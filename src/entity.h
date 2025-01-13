@@ -27,6 +27,10 @@ public:
     double getPitch();
     double getYaw();
     double getRoll();
+
+    void setPitch(double pitch);
+    void setYaw(double yaw);
+    void setRoll(double roll);
 };
 
 class EntityTask {
