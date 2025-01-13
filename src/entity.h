@@ -35,6 +35,8 @@ public:
     void rotatePitch(double pitch);
     void rotateYaw(double yaw);
     void rotateRoll(double roll);
+
+    void clamp();
 };
 
 class EntityTask {

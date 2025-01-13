@@ -2,6 +2,7 @@
 #include "world.h"
 
 #include <algorithm>
+#include <math.h>
 
 Rotation::Rotation(double pitch, double yaw, double roll) {
     this->pitch = pitch;
@@ -49,6 +50,13 @@ void Rotation::rotateYaw(double yaw) {
 
 void Rotation::rotateRoll(double roll) {
     this->roll+= roll;
+}
+
+void Rotation::clamp() {
+    this->pitch = fmod(this->pitch, M_PI*2);
+    this->yaw = fmod(this->yaw, M_PI*2);
+    this->roll = fmod(this->roll, M_PI*2);
+    this->pitch = std::clamp(pitch, -M_PI/2+0.0001, M_PI/2-0.0001);
 }
 
 EntityTask::EntityTask(TaskType type, void * data) {

@@ -25,7 +25,9 @@ void Player::render() {
     Vector2 mouseDelta = GetMouseDelta();
 
     playerRotation->rotateYaw(-mouseDelta.x*sensitivity);
-    playerRotation->rotatePitch(mouseDelta.y*sensitivity);
+    playerRotation->rotatePitch(-mouseDelta.y*sensitivity);
+
+    playerRotation->clamp();
 
     Vector3 lookVector;
 
