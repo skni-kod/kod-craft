@@ -1,6 +1,8 @@
 #include "entity.h"
 #include "world.h"
 
+#include <algorithm>
+
 EntityTask::EntityTask(TaskType type, void * data) {
     this->type = type;
 
@@ -108,6 +110,9 @@ EntityPosition Entity::getInterpPosition() {
     std::chrono::duration<double> timeUntillNextTick = tickDoneTargetTime - lastTickDoneTime;
 
     float fraction = timeSinceLastTick/timeUntillNextTick;
+
+    fraction = std::clamp(fraction, 0.0f, 1.0f);
+
     float oldPositionFraction = 1 - fraction;
 
     EntityPosition interpPos;
