@@ -23,6 +23,10 @@ private:
 public:
     Rotation(double pitch, double yaw, double roll);
     Rotation();
+
+    double getPitch();
+    double getYaw();
+    double getRoll();
 };
 
 class EntityTask {

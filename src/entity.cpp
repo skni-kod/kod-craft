@@ -15,6 +15,18 @@ Rotation::Rotation() {
     this->roll = 0;
 }
 
+double Rotation::getPitch() {
+    return this->pitch;
+}
+
+double Rotation::getYaw() {
+    return this->yaw;
+}
+
+double Rotation::getRoll() {
+    return this->roll;
+}
+
 EntityTask::EntityTask(TaskType type, void * data) {
     this->type = type;
 
