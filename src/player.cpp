@@ -32,8 +32,8 @@ void Player::render() {
     double playerYaw = playerRotation->getYaw();
     double playerPitch = playerRotation->getPitch();
 
-    lookVector.x = cos(playerYaw) * cos(playerPitch);
-    lookVector.y = sin(playerYaw) * cos(playerPitch);
+    lookVector.x = cos(playerYaw) * abs(cos(playerPitch));
+    lookVector.y = sin(playerYaw) * abs(cos(playerPitch));
     lookVector.z = sin(playerPitch);
 
     lookVector.x+= (float)playerPosition.x;
