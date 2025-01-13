@@ -3,6 +3,18 @@
 
 #include <algorithm>
 
+Rotation::Rotation(double pitch, double yaw, double roll) {
+    this->pitch = pitch;
+    this->yaw = yaw;
+    this->roll = roll;
+}
+
+Rotation::Rotation() {
+    this->pitch = 0;
+    this->yaw = 0;
+    this->roll = 0;
+}
+
 EntityTask::EntityTask(TaskType type, void * data) {
     this->type = type;
 

@@ -17,6 +17,14 @@ struct EntityPosition {
     double x, y, z;
 };
 
+class Rotation {
+private:
+    double pitch, yaw, roll;
+public:
+    Rotation(double pitch, double yaw, double roll);
+    Rotation();
+};
+
 class EntityTask {
 private:
     TaskType type;
