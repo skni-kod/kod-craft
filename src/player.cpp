@@ -17,8 +17,10 @@ void Player::render() {
 
     Camera3D camera = { 0 };
 
+    EntityPosition playerPosition = player->getInterpPosition();
+
     //TODO
-    camera.position = (Vector3){ (float)this->pos.x, (float)this->pos.y, (float)this->pos.z };
+    camera.position = (Vector3){ (float)playerPosition.x, (float)playerPosition.y, (float)playerPosition.z };
     camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
     camera.fovy = 90.0f;

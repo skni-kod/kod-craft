@@ -16,17 +16,24 @@ World::World() {
 
 World * world;
 
+std::chrono::time_point<std::chrono::high_resolution_clock> lastTickDoneTime;
+std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
+
+
 void processTicksThreadFunction(World * world) {
     while (1) {
-        auto targetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
+        tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
         world->processTick();
-        std::this_thread::sleep_until(targetTime);
+        lastTickDoneTime = std::chrono::high_resolution_clock::now();
+        std::this_thread::sleep_until(tickDoneTargetTime);
     }
 }
 
 void World::startTickProcessing() {
     if (gameState == STATE_LOADING_GAME) gameState = STATE_IN_GAME;
     else return;
+
+    lastTickDoneTime = std::chrono::high_resolution_clock::now();
     
     tickProcessingTrhead = std::thread(&processTicksThreadFunction, this);
 }

@@ -60,6 +60,8 @@ void Entity::addTask(EntityTask* task) {
 }
 
 void Entity::execTasks() {
+    this->oldPosition = this->pos;
+
     for (int i = 0; i < this->tasks.size(); i++) {
         this->tasks[i]->exec(this);
     }
@@ -99,6 +101,22 @@ void Entity::applyFoce(EntityPosition force) {
 
     EntityTask* task = new EntityTask(TASK_ENTITY_ADD_VELOCITY, &force);
     this->addTask(task);
+}
+
+EntityPosition Entity::getInterpPosition() {
+    std::chrono::duration<double> timeSinceLastTick = std::chrono::high_resolution_clock::now() - lastTickDoneTime;
+    std::chrono::duration<double> timeUntillNextTick = tickDoneTargetTime - lastTickDoneTime;
+
+    float fraction = timeSinceLastTick/timeUntillNextTick;
+    float oldPositionFraction = 1 - fraction;
+
+    EntityPosition interpPos;
+
+    interpPos.x = this->pos.x*fraction + this->oldPosition.x*oldPositionFraction;
+    interpPos.y = this->pos.y*fraction + this->oldPosition.y*oldPositionFraction;
+    interpPos.z = this->pos.z*fraction + this->oldPosition.z*oldPositionFraction;
+
+    return interpPos;
 }
 
 void Entity::processTick() {

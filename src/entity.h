@@ -45,6 +45,8 @@ private:
     void addTask(EntityTask* task);
     void execTasks();
 
+    EntityPosition oldPosition;
+
     bool positionHasChanged;
 public:
     void setDimension(Dimension* dimension);
@@ -53,6 +55,8 @@ public:
     void setPosition(EntityPosition position);
     void move(EntityPosition movement);
     void applyFoce(EntityPosition force);
+
+    EntityPosition getInterpPosition();
 
     void draw();
     void processTick();

@@ -21,6 +21,9 @@ public:
 
 void loadWorld();
 
+extern std::chrono::time_point<std::chrono::high_resolution_clock> lastTickDoneTime;
+extern std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
+
 extern PyObject * onWorldLoadCallback;
 extern World * world;
 
