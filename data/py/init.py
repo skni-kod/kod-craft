@@ -26,3 +26,10 @@ def onWorldLoad():
     game.setPlayerDimension("kodland")
 
 game.setOnWorldLoadCallback(onWorldLoad)
+
+
+def onPlayerPositionChanged():
+    game.movePlayer(-0.1, 0.1, 0.1)
+    game.playerApplyForce(0.0, 0.001, 0.0)
+
+game.setOnPlayerPositionChangedCallback(onPlayerPositionChanged)
