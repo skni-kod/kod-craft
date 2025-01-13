@@ -23,6 +23,8 @@ int main() {
 
     loadWorld();
 
+    DisableCursor();
+
     while (!WindowShouldClose()){
         BeginDrawing();
         ClearBackground(RAYWHITE);
