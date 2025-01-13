@@ -162,6 +162,10 @@ EntityPosition Entity::getInterpPosition() {
     return interpPos;
 }
 
+Rotation* Entity::getRotation() {
+    return this->rotation;
+}
+
 void Entity::processTick() {
     this->pos.x+= this->vel.x;
     this->pos.y+= this->vel.y;

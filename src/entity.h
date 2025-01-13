@@ -75,6 +75,7 @@ public:
     void applyFoce(EntityPosition force);
 
     EntityPosition getInterpPosition();
+    Rotation* getRotation();
 
     void draw();
     void processTick();
