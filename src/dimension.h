@@ -7,24 +7,19 @@ class Dimension;
 
 #include<vector>
 #include<string>
-#include <memory>
 
 #include "chunk.h"
 
 class DimensionTemplate;
 
-using chunk_ptr = std::shared_ptr<Chunk>;
-using weak_chunk = std::weak_ptr<Chunk>;
-
 class Dimension {
 private:
-    
-    std::vector < chunk_ptr > chunks;
+    std::vector<Chunk*> chunks;
     int chunkSize;
     DimensionTemplate * propeties;
 
-    chunk_ptr findChunk(WorldPos x, WorldPos y, WorldPos z);
-    chunk_ptr createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
+    Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
+    Chunk* createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
 public:
     Dimension(int chunkSize);
 
