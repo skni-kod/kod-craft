@@ -18,6 +18,8 @@ private:
     Dimension* dimension;
     std::vector<Block> blocks;
 
+    bool loaded;
+
     inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
 
     ChunkPos x, y, z;

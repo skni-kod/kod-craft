@@ -1,6 +1,8 @@
 #include "chunk.h"
 
 void Chunk::draw() {
+    if (this->loaded == false) return;
+
     int chunkSize = this->dimension->getChunkSize();
 
     for (int x = 0; x < chunkSize; x++)
@@ -11,6 +13,7 @@ void Chunk::draw() {
 }
 
 Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
+    this->loaded = false;
     this->dimension = dimension;
 
     this->x = x;
@@ -38,6 +41,7 @@ Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
             }
         }
     }
+    this->loaded = true;
 }
 
 void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
