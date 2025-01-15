@@ -12,7 +12,7 @@ void Chunk::draw() {
     }
 }
 
-Chunk::Chunk(Dimension* dimension, int x, int y, int z) {
+Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
     this->loaded = false;
     this->dimension = dimension;
 
