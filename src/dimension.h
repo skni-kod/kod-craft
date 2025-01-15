@@ -22,6 +22,7 @@ private:
     Chunk* createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
 public:
     Dimension(int chunkSize);
+    ~Dimension();
 
     void draw();
 

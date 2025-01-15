@@ -10,6 +10,12 @@ Dimension::Dimension(int type) {
     this->chunkSize = this->propeties->chunkSize;
 }
 
+Dimension::~Dimension() {
+    for (int i = 0; i < this->chunks.size(); i++) {
+        delete this->chunks[i];
+    }
+}
+
 int Dimension::getChunkSize() {
     return this->chunkSize;
 }
