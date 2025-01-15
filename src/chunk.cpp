@@ -37,7 +37,7 @@ Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
             for (int bZ = 0; bZ < chunkSize; bZ++) {
                 PyObject* chunkBlock = PyList_GetItem(chunkArrayXY, bZ);
 
-                this->blocks[(bZ*(chunkSize*chunkSize))+(bY*chunkSize)+bX] = Block(PyUnicode_AsUTF8(chunkBlock));
+                this->getBlock(bX, bY, bZ) = Block(PyUnicode_AsUTF8(chunkBlock));
             }
         }
     }
@@ -45,7 +45,11 @@ Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
 }
 
 void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
-    int chunkSize = this->dimension->getChunkSize();
+    this->getBlock(x, y, z) = block;
+}
+
+inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
+    auto chunkSize = dimension->getChunkSize();
 
     x = x%chunkSize;
     y = y%chunkSize;
@@ -55,11 +59,6 @@ void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     if (y<0) y+=chunkSize;
     if (z<0) z+=chunkSize;
 
-    this->getBlock(x, y, z) = block;
-}
-
-inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
-    auto chunkSize = dimension->getChunkSize();
     return this->blocks[(z * chunkSize * chunkSize) + (y * chunkSize) + x];
 }
 
