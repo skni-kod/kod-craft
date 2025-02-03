@@ -19,7 +19,7 @@ World::World() {
 World::~World() {
     keepTickProcessingGoing = false;
     tickProcessingTrhead.join();
-    for (int i = 0; i < dimensionList.size(); i++) {
+    for (int i = 0; i < this->dimensions.size(); i++) {
         delete this->dimensions[i];
     }
 }
