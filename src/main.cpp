@@ -11,6 +11,11 @@
 
 GameState gameState;
 
+void exitGame() {
+    unloadWorld();
+    CloseWindow();
+}
+
 int main() {
     InitWindow(800, 450, "Kod Craft");
 
@@ -36,7 +41,7 @@ int main() {
         EndDrawing();
     }
 
-    CloseWindow();
+    exitGame();
 
 
     return 0;

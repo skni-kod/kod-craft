@@ -51,6 +51,12 @@ void loadWorld() {
     world->startTickProcessing();
 }
 
+void unloadWorld() {
+    gameState = STATE_MAIN_MENU;
+    delete world;
+    delete player;
+}
+
 Dimension* World::findDimension(std::string name) {
     for (int i = 0; i < this->dimensions.size(); i++) {
         if (this->dimensions[i]->getName() == name) return this->dimensions[i];
