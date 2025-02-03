@@ -8,9 +8,19 @@
 
 PyObject * onWorldLoadCallback = NULL;
 
+bool keepTickProcessingGoing;
+
 World::World() {
     for (int i = 0; i < dimensionList.size(); i++) {
         this->dimensions.push_back( new Dimension(i) );
+    }
+}
+
+World::~World() {
+    keepTickProcessingGoing = false;
+    tickProcessingTrhead.join();
+    for (int i = 0; i < dimensionList.size(); i++) {
+        delete this->dimensions[i];
     }
 }
 
@@ -21,7 +31,7 @@ std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
 
 
 void processTicksThreadFunction(World * world) {
-    while (1) {
+    while (keepTickProcessingGoing) {
         tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
         world->processTick();
         lastTickDoneTime = std::chrono::high_resolution_clock::now();
@@ -32,6 +42,7 @@ void processTicksThreadFunction(World * world) {
 void World::startTickProcessing() {
     if (gameState == STATE_LOADING_GAME) gameState = STATE_IN_GAME;
     else return;
+    keepTickProcessingGoing = true;
 
     lastTickDoneTime = std::chrono::high_resolution_clock::now();
     

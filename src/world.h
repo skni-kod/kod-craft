@@ -12,6 +12,7 @@ private:
     std::thread tickProcessingTrhead;
 public:
     World();
+    ~World();
 
     Dimension* findDimension(std::string name);
 
@@ -20,6 +21,7 @@ public:
 };
 
 void loadWorld();
+void unloadWorld();
 
 extern std::chrono::time_point<std::chrono::high_resolution_clock> lastTickDoneTime;
 extern std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
