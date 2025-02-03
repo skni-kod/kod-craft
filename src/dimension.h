@@ -54,4 +54,9 @@ extern std::vector<DimensionTemplate*> dimensionList;
 void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize);
 void unloadDimensions();
 
+#ifdef PYTHON_DEFINTION
+
+PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs);
+
+#endif
 #endif

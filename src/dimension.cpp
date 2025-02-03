@@ -112,3 +112,22 @@ void unloadDimensions() {
 
     dimensionList.clear();
 }
+
+
+PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
+    char *name;
+    PyObject* generateChunkCallback = NULL;
+    int chunkSize = 8;
+
+    static char *kwlist[] = {(char*)"name", (char*)"generateChunkCallback", (char*)"chunkSize", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "sO|i", kwlist,
+        &name, &generateChunkCallback, &chunkSize
+    )) return NULL;
+
+
+    defineDimension(name, generateChunkCallback, chunkSize);
+
+    return PyBool_FromLong(0);
+}

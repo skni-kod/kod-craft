@@ -1,6 +1,8 @@
 #define PY_SSIZE_T_CLEAN
 #include<Python.h>
 
+#define PYTHON_DEFINTION
+
 #include "block.h"
 #include "dimension.h"
 #include "world.h"
@@ -32,23 +34,6 @@ static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs
     return PyBool_FromLong(0);
 }
 
-static PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
-    char *name;
-    PyObject* generateChunkCallback = NULL;
-    int chunkSize = 8;
-
-    static char *kwlist[] = {(char*)"name", (char*)"generateChunkCallback", (char*)"chunkSize", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "sO|i", kwlist,
-        &name, &generateChunkCallback, &chunkSize
-    )) return NULL;
-
-
-    defineDimension(name, generateChunkCallback, chunkSize);
-
-    return PyBool_FromLong(0);
-}
 
 static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *dimensionName;
