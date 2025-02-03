@@ -71,8 +71,6 @@ DimensionTemplate::DimensionTemplate(int chunkSize, PyObject * generateChunkCall
     this->chunkSize = chunkSize;
     this->name = name;
     this->generateChunkCallback = generateChunkCallback;
-
-    dimensionList.push_back(this);
 }
 
 void Dimension::draw() {
