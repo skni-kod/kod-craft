@@ -89,6 +89,7 @@ public:
     void initalize();
 
     Entity();
+    ~Entity();
 
     friend class EntityTask;
 };

@@ -115,6 +115,13 @@ Entity::Entity() {
     this->rotation = new Rotation();
 }
 
+Entity::~Entity() {
+    delete this->rotation;
+    for (int i = 0; i < this->tasks.size(); i++) {
+        delete this->tasks[i];
+    }
+}
+
 void Entity::addTask(EntityTask* task) {
     this->tasks.push_back(task);
 }
@@ -124,6 +131,7 @@ void Entity::execTasks() {
 
     for (int i = 0; i < this->tasks.size(); i++) {
         this->tasks[i]->exec(this);
+        delete this->tasks[i];
     }
     this->tasks.clear();
 }
