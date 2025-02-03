@@ -41,5 +41,6 @@ extern std::vector<BlockTemplate*> blockList;
 BlockTemplate * defineBlock(std::string name, bool solid = true, bool visible = true);
 
 int getDefinedBlockCount();
+void unloadBlocks();
 
 #endif

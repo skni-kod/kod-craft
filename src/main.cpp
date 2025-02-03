@@ -13,6 +13,8 @@ GameState gameState;
 
 void exitGame() {
     unloadWorld();
+    unloadBlocks();
+    unloadDimensions();
     CloseWindow();
 }
 

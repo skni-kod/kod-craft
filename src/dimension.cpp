@@ -106,3 +106,11 @@ void Dimension::loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int dista
 void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
     dimensionList.push_back( new DimensionTemplate(chunkSize, generateChunkCallback, name) );
 }
+
+void unloadDimensions() {
+    for (int i = 0; i < dimensionList.size(); i++) {
+        delete dimensionList[i];
+    }
+
+    dimensionList.clear();
+}

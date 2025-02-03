@@ -56,3 +56,11 @@ BlockTemplate * defineBlock(std::string name, bool solid, bool visible) {
 int getDefinedBlockCount() {
     return blockList.size();
 }
+
+void unloadBlocks() {
+    for (int i = 0; i < blockList.size(); i++) {
+        delete blockList[i];
+    }
+
+    blockList.clear();
+}
