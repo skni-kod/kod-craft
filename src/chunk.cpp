@@ -41,6 +41,7 @@ Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
             }
         }
     }
+    Py_DecRef(chunkArray);
     this->loaded = true;
 }
 
