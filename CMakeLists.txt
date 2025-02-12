@@ -12,6 +12,7 @@ set(PROJECT_SOURCE_FILES
     src/dimension.cpp
     src/py.cpp
     src/entity.cpp
+    src/hitbox.cpp
 )
 
 set(PROJECT_HEADER_FILES
@@ -23,6 +24,7 @@ set(PROJECT_HEADER_FILES
     src/states.h
     src/world.h
     src/entity.h
+    src/hitbox.h
 )
 
 set(PROJECT_PYTHON_FILES
