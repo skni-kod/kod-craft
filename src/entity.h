@@ -3,6 +3,10 @@
 
 class Entity;
 
+struct EntityPosition {
+    double x, y, z;
+};
+
 #include "dimension.h"
 #include <string>
 
@@ -11,10 +15,6 @@ enum TaskType {
     TASK_ENTITY_MOVE,
     TASK_ENTITY_SET_DIMENSION,
     TASK_ENTITY_ADD_VELOCITY
-};
-
-struct EntityPosition {
-    double x, y, z;
 };
 
 class Rotation {
