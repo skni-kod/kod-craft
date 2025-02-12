@@ -4,12 +4,27 @@
 class Hitbox;
 
 #include "entity.h"
+#include "block.h"
+
+enum HitboxParentType {
+	TYPE_ENTITY,
+	TYPE_BLOCK
+};
+
+union HitboxParent {
+	void * vid;
+	BlockTemplate * blk;
+	Entity * ent;
+};
 
 class Hitbox {
 	EntityPosition offset;
 	EntityPosition size;
+
+	HitboxParentType type;
+	HitboxParent parent;
 public:
-	Hitbox(EntityPosition offset, EntityPosition size);
+	Hitbox(void * parent, HitboxParentType type, EntityPosition offset, EntityPosition size);
 };
 
 #endif

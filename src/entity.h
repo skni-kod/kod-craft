@@ -8,6 +8,7 @@ struct EntityPosition {
 };
 
 #include "dimension.h"
+#include "hitbox.h"
 #include <string>
 
 enum TaskType {
@@ -63,6 +64,7 @@ protected:
     bool initalized;
 
     std::vector<EntityTask*> tasks;
+    std::vector<Hitbox*> hitboxes;
 
     virtual void onPositionChanged() {};
 private:
