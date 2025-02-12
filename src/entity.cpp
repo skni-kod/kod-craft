@@ -213,3 +213,12 @@ void Entity::initalize() {
 
     this->initalized = true;
 }
+
+double length(EntityPosition vector) {
+    return std::sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z);
+}
+
+EntityPosition normalize(EntityPosition vector) {
+    vector*=1.0/length(vector);
+    return vector;
+}

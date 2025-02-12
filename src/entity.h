@@ -7,6 +7,9 @@ struct EntityPosition {
     double x, y, z;
 };
 
+double length(EntityPosition vector);
+EntityPosition normalize(EntityPosition vector);
+
 #include "dimension.h"
 #include "hitbox.h"
 #include <string>
