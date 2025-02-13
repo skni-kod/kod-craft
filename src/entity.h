@@ -5,6 +5,27 @@ class Entity;
 
 struct EntityPosition {
     double x, y, z;
+
+    EntityPosition& operator+=(const EntityPosition& other) {
+        this->x+=other.x;
+        this->y+=other.y;
+        this->z+=other.z;
+        return *this;
+    }
+
+    EntityPosition& operator-=(const EntityPosition& other) {
+        this->x-=other.x;
+        this->y-=other.y;
+        this->z-=other.z;
+        return *this;
+    }
+
+    EntityPosition& operator*=(const double scalar) {
+        this->x*=scalar;
+        this->y*=scalar;
+        this->z*=scalar;
+        return *this;
+    }
 };
 
 double length(EntityPosition vector);
