@@ -25,6 +25,8 @@ class Hitbox {
 	HitboxParent parent;
 public:
 	Hitbox(void * parent, HitboxParentType type, EntityPosition offset, EntityPosition size);
+
+	EntityPosition collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z);
 };
 
 #endif

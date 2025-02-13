@@ -118,6 +118,7 @@ public:
     ~Entity();
 
     friend class EntityTask;
+    friend class Hitbox;
 };
 
 #endif
