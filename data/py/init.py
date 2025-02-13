@@ -24,6 +24,7 @@ game.defineDimension("kodland", generateFlatLand, chunkSize=8)
 
 def onWorldLoad():
     game.setPlayerDimension("kodland")
+    game.setPlayerCameraOffset(0, 0, 1.75)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 

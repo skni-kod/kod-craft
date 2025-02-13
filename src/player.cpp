@@ -10,7 +10,7 @@ Player* player;
 PyObject * onPlayerPositionChangedCallback = NULL;
 
 Player::Player() : Entity() {
-    this->cameraOffset = {0, 0, 1.75};
+    this->cameraOffset = {0, 0, 0};
 }
 
 double sensitivity = 0.01;
@@ -68,3 +68,22 @@ void Player::processTick() {
 void Player::onPositionChanged() {
     if (onPlayerPositionChangedCallback) PyObject_CallObject(onPlayerPositionChangedCallback, NULL);
 }
+
+void Player::setCameraOffset(EntityPosition offset) {
+    this->cameraOffset = offset;
+}
+
+PyObject *py_setPlayerCameraOffset(PyObject *self, PyObject *args, PyObject *kwargs) {
+    double x, y, z;
+    static char *kwlist[] = {(char*)"x", (char*)"y", (char*)"z", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    player->setCameraOffset({x, y, z});
+
+    return PyBool_FromLong(0);
+}
+

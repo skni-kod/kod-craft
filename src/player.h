@@ -19,8 +19,16 @@ public:
     void render();
 
     void processTick();
+
+
+    void setCameraOffset(EntityPosition offset);
 };
 
 extern PyObject * onPlayerPositionChangedCallback;
 
+#ifdef PYTHON_DEFINTION
+
+PyObject *py_setPlayerCameraOffset(PyObject *self, PyObject *args, PyObject *kwargs);
+
+#endif
 #endif
