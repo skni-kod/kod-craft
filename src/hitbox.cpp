@@ -6,6 +6,12 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 
 	this->offset = offset;
 	this->size = size;
+
+	switch (type) {
+	case TYPE_ENTITY:
+		this->parent.ent->hitboxes.push_back(this);
+		break;
+	}
 }
 
 EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
