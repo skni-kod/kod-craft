@@ -6,6 +6,7 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 
 	this->offset = offset;
 	this->size = size;
+	this->size *= 0.5;
 
 	switch (type) {
 	case TYPE_ENTITY:
