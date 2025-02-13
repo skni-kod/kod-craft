@@ -10,6 +10,7 @@ Player* player;
 PyObject * onPlayerPositionChangedCallback = NULL;
 
 Player::Player() : Entity() {
+    this->cameraOffset = {0, 0, 1.75};
 }
 
 double sensitivity = 0.01;
@@ -20,6 +21,8 @@ void Player::render() {
     Camera3D camera = { 0 };
 
     EntityPosition playerPosition = player->getInterpPosition();
+    EntityPosition cameraPosition = playerPosition;
+    cameraPosition += this->cameraOffset;
 
     Rotation* playerRotation = player->getRotation();
     Vector2 mouseDelta = GetMouseDelta();
@@ -38,12 +41,12 @@ void Player::render() {
     lookVector.y = sin(playerYaw) * abs(cos(playerPitch));
     lookVector.z = sin(playerPitch);
 
-    lookVector.x+= (float)playerPosition.x;
-    lookVector.y+= (float)playerPosition.y;
-    lookVector.z+= (float)playerPosition.z;
+    lookVector.x+= (float)cameraPosition.x;
+    lookVector.y+= (float)cameraPosition.y;
+    lookVector.z+= (float)cameraPosition.z;
 
     //TODO
-    camera.position = (Vector3){ (float)playerPosition.x, (float)playerPosition.y, (float)playerPosition.z };
+    camera.position = (Vector3){ (float)cameraPosition.x, (float)cameraPosition.y, (float)cameraPosition.z };
     camera.target = lookVector;
     camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
     camera.fovy = 90.0f;

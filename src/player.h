@@ -11,6 +11,8 @@ extern Player* player;
 class Player : public Entity {
 private:
     void onPositionChanged();
+
+    EntityPosition cameraOffset;
 public:
     Player();
 
