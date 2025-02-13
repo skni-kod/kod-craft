@@ -8,6 +8,7 @@ class BlockTemplate;
 class Block;
 
 #include "dimension.h"
+#include "hitbox.h"
 #include "raylib.h"
 
 class Block {
@@ -28,6 +29,8 @@ public:
     int id;
     std::string name;
     bool solid, visible;
+
+    std::vector<Hitbox*> hitboxes;
 
     Texture2D texture;
 

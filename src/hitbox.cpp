@@ -11,6 +11,9 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	case TYPE_ENTITY:
 		this->parent.ent->hitboxes.push_back(this);
 		break;
+	case TYPE_BLOCK:
+		this->parent.blk->hitboxes.push_back(this);
+		break;
 	}
 }
 
