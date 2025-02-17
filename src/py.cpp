@@ -128,8 +128,6 @@ static PyObject *py_setOnPlayerPositionChangedCallback(PyObject *self, PyObject 
 static PyMethodDef pyMethods[] = {
     {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
-    {"defineDimension", (PyCFunction)py_defineDimension, METH_VARARGS | METH_KEYWORDS,
-     "Define a dimension defineDimension(name, generateChunkCallback, chunkSize=32)."},
     {"setPlayerDimension", (PyCFunction)py_setPlayerDimension, METH_VARARGS | METH_KEYWORDS,
      "Set player's dimension."},
      {"setPlayerPosition", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
@@ -153,14 +151,34 @@ static PyModuleDef gamePyModule = {
     NULL, NULL, NULL, NULL
 };
 
+#define addClassToModule(cls, name)\
+    PyType_Ready(&cls);\
+    if (PyModule_AddObjectRef(module, #name, (PyObject *) &cls) < 0) {\
+        Py_DECREF(module);\
+        return NULL;\
+    }
+
 static PyObject* PyInit_Game() {
-    return PyModule_Create(&gamePyModule);
+    PyObject *module = PyModule_Create(&gamePyModule);
+
+    addClassToModule(py_DimensionClass, Dimension);
+
+    return module;
 }
 
+#define setClassDefaults(cls) \
+    cls.ob_base = PyVarObject_HEAD_INIT(nullptr, 0)\
+    cls.tp_basicsize = sizeof(void*);\
+    cls.tp_itemsize = 0;\
+    cls.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;\
+    cls.tp_new = PyType_GenericNew;
 
 void initPython() {
     if (isPythonInitalized) return;
 
+    setClassDefaults(py_DimensionClass)
+    py_DimensionClass.tp_name = "game.Dimension";
+    py_DimensionClass.tp_init = reinterpret_cast<initproc>(py_defineDimension);
 
     PyImport_AppendInittab("game", &PyInit_Game);
 

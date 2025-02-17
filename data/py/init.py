@@ -19,7 +19,7 @@ def generateFlatLand(x, y, z, size):
 
     return [[["air"]*size]*size]*size
 
-game.defineDimension("kodland", generateFlatLand, chunkSize=8)
+kodland = game.Dimension("kodland", generateFlatLand, chunkSize=8)
 
 
 def onWorldLoad():

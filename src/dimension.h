@@ -56,7 +56,8 @@ void unloadDimensions();
 
 #ifdef PYTHON_DEFINTION
 
-PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs);
+PyTypeObject py_DimensionClass;
+int *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs);
 
 #endif
 #endif

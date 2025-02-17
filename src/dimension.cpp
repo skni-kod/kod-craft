@@ -114,7 +114,7 @@ void unloadDimensions() {
 }
 
 
-PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
+int *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *name;
     PyObject* generateChunkCallback = NULL;
     int chunkSize = 8;
@@ -129,5 +129,5 @@ PyObject *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
 
     defineDimension(name, generateChunkCallback, chunkSize);
 
-    return PyBool_FromLong(0);
+    return 0;
 }
