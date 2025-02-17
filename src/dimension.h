@@ -51,13 +51,13 @@ public:
 
 extern std::vector<DimensionTemplate*> dimensionList;
 
-void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize);
+DimensionTemplate * defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize);
 void unloadDimensions();
 
 #ifdef PYTHON_DEFINTION
 
 PyTypeObject py_DimensionClass;
-int *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs);
+int *py_defineDimension(DimensionTemplate** self, PyObject *args, PyObject *kwargs);
 
 #endif
 #endif

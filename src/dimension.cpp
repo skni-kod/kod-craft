@@ -101,8 +101,11 @@ void Dimension::loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int dista
     }
 }
 
-void defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
-    dimensionList.push_back( new DimensionTemplate(chunkSize, generateChunkCallback, name) );
+
+DimensionTemplate * defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
+    DimensionTemplate * definedDimension = new DimensionTemplate(chunkSize, generateChunkCallback, name);
+    dimensionList.push_back( definedDimension );
+    return definedDimension;
 }
 
 void unloadDimensions() {
@@ -114,7 +117,7 @@ void unloadDimensions() {
 }
 
 
-int *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
+int *py_defineDimension(DimensionTemplate** self, PyObject *args, PyObject *kwargs) {
     char *name;
     PyObject* generateChunkCallback = NULL;
     int chunkSize = 8;
@@ -127,7 +130,7 @@ int *py_defineDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
     )) return NULL;
 
 
-    defineDimension(name, generateChunkCallback, chunkSize);
+    *self = defineDimension(name, generateChunkCallback, chunkSize);
 
     return 0;
 }
