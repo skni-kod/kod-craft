@@ -1,6 +1,7 @@
 #include "dimension.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 std::vector<DimensionTemplate*> dimensionList;
 
@@ -101,6 +102,13 @@ void Dimension::loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int dista
     }
 }
 
+void Dimension::addEntity(Entity * entity) {
+    this->entities.push_back(entity);
+}
+
+void Dimension::removeEntity(Entity * entity) {
+    this->entities.erase(std::find(this->entities.begin(), this->entities.end(), entity));
+}
 
 DimensionTemplate * defineDimension(std::string name, PyObject * generateChunkCallback, int chunkSize) {
     DimensionTemplate * definedDimension = new DimensionTemplate(chunkSize, generateChunkCallback, name);

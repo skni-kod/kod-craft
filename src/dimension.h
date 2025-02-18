@@ -9,11 +9,13 @@ class Dimension;
 #include<string>
 
 #include "chunk.h"
+#include "entity.h"
 
 class DimensionTemplate;
 
 class Dimension {
 private:
+    std::vector<Entity*> entities;
     std::vector<Chunk*> chunks;
     int chunkSize;
     DimensionTemplate * propeties;
@@ -37,6 +39,9 @@ public:
     void loadChunk(ChunkPos x, ChunkPos y, ChunkPos z);
     void loadAroundPosition(WorldPos x, WorldPos y, WorldPos z, int distance);
     void processTick();
+
+    void addEntity(Entity * entity);
+    void removeEntity(Entity * entity);
 };
 
 class DimensionTemplate {

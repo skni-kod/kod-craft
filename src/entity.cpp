@@ -77,6 +77,12 @@ EntityTask::EntityTask(TaskType type, void * data) {
 void EntityTask::exec(Entity* entity) {
     switch(this->type) {
     case TASK_ENTITY_SET_DIMENSION:
+        if (entity->dimension != NULL) {
+            entity->dimension->removeEntity(entity);
+        }
+        if (this->data.dimension != NULL) {
+            this->data.dimension->addEntity(entity);
+        }
         entity->dimension = this->data.dimension;
         break;
     case TASK_ENTITY_SET_POSITION:
