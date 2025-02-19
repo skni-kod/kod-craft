@@ -29,6 +29,7 @@ extern PyObject * onPlayerPositionChangedCallback;
 #ifdef PYTHON_DEFINTION
 
 PyObject *py_setPlayerCameraOffset(PyObject *self, PyObject *args, PyObject *kwargs);
+PyObject *py_getPlayer(PyObject *self, PyObject *args, PyObject *kwargs);
 
 #endif
 #endif

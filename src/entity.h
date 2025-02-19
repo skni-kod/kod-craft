@@ -121,4 +121,41 @@ public:
     friend class Hitbox;
 };
 
+#ifdef PYTHON_DEFINTION
+#define USE_PYTHON
+#endif
+
+#ifdef USE_PYTHON
+
+struct py_EntityClass {
+    PyObject_HEAD
+    Entity* instance;
+};
+
+#endif
+
+#ifdef PYTHON_DEFINTION
+
+PyTypeObject py_EntityClassType;
+
+int pyInitEntity(py_EntityClass* self, PyObject* args, PyObject* kwargs);
+
+PyObject *py_setEntityDimension(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_setEntityPosition(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_moveEntity(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+
+static PyMethodDef pyMethodsEntity[] = {
+    {"setDimension", (PyCFunction)py_setEntityDimension, METH_VARARGS | METH_KEYWORDS,
+     "Set object's dimension."},
+     {"setPosition", (PyCFunction)py_setEntityPosition, METH_VARARGS | METH_KEYWORDS,
+     "Set object's position directly."},
+     {"move", (PyCFunction)py_moveEntity, METH_VARARGS | METH_KEYWORDS,
+     "Change object's position by a delta."},
+     {"applyForce", (PyCFunction)py_entityApplyForce, METH_VARARGS | METH_KEYWORDS,
+     "Change object's velocity by a delta."},
+    {NULL, NULL, 0, NULL}
+};
+
+#endif
 #endif

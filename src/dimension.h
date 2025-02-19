@@ -49,6 +49,8 @@ public:
     int chunkSize;
     std::string name;
 
+    Dimension * dimension;
+
     PyObject * generateChunkCallback;
 
     DimensionTemplate(int chunkSize, PyObject * generateChunkCallback, std::string name);
@@ -60,9 +62,25 @@ DimensionTemplate * defineDimension(std::string name, PyObject * generateChunkCa
 void unloadDimensions();
 
 #ifdef PYTHON_DEFINTION
+#define USE_PYTHON
+#endif
 
-PyTypeObject py_DimensionClass;
-int *py_defineDimension(DimensionTemplate** self, PyObject *args, PyObject *kwargs);
+#ifdef USE_PYTHON
+
+struct py_DimensionClass {
+    PyObject_HEAD
+    DimensionTemplate* instance;
+};
+
+Dimension * getDimensionInstance(py_DimensionClass self);
+
+
+#endif
+
+#ifdef PYTHON_DEFINTION
+
+PyTypeObject py_DimensionClassType;
+int *py_defineDimension(py_DimensionClass * self, PyObject *args, PyObject *kwargs);
 
 #endif
 #endif

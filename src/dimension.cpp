@@ -1,3 +1,4 @@
+#define USE_PYTHON
 #include "dimension.h"
 
 #include <stdexcept>
@@ -7,6 +8,7 @@ std::vector<DimensionTemplate*> dimensionList;
 
 Dimension::Dimension(int type) {
     this->propeties = dimensionList[type];
+    this->propeties->dimension = this;
 
     this->chunkSize = this->propeties->chunkSize;
 }
@@ -125,7 +127,11 @@ void unloadDimensions() {
 }
 
 
-int *py_defineDimension(DimensionTemplate** self, PyObject *args, PyObject *kwargs) {
+Dimension * getDimensionInstance(py_DimensionClass self) {
+    return self.instance->dimension;
+}
+
+int *py_defineDimension(py_DimensionClass * self, PyObject *args, PyObject *kwargs) {
     char *name;
     PyObject* generateChunkCallback = NULL;
     int chunkSize = 8;
@@ -138,7 +144,7 @@ int *py_defineDimension(DimensionTemplate** self, PyObject *args, PyObject *kwar
     )) return NULL;
 
 
-    *self = defineDimension(name, generateChunkCallback, chunkSize);
+    self->instance = defineDimension(name, generateChunkCallback, chunkSize);
 
     return 0;
 }

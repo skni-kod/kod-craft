@@ -1,5 +1,6 @@
 #include "raylib.h"
 
+#define USE_PYTHON
 #include "player.h"
 #include "world.h"
 
@@ -85,5 +86,13 @@ PyObject *py_setPlayerCameraOffset(PyObject *self, PyObject *args, PyObject *kwa
     player->setCameraOffset({x, y, z});
 
     return PyBool_FromLong(0);
+}
+
+extern PyTypeObject py_EntityClassType;
+
+PyObject * py_getPlayer(PyObject *self, PyObject *args, PyObject *kwargs) {
+    py_EntityClass* playerObject = (py_EntityClass*) _PyObject_New(&py_EntityClassType);
+    playerObject->instance = player;
+    return (PyObject *)playerObject;
 }
 

@@ -23,14 +23,16 @@ kodland = game.Dimension("kodland", generateFlatLand, chunkSize=8)
 
 
 def onWorldLoad():
-    game.setPlayerDimension("kodland")
+    global player
+    player = game.getPlayer()
+    player.setDimension(kodland)
     game.setPlayerCameraOffset(0, 0, 1.75)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
 
 def onPlayerPositionChanged():
-    game.movePlayer(-0.1, 0.1, 0.1)
-    game.playerApplyForce(0.0, 0.001, 0.0)
+    player.move(-0.1, 0.1, 0.1)
+    player.applyForce(0.0, 0.001, 0.0)
 
 game.setOnPlayerPositionChangedCallback(onPlayerPositionChanged)

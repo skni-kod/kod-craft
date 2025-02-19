@@ -35,72 +35,6 @@ static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs
 }
 
 
-static PyObject *py_setPlayerDimension(PyObject *self, PyObject *args, PyObject *kwargs) {
-    char *dimensionName;
-
-    static char *kwlist[] = {(char*)"dimensionName", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "s", kwlist,
-        &dimensionName
-    )) return NULL;
-
-    player->setDimension(dimensionName);
-
-    return PyBool_FromLong(0);
-}
-
-static PyObject *py_setPlayerPosition(PyObject *self, PyObject *args, PyObject *kwargs) {
-    double x;
-    double y;
-    double z;
-
-    static char *kwlist[] = {(char*)"new Player X position", (char*)"new Player Y position", (char*)"new Player Z position", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "ddd", kwlist,
-        &x, &y, &z
-    )) return NULL;
-
-    player->setPosition({x, y, z});
-
-    return PyBool_FromLong(0);
-}
-
-static PyObject *py_movePlayer(PyObject *self, PyObject *args, PyObject *kwargs) {
-    double x;
-    double y;
-    double z;
-
-    static char *kwlist[] = {(char*)"player X position delta", (char*)"player Y position delta", (char*)"player Z position delta", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "ddd", kwlist,
-        &x, &y, &z
-    )) return NULL;
-
-    player->move({x, y, z});
-
-    return PyBool_FromLong(0);
-}
-
-static PyObject *py_playerApplyForce(PyObject *self, PyObject *args, PyObject *kwargs) {
-    double x;
-    double y;
-    double z;
-
-    static char *kwlist[] = {(char*)"force X axis", (char*)"force Y axis", (char*)"force Z axis", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "ddd", kwlist,
-        &x, &y, &z
-    )) return NULL;
-
-    player->applyFoce({x, y, z});
-
-    return PyBool_FromLong(0);
-}
-
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     static char *kwlist[] = {(char*)"onWorldLoadCallback", NULL};
 
@@ -128,20 +62,14 @@ static PyObject *py_setOnPlayerPositionChangedCallback(PyObject *self, PyObject 
 static PyMethodDef pyMethods[] = {
     {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
      "Define a block in the game to be used."},
-    {"setPlayerDimension", (PyCFunction)py_setPlayerDimension, METH_VARARGS | METH_KEYWORDS,
-     "Set player's dimension."},
-     {"setPlayerPosition", (PyCFunction)py_setPlayerPosition, METH_VARARGS | METH_KEYWORDS,
-     "Set player's position directly."},
-     {"movePlayer", (PyCFunction)py_movePlayer, METH_VARARGS | METH_KEYWORDS,
-     "Change player's position by a delta."},
-     {"playerApplyForce", (PyCFunction)py_playerApplyForce, METH_VARARGS | METH_KEYWORDS,
-     "Change player's velocity."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
      {"setOnPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on player position change."},
      {"setPlayerCameraOffset", (PyCFunction)py_setPlayerCameraOffset, METH_VARARGS | METH_KEYWORDS,
      "Set an offset for the player camera relative to the player's origin."},
+     {"getPlayer", (PyCFunction)py_getPlayer, METH_VARARGS | METH_KEYWORDS,
+     "Get the player class."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -161,14 +89,14 @@ static PyModuleDef gamePyModule = {
 static PyObject* PyInit_Game() {
     PyObject *module = PyModule_Create(&gamePyModule);
 
-    addClassToModule(py_DimensionClass, Dimension);
+    addClassToModule(py_DimensionClassType, Dimension);
+    addClassToModule(py_EntityClassType, Entity);
 
     return module;
 }
 
 #define setClassDefaults(cls) \
     cls.ob_base = PyVarObject_HEAD_INIT(nullptr, 0)\
-    cls.tp_basicsize = sizeof(void*);\
     cls.tp_itemsize = 0;\
     cls.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;\
     cls.tp_new = PyType_GenericNew;
@@ -176,9 +104,17 @@ static PyObject* PyInit_Game() {
 void initPython() {
     if (isPythonInitalized) return;
 
-    setClassDefaults(py_DimensionClass)
-    py_DimensionClass.tp_name = "game.Dimension";
-    py_DimensionClass.tp_init = reinterpret_cast<initproc>(py_defineDimension);
+    setClassDefaults(py_DimensionClassType)
+    py_DimensionClassType.tp_name = "game.Dimension";
+    py_DimensionClassType.tp_basicsize = sizeof(py_DimensionClass);
+    py_DimensionClassType.tp_init = reinterpret_cast<initproc>(py_defineDimension);
+
+    setClassDefaults(py_EntityClassType)
+    py_EntityClassType.tp_name = "game.Entity";
+    py_EntityClassType.tp_basicsize = sizeof(py_EntityClass);
+    py_EntityClassType.tp_init = reinterpret_cast<initproc>(pyInitEntity);
+    py_EntityClassType.tp_methods = pyMethodsEntity;
+
 
     PyImport_AppendInittab("game", &PyInit_Game);
 

@@ -1,3 +1,4 @@
+#define USE_PYTHON
 #include "entity.h"
 #include "world.h"
 
@@ -227,4 +228,76 @@ double length(EntityPosition vector) {
 EntityPosition normalize(EntityPosition vector) {
     vector*=1.0/length(vector);
     return vector;
+}
+
+int pyInitEntity(py_EntityClass* self, PyObject* args, PyObject* kwargs) {
+    self->instance = new Entity();
+    return 0;
+}
+
+PyObject *py_setEntityDimension(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    py_DimensionClass* py_dimension;
+
+    static char *kwlist[] = {(char*)"dimension", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &py_dimension
+    )) return NULL;
+
+    self->instance->setDimension(getDimensionInstance(*py_dimension));
+
+    return PyBool_FromLong(0);
+}
+
+PyObject *py_setEntityPosition(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    double x;
+    double y;
+    double z;
+
+    static char *kwlist[] = {(char*)"x", (char*)"y", (char*)"z", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    self->instance->setPosition({x, y, z});
+
+    return PyBool_FromLong(0);
+}
+
+PyObject *py_moveEntity(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    double x;
+    double y;
+    double z;
+
+    static char *kwlist[] = {(char*)"dX", (char*)"dY", (char*)"dZ", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    self->instance->move({x, y, z});
+
+    return PyBool_FromLong(0);
+}
+
+
+PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    double x;
+    double y;
+    double z;
+
+    static char *kwlist[] = {(char*)"fX", (char*)"fY", (char*)"fZ", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "ddd", kwlist,
+        &x, &y, &z
+    )) return NULL;
+
+    self->instance->applyFoce({x, y, z});
+
+    return PyBool_FromLong(0);
 }
