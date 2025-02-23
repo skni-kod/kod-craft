@@ -20,6 +20,11 @@ Block::Block(int id) {
     this->propeties = blockList[id];
 }
 
+Block::Block(PyObject* self) {
+    py_BlockClass* blockTemplate = (py_BlockClass*) self;
+    this->propeties = blockTemplate->instance;
+}
+
 void Block::draw(WorldPos x, WorldPos y, WorldPos z) {
     if (this->propeties->visible == false) return;
     

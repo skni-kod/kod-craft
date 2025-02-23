@@ -37,7 +37,7 @@ Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
             for (int bZ = 0; bZ < chunkSize; bZ++) {
                 PyObject* chunkBlock = PyList_GetItem(chunkArrayXY, bZ);
 
-                this->getBlock(bX, bY, bZ) = Block(PyUnicode_AsUTF8(chunkBlock));
+                this->getBlock(bX, bY, bZ) = Block(chunkBlock);
             }
         }
     }

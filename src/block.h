@@ -17,6 +17,7 @@ private:
 public:
     Block(int id);
     Block(std::string name);
+    Block(PyObject* self);
 
     std::string getName();
     bool isSolid();

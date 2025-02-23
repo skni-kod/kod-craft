@@ -15,9 +15,9 @@ def generateEmptyChunk(x, y, z, size):
 
 def generateFlatLand(x, y, z, size):
     if z<0:
-        return [[["stone"]*size]*size]*size
+        return [[[stone]*size]*size]*size
 
-    return [[["air"]*size]*size]*size
+    return [[[air]*size]*size]*size
 
 kodland = game.Dimension("kodland", generateFlatLand, chunkSize=8)
 
