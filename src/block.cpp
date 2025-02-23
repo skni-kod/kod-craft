@@ -1,3 +1,5 @@
+#define USE_PYTHON
+
 #include "block.h"
 #include "raylib.h"
 
@@ -63,4 +65,33 @@ void unloadBlocks() {
     }
 
     blockList.clear();
+}
+
+int pyInitBlock(py_BlockClass* self, PyObject* args, PyObject* kwargs) {
+    char *name;
+    int solid = 1;
+    int visible = 1;
+    char *texture = NULL;
+
+    static char *kwlist[] = {(char*)"name", (char*)"texture", (char*)"solid", (char*)"visible", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "s|spp", kwlist,
+        &name, &texture, &solid, &visible
+    )) return NULL;
+
+    BlockTemplate * createdBlock = defineBlock(name, solid, visible);
+    
+    if (texture) {
+        createdBlock->setTexture(texture);
+    }
+
+    self->instance = createdBlock;
+
+    return 0;
+}
+
+int pyInitBlockInstance(py_BlockInstanceClass* self, PyObject* args, PyObject* kwargs) {
+    // don't allow BlockInstance creation directly in python
+    return -1;
 }

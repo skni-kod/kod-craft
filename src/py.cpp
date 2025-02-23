@@ -11,30 +11,6 @@
 bool isPythonInitalized = false;
 
 
-static PyObject *py_defineBlock(PyObject *self, PyObject *args, PyObject *kwargs) {
-    char *name;
-    int solid = 1;
-    int visible = 1;
-    char *texture = NULL;
-
-    static char *kwlist[] = {(char*)"name", (char*)"texture", (char*)"solid", (char*)"visible", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-        "s|spp", kwlist,
-        &name, &texture, &solid, &visible
-    )) return NULL;
-
-
-    BlockTemplate * createdBlock = defineBlock(name, solid, visible);
-    
-    if (texture) {
-        createdBlock->setTexture(texture);
-    }
-
-    return PyBool_FromLong(0);
-}
-
-
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     static char *kwlist[] = {(char*)"onWorldLoadCallback", NULL};
 
@@ -60,8 +36,6 @@ static PyObject *py_setOnPlayerPositionChangedCallback(PyObject *self, PyObject 
 }
 
 static PyMethodDef pyMethods[] = {
-    {"defineBlock", (PyCFunction)py_defineBlock, METH_VARARGS | METH_KEYWORDS,
-     "Define a block in the game to be used."},
     {"setOnWorldLoadCallback", (PyCFunction)py_setOnWorldLoadCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on world load."},
      {"setOnPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
@@ -91,6 +65,8 @@ static PyObject* PyInit_Game() {
 
     addClassToModule(py_DimensionClassType, Dimension);
     addClassToModule(py_EntityClassType, Entity);
+    addClassToModule(py_BlockClassType, Block);
+    addClassToModule(py_BlockInstanceClassType, BlockInstance);
 
     return module;
 }
@@ -114,6 +90,16 @@ void initPython() {
     py_EntityClassType.tp_basicsize = sizeof(py_EntityClass);
     py_EntityClassType.tp_init = reinterpret_cast<initproc>(pyInitEntity);
     py_EntityClassType.tp_methods = pyMethodsEntity;
+
+    setClassDefaults(py_BlockClassType)
+    py_BlockClassType.tp_name = "game.Block";
+    py_BlockClassType.tp_basicsize = sizeof(py_BlockInstanceClass);
+    py_BlockClassType.tp_init = reinterpret_cast<initproc>(pyInitBlock);
+
+    setClassDefaults(py_BlockInstanceClassType)
+    py_BlockInstanceClassType.tp_name = "game.BlockInstance";
+    py_BlockInstanceClassType.tp_basicsize = sizeof(py_BlockClass);
+    py_BlockInstanceClassType.tp_init = reinterpret_cast<initproc>(pyInitBlockInstance);
 
 
     PyImport_AppendInittab("game", &PyInit_Game);

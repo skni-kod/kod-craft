@@ -1,11 +1,11 @@
 import game
 
-game.defineBlock("air",
+air = game.Block("air",
     solid = False,
     visible = False
     )
 
-game.defineBlock("stone",
+stone = game.Block("stone",
     texture = "stone.png",
     solid = True
     )
