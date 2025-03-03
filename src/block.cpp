@@ -83,7 +83,7 @@ int pyInitBlock(py_BlockClass* self, PyObject* args, PyObject* kwargs) {
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
         "s|spp", kwlist,
         &name, &texture, &solid, &visible
-    )) return NULL;
+    )) return -1;
 
     BlockTemplate * createdBlock = defineBlock(name, solid, visible);
     
