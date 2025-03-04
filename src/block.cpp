@@ -57,6 +57,10 @@ BlockTemplate * defineBlock(std::string name, bool solid, bool visible) {
 
     blockList.push_back(newBlock);
 
+    if (newBlock->solid) {
+        new Hitbox(newBlock, TYPE_BLOCK, {0, 0, 0}, {1, 1, 1});
+    }
+
     return newBlock;
 }
 
