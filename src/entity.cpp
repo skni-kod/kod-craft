@@ -301,3 +301,19 @@ PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kw
 
     return PyBool_FromLong(0);
 }
+
+PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    EntityPosition offset;
+    EntityPosition size;
+
+    static char *kwlist[] = {(char*)"dX", (char*)"dY", (char*)"dZ", (char*)"sX", (char*)"xY", (char*)"sZ", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "dddddd", kwlist,
+        &offset.x, &offset.y, &offset.z, &size.x, &size.y, &size.z
+    )) return NULL;
+
+    new Hitbox(self->instance, TYPE_ENTITY, offset, size);
+
+    return PyBool_FromLong(0);
+}

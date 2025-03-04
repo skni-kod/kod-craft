@@ -27,6 +27,7 @@ def onWorldLoad():
     player = game.getPlayer()
     player.setDimension(kodland)
     game.setPlayerCameraOffset(0, 0, 1.75)
+    player.addHitbox(0,0,1, 1,1,2)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
