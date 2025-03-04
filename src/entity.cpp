@@ -88,15 +88,11 @@ void EntityTask::exec(Entity* entity) {
         break;
     case TASK_ENTITY_SET_POSITION:
         entity->pos = this->data.position;
-
-        entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_MOVE:
         entity->pos.x+= this->data.position.x;
         entity->pos.y+= this->data.position.y;
         entity->pos.z+= this->data.position.z;
-
-        entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_ADD_VELOCITY:
         entity->vel.x+= this->data.position.x;
@@ -116,8 +112,6 @@ Entity::Entity() {
 
     this->dimension = NULL;
     this->initalized = false;
-
-    this->positionHasChanged = true;
 
     this->rotation = new Rotation();
 }
@@ -208,9 +202,13 @@ void Entity::processTick() {
 
     this->execTasks();
 
+    this->positionHasChanged =!(this->oldPosition.x == this->pos.x && 
+                                this->oldPosition.y == this->pos.y &&
+                                this->oldPosition.z == this->pos.z);
+
     if (this->positionHasChanged) this->onPositionChanged();
 
-    this->positionHasChanged = false;
+    this->checkWorldCollision();
 }
 
 void Entity::initalize() {
