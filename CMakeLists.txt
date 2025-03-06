@@ -29,7 +29,7 @@ set(PROJECT_HEADER_FILES
 
 set(PROJECT_PYTHON_FILES
     data/py/init.py
-    data/textures/stone.png
+    data/textures/blocks/stone.png
 )
 
 set(PY_OUT ".")
