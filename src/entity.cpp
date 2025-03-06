@@ -202,9 +202,7 @@ void Entity::processTick() {
 
     this->execTasks();
 
-    this->positionHasChanged =!(this->oldPosition.x == this->pos.x && 
-                                this->oldPosition.y == this->pos.y &&
-                                this->oldPosition.z == this->pos.z);
+    this->positionHasChanged =!(this->oldPosition == this->pos);
 
     if (this->positionHasChanged) this->onPositionChanged();
 

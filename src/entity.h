@@ -26,6 +26,13 @@ struct EntityPosition {
         this->z*=scalar;
         return *this;
     }
+
+    bool operator==(const EntityPosition& other) {
+        if (this->x != other.x) return false;
+        if (this->y != other.y) return false;
+        if (this->z != other.z) return false;
+        return true;
+    }
 };
 
 double length(EntityPosition vector);
