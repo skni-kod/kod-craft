@@ -51,6 +51,8 @@ include_directories("${CMAKE_BINARY_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/src/lib/raylib/src")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/lib/raylib")
 add_executable(kod-craft)
+target_compile_features(kod-craft PRIVATE cxx_std_20)
+add_compile_definitions(_USE_MATH_DEFINES)
 add_dependencies(kod-craft PyData)
 target_sources(kod-craft PRIVATE ${PROJECT_SOURCE_FILES} 
     PRIVATE FILE_SET HEADERS BASE_DIRS ${CMAKE_SOURCE_DIR} FILES ${PROJECT_HEADER_FILES}

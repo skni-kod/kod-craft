@@ -3,7 +3,7 @@
 #include "world.h"
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 Rotation::Rotation(double pitch, double yaw, double roll) {
     this->pitch = pitch;
@@ -222,7 +222,7 @@ void Entity::initalize() {
 }
 
 double length(EntityPosition vector) {
-    return std::sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z);
+    return std::hypot(vector.x,vector.y,vector.z);
 }
 
 EntityPosition normalize(EntityPosition vector) {
