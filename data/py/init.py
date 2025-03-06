@@ -28,12 +28,13 @@ def onWorldLoad():
     player.setDimension(kodland)
     game.setPlayerCameraOffset(0, 0, 1.75)
     player.addHitbox(0,0,1, 1,1,2)
+    player.setPosition(0, 0, 10)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
 
 def onPlayerPositionChanged():
-    player.move(-0.1, 0.1, 0.1)
-    player.applyForce(0.0, 0.001, 0.0)
+    player.move(-0.1, 0.1, 0.4)
+    player.applyForce(0.0, 0.0, -0.01)
 
 game.setOnPlayerPositionChangedCallback(onPlayerPositionChanged)
