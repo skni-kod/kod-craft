@@ -123,6 +123,13 @@ Entity::~Entity() {
     }
 }
 
+void Entity::checkWorldCollision() {
+    EntityPosition noCollision = {0, 0, 0};
+    for (int i = 0; i < this->hitboxes.size(); i++) {
+
+    }
+}
+
 void Entity::addTask(EntityTask* task) {
     this->tasks.push_back(task);
 }

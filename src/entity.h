@@ -102,6 +102,8 @@ private:
     void addTask(EntityTask* task);
     void execTasks();
 
+    void checkWorldCollision();
+
     EntityPosition oldPosition;
 
     bool positionHasChanged;
