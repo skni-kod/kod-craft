@@ -47,9 +47,9 @@ void Player::render() {
     lookVector.z+= (float)cameraPosition.z;
 
     //TODO
-    camera.position = (Vector3){ (float)cameraPosition.x, (float)cameraPosition.y, (float)cameraPosition.z };
+    camera.position = Vector3{ (float)cameraPosition.x, (float)cameraPosition.y, (float)cameraPosition.z };
     camera.target = lookVector;
-    camera.up = (Vector3){ 0.0f, 0.0f, 1.0f };
+    camera.up = Vector3{ 0.0f, 0.0f, 1.0f };
     camera.fovy = 90.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 

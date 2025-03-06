@@ -5,6 +5,7 @@ const int tickRate = 25; // 25 tps
 
 #include "dimension.h"
 #include <thread>
+#include <chrono>
 
 class World {
 private:
