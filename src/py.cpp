@@ -9,6 +9,7 @@
 #include "player.h"
 
 bool isPythonInitalized = false;
+PyThreadState* mainThreadState = NULL;
 
 
 static PyObject *py_setOnWorldLoadCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
@@ -105,7 +106,8 @@ void initPython() {
     PyImport_AppendInittab("game", &PyInit_Game);
 
     Py_Initialize();
-
+    PyEval_InitThreads();   
+    mainThreadState = PyThreadState_Get();
     PyObject *obj = Py_BuildValue("s", "data/py/init.py");
     FILE* fp = _Py_fopen_obj(obj, "r+");;
     PyRun_SimpleFile(fp, "data/py/init.py");
