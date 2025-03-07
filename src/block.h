@@ -11,6 +11,19 @@ class Block;
 #include "hitbox.h"
 #include "raylib.h"
 
+struct BlockNeighbourhood {
+    const bool above : 1;
+    const bool below: 1;
+    const bool north : 1;
+    const bool south : 1;
+    const bool east : 1;
+    const bool west : 1;
+
+    constexpr BlockNeighbourhood(bool above, bool below, bool north, bool south, bool east, bool west) noexcept :
+        above(above), below(below), north(north), south(south), east(east), west(west)
+    {}
+};
+
 class Block {
 private:
     BlockTemplate* propeties;
