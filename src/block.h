@@ -21,6 +21,7 @@ public:
 
     std::string getName();
     bool isSolid();
+    bool isVisible();
 
     void draw(WorldPos x, WorldPos y, WorldPos z);
 };

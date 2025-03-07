@@ -42,6 +42,11 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
+bool Block::isVisible()
+{
+    return this->propeties->visible;
+}
+
 BlockTemplate::BlockTemplate(std::string name) {
     this->name = name;
 }
