@@ -33,6 +33,7 @@ public:
     std::string getName();
 
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
+    Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
 
     ChunkPos worldToChunkPos(WorldPos pos);
 
