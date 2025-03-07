@@ -33,6 +33,17 @@ struct EntityPosition {
         if (this->z != other.z) return false;
         return true;
     }
+
+    EntityPosition operator+(EntityPosition other) {
+        other+=*this;
+        return other;
+    }
+
+    EntityPosition operator-(EntityPosition other) {
+        other-=*this;
+        return other;
+    }
+
 };
 
 double length(EntityPosition vector);
