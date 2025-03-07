@@ -5,6 +5,7 @@
 #include <string>
 
 class BlockTemplate;
+class BlockInstance;
 class Block;
 
 #include "dimension.h"
@@ -23,6 +24,16 @@ public:
     bool isSolid();
 
     void draw(WorldPos x, WorldPos y, WorldPos z);
+};
+
+class BlockInstance {
+private:
+    WorldPos x;
+    WorldPos y;
+    WorldPos z;
+    Chunk* chunk;
+public:
+    BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z);
 };
 
 class BlockTemplate {
