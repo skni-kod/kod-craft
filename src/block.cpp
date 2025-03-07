@@ -2,8 +2,10 @@
 
 #include "block.h"
 #include "raylib.h"
+#include <mutex>
 
 std::vector<BlockTemplate*> blockList;
+std::mutex blockListLock{};
 
 BlockTemplate* findBlockTemplate(std::string name) {
     for (int i = 0; i < blockList.size(); i++) {
@@ -73,6 +75,7 @@ void unloadBlocks() {
 }
 
 int pyInitBlock(py_BlockClass* self, PyObject* args, PyObject* kwargs) {
+    std::lock_guard<std::mutex> lock{ blockListLock };
     char *name;
     int solid = 1;
     int visible = 1;
