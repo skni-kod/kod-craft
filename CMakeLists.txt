@@ -25,6 +25,7 @@ set(PROJECT_HEADER_FILES
     src/world.h
     src/entity.h
     src/hitbox.h
+    src/spinlock.h
 )
 
 set(PROJECT_PYTHON_FILES

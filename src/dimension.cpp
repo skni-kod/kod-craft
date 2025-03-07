@@ -3,8 +3,10 @@
 
 #include <stdexcept>
 #include <algorithm>
+#include <mutex>
 
 std::vector<DimensionTemplate*> dimensionList;
+std::mutex dimensionListMutex{};
 
 Dimension::Dimension(int type) {
     this->propeties = dimensionList[type];
@@ -132,6 +134,7 @@ Dimension * getDimensionInstance(py_DimensionClass self) {
 }
 
 int *py_defineDimension(py_DimensionClass * self, PyObject *args, PyObject *kwargs) {
+    std::lock_guard<std::mutex> lock{ dimensionListMutex };
     char *name;
     PyObject* generateChunkCallback = NULL;
     int chunkSize = 8;

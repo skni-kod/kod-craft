@@ -21,10 +21,10 @@ Chunk::Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z) {
     this->z = z;
 
     int chunkSize = dimension->getChunkSize();
-
+    
     PyObject* generateChunkCallback = dimension->getTemplate()->generateChunkCallback;
     PyObject* chunkArray = PyObject_CallObject(generateChunkCallback, Py_BuildValue("(iiii)", x, y, z, chunkSize));
-
+    
     // allocate memory
     this->blocks.reserve(chunkSize*chunkSize*chunkSize);
 

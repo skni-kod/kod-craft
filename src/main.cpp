@@ -8,8 +8,10 @@
 #include "world.h"
 #include "states.h"
 #include "player.h"
+#include "spinlock.h"
 
 GameState gameState;
+extern spinlock lock;
 
 void exitGame() {
     unloadWorld();
@@ -26,13 +28,16 @@ int main() {
     //load data from python files
     defineGameData();
 
-    printf("Defined %d blocks.\n", getDefinedBlockCount());
+    printf("Defined %d blocks.\nLoading World...\n", getDefinedBlockCount());
 
     loadWorld();
 
     DisableCursor();
 
+    printf("Start\n");
+
     while (!WindowShouldClose()){
+        lock.unlock();
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
