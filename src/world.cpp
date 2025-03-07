@@ -12,6 +12,8 @@ extern PyThreadState* mainThreadState;
 
 bool keepTickProcessingGoing;
 
+spinlock lock{};
+
 World::World() {
     for (int i = 0; i < dimensionList.size(); i++) {
         this->dimensions.push_back( new Dimension(i) );
@@ -20,6 +22,7 @@ World::World() {
 
 World::~World() {
     keepTickProcessingGoing = false;
+    lock.unlock();
     tickProcessingTrhead.join();
     for (int i = 0; i < this->dimensions.size(); i++) {
         delete this->dimensions[i];
@@ -27,7 +30,6 @@ World::~World() {
 }
 
 World * world;
-spinlock lock{};
 
 std::chrono::time_point<std::chrono::high_resolution_clock> lastTickDoneTime;
 std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;

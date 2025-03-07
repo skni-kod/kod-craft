@@ -13,7 +13,7 @@
 GameState gameState;
 extern spinlock lock;
 
-void exitGame() {
+inline void exitGame() {
     unloadWorld();
     unloadBlocks();
     unloadDimensions();
