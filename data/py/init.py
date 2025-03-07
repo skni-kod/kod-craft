@@ -32,6 +32,7 @@ def onWorldLoad():
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
+# TODO: onTick callback
 
 def onPlayerPositionChanged():
     player.move(-0.1, 0.1, 0.4)

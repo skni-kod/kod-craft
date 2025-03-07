@@ -32,6 +32,8 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	EntityPosition hitboxSum = this->size;
 	hitboxSum += other->size;
 
+	// TODO: check distance to the nearest edge in the direction of motion (velocity) instead of the nearest edge (any)
+
 	#define checkDistance(axis, direction) (positionDifference.axis direction hitboxSum.axis)
 	#define checkDistanceAxis(axis) std::min(checkDistance(axis, -), checkDistance(axis, +))
 	double distanceToEdge = checkDistanceAxis(x);
