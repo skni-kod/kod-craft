@@ -3,10 +3,12 @@
 #include "world.h"
 #include "dimension.h"
 #include "player.h"
+#include "spinlock.h"
 
 #include <chrono>
 
 PyObject * onWorldLoadCallback = NULL;
+extern PyThreadState* mainThreadState;
 
 bool keepTickProcessingGoing;
 
@@ -25,16 +27,21 @@ World::~World() {
 }
 
 World * world;
+spinlock lock{};
 
 std::chrono::time_point<std::chrono::high_resolution_clock> lastTickDoneTime;
 std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
 
 
 void processTicksThreadFunction(World * world) {
+    PyThreadState* threadState = PyThreadState_New(mainThreadState->interp);
     while (keepTickProcessingGoing) {
         tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
+        PyEval_AcquireThread(threadState);
         world->processTick();
+        PyEval_ReleaseThread(threadState);
         lastTickDoneTime = std::chrono::high_resolution_clock::now();
+        lock.lock();
         std::this_thread::sleep_until(tickDoneTargetTime);
     }
 }
@@ -58,7 +65,9 @@ void loadWorld() {
 
     if (onWorldLoadCallback!=NULL) PyObject_CallObject(onWorldLoadCallback, NULL);
 
+    printf("Initializing Player\n");
     player->initalize();
+    printf("Multithreading\n");
     world->startTickProcessing();
 }
 
