@@ -2,7 +2,11 @@
 #define __SPINLOCK_H_
 
 #include <atomic>
+#ifdef _MSC_VER
 #include <intrin.h>
+#else
+#include <x86intrin.h>
+#endif
 
 struct spinlock {
     std::atomic<bool> lock_ = { 0 };
