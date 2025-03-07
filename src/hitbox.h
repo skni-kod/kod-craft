@@ -27,6 +27,10 @@ public:
 	Hitbox(void * parent, HitboxParentType type, EntityPosition offset, EntityPosition size);
 
 	EntityPosition collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z);
+
+	EntityPosition getWorldCenter();	// center of the hitbox in world position
+	EntityPosition getWorldMinimum();	// smallest coordinate within the hitbox
+	EntityPosition getWorldMaximum();	// biggest coordinate within the hitbox
 };
 
 #endif
