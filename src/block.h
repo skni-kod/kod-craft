@@ -29,7 +29,10 @@ class BlockTemplate {
 public:
     int id;
     std::string name;
-    bool solid, visible;
+    struct {
+        bool solid : 1;
+        bool visible : 1;
+    };
 
     std::vector<Hitbox*> hitboxes;
 
