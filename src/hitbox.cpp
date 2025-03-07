@@ -47,3 +47,17 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 
 	return pushDistance;
 }
+
+EntityPosition Hitbox::getWorldCenter() {
+	// it's impossible to get world position from block template alone -> hitbox must be attached to an entity
+	assert(this->type == TYPE_ENTITY);
+	return this->offset + this->parent.ent->pos;
+}
+
+EntityPosition Hitbox::getWorldMinimum() {
+	return this->getWorldCenter() - this->size;
+}
+
+EntityPosition Hitbox::getWorldMaximum() {
+	return this->getWorldCenter() + this->size;
+}
