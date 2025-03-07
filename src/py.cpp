@@ -93,12 +93,12 @@ void initPython() {
 
     setClassDefaults(py_BlockClassType)
     py_BlockClassType.tp_name = "game.Block";
-    py_BlockClassType.tp_basicsize = sizeof(py_BlockInstanceClass);
+    py_BlockClassType.tp_basicsize = sizeof(py_BlockClass);
     py_BlockClassType.tp_init = reinterpret_cast<initproc>(pyInitBlock);
 
     setClassDefaults(py_BlockInstanceClassType)
     py_BlockInstanceClassType.tp_name = "game.BlockInstance";
-    py_BlockInstanceClassType.tp_basicsize = sizeof(py_BlockClass);
+    py_BlockInstanceClassType.tp_basicsize = sizeof(py_BlockInstanceClass);
     py_BlockInstanceClassType.tp_init = reinterpret_cast<initproc>(pyInitBlockInstance);
 
 
