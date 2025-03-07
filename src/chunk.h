@@ -20,8 +20,6 @@ private:
 
     bool loaded;
 
-    inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
-
     ChunkPos x, y, z;
 public:
     Chunk(Dimension* dimension, ChunkPos x, ChunkPos y, ChunkPos z);
@@ -33,6 +31,7 @@ public:
     ChunkPos getZ();
 
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
+    inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
 
     void processTick();
 };
