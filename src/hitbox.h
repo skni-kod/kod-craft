@@ -19,7 +19,7 @@ union HitboxParent {
 
 class Hitbox {
 	EntityPosition offset;
-	EntityPosition size;
+	EntityPosition size;	// distance to edge
 
 	HitboxParentType type;
 	HitboxParent parent;
