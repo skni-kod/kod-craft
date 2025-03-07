@@ -39,7 +39,7 @@ public:
 
     Texture2D texture;
 
-    BlockTemplate(std::string name);
+    explicit BlockTemplate(std::string name);
 
     void setTexture(std::string fileName);
 };
