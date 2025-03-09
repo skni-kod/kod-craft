@@ -30,4 +30,17 @@ extern std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTarge
 extern PyObject * onWorldLoadCallback;
 extern World * world;
 
+#ifdef PYTHON_DEFINTION
+#define USE_PYTHON
+#endif
+
+#ifdef USE_PYTHON
+
+PyObject * py_onTickCallback;
+
+#endif
+
+#if PYTHON_DEFINTION
+static PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs)
+#endif
 #endif

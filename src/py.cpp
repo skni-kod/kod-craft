@@ -40,6 +40,8 @@ static PyMethodDef pyMethods[] = {
      "Set a callback to run on world load."},
      {"setOnPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on player position change."},
+     {"setOnTickCallback", (PyCFunction)py_setOnTickCallback, METH_VARARGS | METH_KEYWORDS,
+     "Set a callback to run on player position change."},
      {"setPlayerCameraOffset", (PyCFunction)py_setPlayerCameraOffset, METH_VARARGS | METH_KEYWORDS,
      "Set an offset for the player camera relative to the player's origin."},
      {"getPlayer", (PyCFunction)py_getPlayer, METH_VARARGS | METH_KEYWORDS,

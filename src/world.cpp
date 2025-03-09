@@ -1,3 +1,4 @@
+#define USE_PYTHON
 
 #include "states.h"
 #include "world.h"
@@ -82,4 +83,16 @@ void World::processTick() {
     for (int i = 0; i < this->dimensions.size(); i++) {
         this->dimensions[i]->processTick();
     }
+}
+
+static PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+    static char *kwlist[] = {(char*)"onTickCallback", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &py_onTickCallback
+    )) return NULL;
+
+
+    return PyBool_FromLong(0);
 }
