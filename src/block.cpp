@@ -40,6 +40,46 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
+BlockInstance::BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z) {
+    this->dimension = dimension;
+    this->chunk = dimension->findChunk(x, y, z);
+
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+Block& BlockInstance::get() {
+    return this->chunk->getBlock(this->x, this->y, this->z);
+}
+
+void BlockInstance::move(BlockFace face) {
+    switch(face) {
+    case Xpos:
+        this->x++;
+        break;
+    case Ypos:
+        this->y++;
+        break;
+    case Zpos:
+        this->z++;
+        break;
+    case Xneg:
+        this->x--;
+        break;
+    case Yneg:
+        this->y--;
+        break;
+    case Zneg:
+        this->z--;
+        break;
+    }
+
+    if (this->chunk->worldPositionInsideChunk(this->x, this->y, this->z)) return;
+
+    this->chunk = this->dimension->findChunk(this->x, this->y, this->z);
+}
+
 BlockTemplate::BlockTemplate(std::string name) {
     this->name = name;
 }

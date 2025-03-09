@@ -37,8 +37,13 @@ private:
     WorldPos y;
     WorldPos z;
     Chunk* chunk;
+    Dimension* dimension;
 public:
     BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z);
+
+    Block& get();
+
+    void move(BlockFace face);  // changes position of the instance
 };
 
 class BlockTemplate {
