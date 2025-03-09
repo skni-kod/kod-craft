@@ -33,6 +33,8 @@ public:
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
     inline Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
 
+    bool worldPositionInsideChunk(WorldPos x, WorldPos y, WorldPos z);
+
     void processTick();
 };
 
