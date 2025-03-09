@@ -8,6 +8,8 @@ class Hitbox;
 #include "entity.h"
 #include "block.h"
 
+const EntityPosition noCollision = {0, 0, 0};
+
 enum HitboxParentType {
 	TYPE_ENTITY,
 	TYPE_BLOCK
