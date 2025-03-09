@@ -59,6 +59,7 @@ struct EntityPosition {
 
     EntityPosition operator-(EntityPosition other) {
         other-=*this;
+        other*=-1;
         return other;
     }
 
