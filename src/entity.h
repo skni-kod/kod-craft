@@ -48,6 +48,10 @@ struct EntityPosition {
         return true;
     }
 
+    bool operator!=(const EntityPosition& other) {
+        return !(*this==other);
+    }
+
     EntityPosition operator+(EntityPosition other) {
         other+=*this;
         return other;
