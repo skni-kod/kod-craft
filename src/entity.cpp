@@ -254,7 +254,9 @@ double length(EntityPosition vector) {
 }
 
 EntityPosition normalize(EntityPosition vector) {
-    vector*=1.0/length(vector);
+    double positionLength = length(vector);
+    if (positionLength<0.0001) return vector;
+    vector*=1.0/positionLength;
     return vector;
 }
 
