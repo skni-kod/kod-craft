@@ -8,6 +8,11 @@ class BlockTemplate;
 class BlockInstance;
 class Block;
 
+enum BlockFace {
+    Xpos, Ypos, Zpos,
+    Xneg, Yneg, Zneg
+};
+
 #include "dimension.h"
 #include "hitbox.h"
 #include "raylib.h"
