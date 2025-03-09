@@ -36,11 +36,11 @@ extern World * world;
 
 #ifdef USE_PYTHON
 
-PyObject * py_onTickCallback;
+extern PyObject * py_onTickCallback;
 
 #endif
 
-#if PYTHON_DEFINTION
-static PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs)
+#ifdef PYTHON_DEFINTION
+PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs);
 #endif
 #endif

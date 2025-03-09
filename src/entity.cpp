@@ -263,6 +263,8 @@ int pyInitEntity(py_EntityClass* self, PyObject* args, PyObject* kwargs) {
     return 0;
 }
 
+PyObject * py_onTickCallback;
+
 PyObject *py_setEntityDimension(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
     py_DimensionClass* py_dimension;
 

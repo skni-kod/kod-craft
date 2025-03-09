@@ -85,7 +85,7 @@ void World::processTick() {
     }
 }
 
-static PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
     static char *kwlist[] = {(char*)"onTickCallback", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
