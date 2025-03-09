@@ -124,9 +124,34 @@ Entity::~Entity() {
 }
 
 void Entity::checkWorldCollision() {
-    EntityPosition noCollision = {0, 0, 0};
+    reset:
+
     for (int i = 0; i < this->hitboxes.size(); i++) {
-        // TODO
+        Hitbox* hitbox = this->hitboxes[i];
+        EntityPosition minPos = hitbox->getWorldMinimum();
+        EntityPosition maxPos = hitbox->getWorldMinimum();
+
+        minPos-=maxHitboxSize;
+        maxPos+=maxHitboxSize;
+
+        BlockInstance block = BlockInstance(this->dimension, minPos.x, minPos.y, minPos.z);
+
+        for (WorldPos x = minPos.x; x < maxPos.x; x++) {
+            BlockInstance blockX = block;
+            for (WorldPos y = minPos.y; y < maxPos.y; y++) {
+                BlockInstance blockY = blockX;
+                for (WorldPos z = minPos.z; z < maxPos.z; z++) {
+                    EntityPosition delta = blockY.get().checkCollision(hitbox, blockY.getX(), blockY.getY(), blockY.getZ());
+                    if (delta != noCollision) {
+                        this->pos+=delta;
+                        goto reset;
+                    }
+                    blockY = blockY.getInstanceAt(Zpos);
+                }
+                blockX = block.getInstanceAt(Ypos);
+            }
+            block = block.getInstanceAt(Xpos);
+        }
     }
 }
 
