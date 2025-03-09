@@ -20,6 +20,20 @@ struct EntityPosition {
         return *this;
     }
 
+    EntityPosition& operator-=(const double scalar) {
+        this->x-=scalar;
+        this->y-=scalar;
+        this->z-=scalar;
+        return *this;
+    }
+
+    EntityPosition& operator+=(const double scalar) {
+        this->x+=scalar;
+        this->y+=scalar;
+        this->z+=scalar;
+        return *this;
+    }
+
     EntityPosition& operator*=(const double scalar) {
         this->x*=scalar;
         this->y*=scalar;
