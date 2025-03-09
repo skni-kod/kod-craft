@@ -53,6 +53,18 @@ Block& BlockInstance::get() {
     return this->chunk->getBlock(this->x, this->y, this->z);
 }
 
+WorldPos BlockInstance::getX() {
+    return this->x;
+}
+
+WorldPos BlockInstance::getY() {
+    return this->y;
+}
+
+WorldPos BlockInstance::getZ() {
+    return this->z;
+}
+
 BlockInstance BlockInstance::getInstanceAt(BlockFace face) {
     BlockInstance newInstance = *this;
 

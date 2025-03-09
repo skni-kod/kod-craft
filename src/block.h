@@ -42,6 +42,9 @@ public:
     BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z);
 
     Block& get();
+    WorldPos getX();
+    WorldPos getY();
+    WorldPos getZ();
 
     BlockInstance getInstanceAt(BlockFace face);
 };
