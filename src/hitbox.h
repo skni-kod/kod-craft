@@ -1,6 +1,8 @@
 #ifndef HITBOX_H
 #define HITBOX_H
 
+const double maxHitboxSize = 2;
+
 class Hitbox;
 
 #include "entity.h"
