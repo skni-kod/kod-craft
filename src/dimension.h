@@ -20,7 +20,6 @@ private:
     int chunkSize;
     DimensionTemplate * propeties;
 
-    Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
     Chunk* createChunk(ChunkPos x, ChunkPos y, ChunkPos z);
 public:
     Dimension(int chunkSize);
@@ -31,6 +30,8 @@ public:
     DimensionTemplate* getTemplate();
     int getChunkSize();
     std::string getName();
+
+    Chunk* findChunk(WorldPos x, WorldPos y, WorldPos z);
 
     void setBlock(Block block, WorldPos x, WorldPos y, WorldPos z);
     Block& getBlock(WorldPos x, WorldPos y, WorldPos z);
