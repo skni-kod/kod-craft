@@ -49,7 +49,7 @@ void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     this->getBlock(x, y, z) = block;
 }
 
-inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
+Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
     auto chunkSize = dimension->getChunkSize();
 
     x = x%chunkSize;
