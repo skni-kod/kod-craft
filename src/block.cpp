@@ -53,31 +53,35 @@ Block& BlockInstance::get() {
     return this->chunk->getBlock(this->x, this->y, this->z);
 }
 
-void BlockInstance::move(BlockFace face) {
+BlockInstance BlockInstance::getInstanceAt(BlockFace face) {
+    BlockInstance newInstance = *this;
+
     switch(face) {
     case Xpos:
-        this->x++;
+        newInstance.x++;
         break;
     case Ypos:
-        this->y++;
+        newInstance.y++;
         break;
     case Zpos:
-        this->z++;
+        newInstance.z++;
         break;
     case Xneg:
-        this->x--;
+        newInstance.x--;
         break;
     case Yneg:
-        this->y--;
+        newInstance.y--;
         break;
     case Zneg:
-        this->z--;
+        newInstance.z--;
         break;
     }
 
-    if (this->chunk->worldPositionInsideChunk(this->x, this->y, this->z)) return;
+    if (newInstance.chunk->worldPositionInsideChunk(newInstance.x, newInstance.y, newInstance.z)) return newInstance;
 
-    this->chunk = this->dimension->findChunk(this->x, this->y, this->z);
+    newInstance.chunk = newInstance.dimension->findChunk(newInstance.x, newInstance.y, newInstance.z);
+
+    return newInstance;
 }
 
 BlockTemplate::BlockTemplate(std::string name) {

@@ -43,7 +43,7 @@ public:
 
     Block& get();
 
-    void move(BlockFace face);  // changes position of the instance
+    BlockInstance getInstanceAt(BlockFace face);
 };
 
 class BlockTemplate {
