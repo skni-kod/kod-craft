@@ -28,6 +28,8 @@ public:
     std::string getName();
     bool isSolid();
 
+    EntityPosition checkCollision(Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z);
+
     void draw(WorldPos x, WorldPos y, WorldPos z);
 };
 

@@ -40,6 +40,16 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
+EntityPosition Block::checkCollision(Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z) {
+    for (int i = 0; i < this->propeties->hitboxes.size(); i++) {
+        EntityPosition delta = hitbox->collideWithBlock(this->propeties->hitboxes[i], x, y, z);
+        if (delta == noCollision) continue;
+        return delta;
+    }
+
+    return noCollision;
+}
+
 BlockInstance::BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z) {
     this->dimension = dimension;
     this->chunk = dimension->findChunk(x, y, z);
