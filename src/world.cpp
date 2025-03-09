@@ -78,6 +78,10 @@ Dimension* World::findDimension(std::string name) {
 }
 
 void World::processTick() {
+    if (PyCallable_Check(py_onTickCallback)) {
+        PyObject_CallObject(py_onTickCallback, NULL);
+    }
+
     player->processTick();
 
     for (int i = 0; i < this->dimensions.size(); i++) {

@@ -32,10 +32,13 @@ def onWorldLoad():
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
-# TODO: onTick callback
-
-def onPlayerPositionChanged():
+def onTick():
     player.move(-0.1, 0.1, 0.4)
     player.applyForce(0.0, 0.0, -0.01)
+
+game.setOnTickCallback(onTick)
+
+def onPlayerPositionChanged():
+    ...
 
 game.setOnPlayerPositionChangedCallback(onPlayerPositionChanged)
