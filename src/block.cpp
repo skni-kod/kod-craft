@@ -42,9 +42,70 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
-bool Block::isVisible()
-{
-    return this->propeties->visible;
+EntityPosition Block::checkCollision(Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z) {
+    for (int i = 0; i < this->propeties->hitboxes.size(); i++) {
+        EntityPosition delta = hitbox->collideWithBlock(this->propeties->hitboxes[i], x, y, z);
+        if (delta == noCollision) continue;
+        return delta;
+    }
+
+    return noCollision;
+}
+
+BlockInstance::BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z) {
+    this->dimension = dimension;
+    this->chunk = dimension->findChunk(x, y, z);
+
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+Block& BlockInstance::get() {
+    return this->chunk->getBlock(this->x, this->y, this->z);
+}
+
+WorldPos BlockInstance::getX() {
+    return this->x;
+}
+
+WorldPos BlockInstance::getY() {
+    return this->y;
+}
+
+WorldPos BlockInstance::getZ() {
+    return this->z;
+}
+
+BlockInstance BlockInstance::getInstanceAt(BlockFace face) {
+    BlockInstance newInstance = *this;
+
+    switch(face) {
+    case Xpos:
+        newInstance.x++;
+        break;
+    case Ypos:
+        newInstance.y++;
+        break;
+    case Zpos:
+        newInstance.z++;
+        break;
+    case Xneg:
+        newInstance.x--;
+        break;
+    case Yneg:
+        newInstance.y--;
+        break;
+    case Zneg:
+        newInstance.z--;
+        break;
+    }
+
+    if (newInstance.chunk->worldPositionInsideChunk(newInstance.x, newInstance.y, newInstance.z)) return newInstance;
+
+    newInstance.chunk = newInstance.dimension->findChunk(newInstance.x, newInstance.y, newInstance.z);
+
+    return newInstance;
 }
 
 BlockTemplate::BlockTemplate(std::string name) {
@@ -63,6 +124,10 @@ BlockTemplate * defineBlock(std::string name, bool solid, bool visible) {
     newBlock->visible = visible;
 
     blockList.push_back(newBlock);
+
+    if (newBlock->solid) {
+        new Hitbox(newBlock, TYPE_BLOCK, {0, 0, 0}, {1, 1, 1});
+    }
 
     return newBlock;
 }
@@ -91,7 +156,7 @@ int pyInitBlock(py_BlockClass* self, PyObject* args, PyObject* kwargs) {
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
         "s|spp", kwlist,
         &name, &texture, &solid, &visible
-    )) return NULL;
+    )) return -1;
 
     BlockTemplate * createdBlock = defineBlock(name, solid, visible);
     

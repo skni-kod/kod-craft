@@ -1,10 +1,14 @@
 #ifndef HITBOX_H
 #define HITBOX_H
 
+const double maxHitboxSize = 2;
+
 class Hitbox;
 
 #include "entity.h"
 #include "block.h"
+
+const EntityPosition noCollision = {0, 0, 0};
 
 enum HitboxParentType {
 	TYPE_ENTITY,
@@ -19,7 +23,7 @@ union HitboxParent {
 
 class Hitbox {
 	EntityPosition offset;
-	EntityPosition size;
+	EntityPosition size;	// distance to edge
 
 	HitboxParentType type;
 	HitboxParent parent;
@@ -27,6 +31,10 @@ public:
 	Hitbox(void * parent, HitboxParentType type, EntityPosition offset, EntityPosition size);
 
 	EntityPosition collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z);
+
+	EntityPosition getWorldCenter();	// center of the hitbox in world position
+	EntityPosition getWorldMinimum();	// smallest coordinate within the hitbox
+	EntityPosition getWorldMaximum();	// biggest coordinate within the hitbox
 };
 
 #endif

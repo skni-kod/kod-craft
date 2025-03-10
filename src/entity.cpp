@@ -88,15 +88,11 @@ void EntityTask::exec(Entity* entity) {
         break;
     case TASK_ENTITY_SET_POSITION:
         entity->pos = this->data.position;
-
-        entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_MOVE:
         entity->pos.x+= this->data.position.x;
         entity->pos.y+= this->data.position.y;
         entity->pos.z+= this->data.position.z;
-
-        entity->positionHasChanged = true;
         break;
     case TASK_ENTITY_ADD_VELOCITY:
         entity->vel.x+= this->data.position.x;
@@ -117,8 +113,6 @@ Entity::Entity() {
     this->dimension = NULL;
     this->initalized = false;
 
-    this->positionHasChanged = true;
-
     this->rotation = new Rotation();
 }
 
@@ -129,13 +123,51 @@ Entity::~Entity() {
     }
 }
 
+void Entity::checkWorldCollision() {
+    bool collided = false;
+
+    reset:
+
+    for (int i = 0; i < this->hitboxes.size(); i++) {
+        Hitbox* hitbox = this->hitboxes[i];
+        EntityPosition minPos = hitbox->getWorldMinimum();
+        EntityPosition maxPos = hitbox->getWorldMinimum();
+
+        minPos-=maxHitboxSize;
+        maxPos+=maxHitboxSize;
+
+        BlockInstance block = BlockInstance(this->dimension, minPos.x, minPos.y, minPos.z);
+
+        for (WorldPos x = minPos.x; x < maxPos.x; x++) {
+            BlockInstance blockX = block;
+            for (WorldPos y = minPos.y; y < maxPos.y; y++) {
+                BlockInstance blockY = blockX;
+                for (WorldPos z = minPos.z; z < maxPos.z; z++) {
+                    EntityPosition delta = blockY.get().checkCollision(hitbox, blockY.getX(), blockY.getY(), blockY.getZ());
+                    if (delta != noCollision) {
+                        collided = true;
+                        this->pos+=delta;
+                        goto reset;
+                    }
+                    blockY = blockY.getInstanceAt(Zpos);
+                }
+                blockX = block.getInstanceAt(Ypos);
+            }
+            block = block.getInstanceAt(Xpos);
+        }
+    }
+
+    // recalculate velocity
+    if (collided) {
+        this->vel = this->pos - this->oldPosition;
+    }
+}
+
 void Entity::addTask(EntityTask* task) {
     this->tasks.push_back(task);
 }
 
 void Entity::execTasks() {
-    this->oldPosition = this->pos;
-
     for (int i = 0; i < this->tasks.size(); i++) {
         this->tasks[i]->exec(this);
         delete this->tasks[i];
@@ -202,15 +234,17 @@ Rotation* Entity::getRotation() {
 }
 
 void Entity::processTick() {
+    this->oldPosition = this->pos;
     this->pos.x+= this->vel.x;
     this->pos.y+= this->vel.y;
     this->pos.z+= this->vel.z;
 
     this->execTasks();
+    this->checkWorldCollision();
+
+    this->positionHasChanged =!(this->oldPosition == this->pos);
 
     if (this->positionHasChanged) this->onPositionChanged();
-
-    this->positionHasChanged = false;
 }
 
 void Entity::initalize() {
@@ -226,7 +260,9 @@ double length(EntityPosition vector) {
 }
 
 EntityPosition normalize(EntityPosition vector) {
-    vector*=1.0/length(vector);
+    double positionLength = length(vector);
+    if (positionLength<0.0001) return vector;
+    vector*=1.0/positionLength;
     return vector;
 }
 
@@ -234,6 +270,8 @@ int pyInitEntity(py_EntityClass* self, PyObject* args, PyObject* kwargs) {
     self->instance = new Entity();
     return 0;
 }
+
+PyObject * py_onTickCallback;
 
 PyObject *py_setEntityDimension(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
     py_DimensionClass* py_dimension;
@@ -298,6 +336,22 @@ PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kw
     )) return NULL;
 
     self->instance->applyFoce({x, y, z});
+
+    return PyBool_FromLong(0);
+}
+
+PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    EntityPosition offset;
+    EntityPosition size;
+
+    static char *kwlist[] = {(char*)"dX", (char*)"dY", (char*)"dZ", (char*)"sX", (char*)"xY", (char*)"sZ", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "dddddd", kwlist,
+        &offset.x, &offset.y, &offset.z, &size.x, &size.y, &size.z
+    )) return NULL;
+
+    new Hitbox(self->instance, TYPE_ENTITY, offset, size);
 
     return PyBool_FromLong(0);
 }

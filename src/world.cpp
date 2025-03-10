@@ -1,3 +1,4 @@
+#define USE_PYTHON
 
 #include "states.h"
 #include "world.h"
@@ -36,13 +37,15 @@ std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
 
 
 void processTicksThreadFunction(World * world) {
-    PyThreadState* threadState = PyThreadState_New(mainThreadState->interp);
+    
+    PyGILState_STATE state;
     while (keepTickProcessingGoing) {
+        lock.unlock();
+        state = PyGILState_Ensure();
         tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
-        PyEval_AcquireThread(threadState);
         world->processTick();
-        PyEval_ReleaseThread(threadState);
         lastTickDoneTime = std::chrono::high_resolution_clock::now();
+        PyGILState_Release(state);
         lock.lock();
         std::this_thread::sleep_until(tickDoneTargetTime);
     }
@@ -88,9 +91,25 @@ Dimension* World::findDimension(std::string name) {
 }
 
 void World::processTick() {
+    if (PyCallable_Check(py_onTickCallback)) {
+        PyObject_CallObject(py_onTickCallback, NULL);
+    }
+
     player->processTick();
 
     for (int i = 0; i < this->dimensions.size(); i++) {
         this->dimensions[i]->processTick();
     }
+}
+
+PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+    static char *kwlist[] = {(char*)"onTickCallback", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &py_onTickCallback
+    )) return NULL;
+
+
+    return PyBool_FromLong(0);
 }

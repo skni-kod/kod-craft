@@ -41,6 +41,8 @@ static PyMethodDef pyMethods[] = {
      "Set a callback to run on world load."},
      {"setOnPlayerPositionChangedCallback", (PyCFunction)py_setOnPlayerPositionChangedCallback, METH_VARARGS | METH_KEYWORDS,
      "Set a callback to run on player position change."},
+     {"setOnTickCallback", (PyCFunction)py_setOnTickCallback, METH_VARARGS | METH_KEYWORDS,
+     "Set a callback to run on player position change."},
      {"setPlayerCameraOffset", (PyCFunction)py_setPlayerCameraOffset, METH_VARARGS | METH_KEYWORDS,
      "Set an offset for the player camera relative to the player's origin."},
      {"getPlayer", (PyCFunction)py_getPlayer, METH_VARARGS | METH_KEYWORDS,
@@ -106,18 +108,18 @@ void initPython() {
     PyImport_AppendInittab("game", &PyInit_Game);
 
     Py_Initialize();
-    PyEval_InitThreads();   
+    PyEval_InitThreads();
     mainThreadState = PyThreadState_Get();
     PyObject *obj = Py_BuildValue("s", "data/py/init.py");
     FILE* fp = _Py_fopen_obj(obj, "r+");;
     PyRun_SimpleFile(fp, "data/py/init.py");
-
-
-
     isPythonInitalized = true;
 }
 
-
+void finalizePython()
+{
+    Py_Finalize();
+}
 void defineGameData() {
     initPython();
 }

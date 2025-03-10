@@ -32,6 +32,8 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	EntityPosition hitboxSum = this->size;
 	hitboxSum += other->size;
 
+	// TODO: check distance to the nearest edge in the direction of motion (velocity) instead of the nearest edge (any)
+
 	#define checkDistance(axis, direction) (positionDifference.axis direction hitboxSum.axis)
 	#define checkDistanceAxis(axis) std::min(checkDistance(axis, -), checkDistance(axis, +))
 	double distanceToEdge = checkDistanceAxis(x);
@@ -41,7 +43,22 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	if (distanceToEdge <= 0) return noCollision;
 
 	EntityPosition pushDistance = normalize(this->parent.ent->vel);
-	pushDistance*=-1.0/distanceToEdge;
+	// TODO: fix pushDistance
+	pushDistance*=-0.01/distanceToEdge;
 
 	return pushDistance;
+}
+
+EntityPosition Hitbox::getWorldCenter() {
+	// it's impossible to get world position from block template alone -> hitbox must be attached to an entity
+	assert(this->type == TYPE_ENTITY);
+	return this->offset + this->parent.ent->pos;
+}
+
+EntityPosition Hitbox::getWorldMinimum() {
+	return this->getWorldCenter() - this->size;
+}
+
+EntityPosition Hitbox::getWorldMaximum() {
+	return this->getWorldCenter() + this->size;
 }

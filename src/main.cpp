@@ -24,16 +24,14 @@ int main() {
     InitWindow(800, 450, "Kod Craft");
 
     gameState = STATE_MAIN_MENU;
-
     //load data from python files
     defineGameData();
 
     printf("Defined %d blocks.\nLoading World...\n", getDefinedBlockCount());
 
     loadWorld();
-
+    PyThreadState* st = PyEval_SaveThread();
     DisableCursor();
-
     printf("Start\n");
 
     while (!WindowShouldClose()){
@@ -47,7 +45,8 @@ int main() {
 
         EndDrawing();
     }
-
+    PyEval_RestoreThread(st);
+    finalizePython();
     exitGame();
 
 
