@@ -159,7 +159,7 @@ void Entity::checkWorldCollision() {
 
     // recalculate velocity
     if (collided) {
-        this->vel = this->oldPosition - this->pos;
+        this->vel = this->pos - this->oldPosition;
     }
 }
 
