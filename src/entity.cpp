@@ -124,6 +124,8 @@ Entity::~Entity() {
 }
 
 void Entity::checkWorldCollision() {
+    bool collided = false;
+
     reset:
 
     for (int i = 0; i < this->hitboxes.size(); i++) {
@@ -143,6 +145,7 @@ void Entity::checkWorldCollision() {
                 for (WorldPos z = minPos.z; z < maxPos.z; z++) {
                     EntityPosition delta = blockY.get().checkCollision(hitbox, blockY.getX(), blockY.getY(), blockY.getZ());
                     if (delta != noCollision) {
+                        collided = true;
                         this->pos+=delta;
                         goto reset;
                     }
@@ -153,6 +156,11 @@ void Entity::checkWorldCollision() {
             block = block.getInstanceAt(Xpos);
         }
     }
+
+    // recalculate velocity
+    if (collided) {
+        this->vel = this->oldPosition - this->pos;
+    }
 }
 
 void Entity::addTask(EntityTask* task) {
@@ -160,8 +168,6 @@ void Entity::addTask(EntityTask* task) {
 }
 
 void Entity::execTasks() {
-    this->oldPosition = this->pos;
-
     for (int i = 0; i < this->tasks.size(); i++) {
         this->tasks[i]->exec(this);
         delete this->tasks[i];
@@ -228,17 +234,17 @@ Rotation* Entity::getRotation() {
 }
 
 void Entity::processTick() {
+    this->oldPosition = this->pos;
     this->pos.x+= this->vel.x;
     this->pos.y+= this->vel.y;
     this->pos.z+= this->vel.z;
 
     this->execTasks();
+    this->checkWorldCollision();
 
     this->positionHasChanged =!(this->oldPosition == this->pos);
 
     if (this->positionHasChanged) this->onPositionChanged();
-
-    this->checkWorldCollision();
 }
 
 void Entity::initalize() {
