@@ -49,7 +49,7 @@ void Chunk::setBlock(Block block, WorldPos x, WorldPos y, WorldPos z) {
     this->getBlock(x, y, z) = block;
 }
 
-inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
+Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
     auto chunkSize = dimension->getChunkSize();
 
     x = x%chunkSize;
@@ -61,6 +61,13 @@ inline Block& Chunk::getBlock(WorldPos x, WorldPos y, WorldPos z) {
     if (z<0) z+=chunkSize;
 
     return this->blocks[(z * chunkSize * chunkSize) + (y * chunkSize) + x];
+}
+
+bool Chunk::worldPositionInsideChunk(WorldPos x, WorldPos y, WorldPos z) {
+    if (this->dimension->worldToChunkPos(x) != this->x) return false;
+    if (this->dimension->worldToChunkPos(y) != this->y) return false;
+    if (this->dimension->worldToChunkPos(z) != this->z) return false;
+    return true;
 }
 
 ChunkPos Chunk::getX() {

@@ -1,3 +1,4 @@
+#define USE_PYTHON
 
 #include "states.h"
 #include "world.h"
@@ -88,9 +89,25 @@ Dimension* World::findDimension(std::string name) {
 }
 
 void World::processTick() {
+    if (PyCallable_Check(py_onTickCallback)) {
+        PyObject_CallObject(py_onTickCallback, NULL);
+    }
+
     player->processTick();
 
     for (int i = 0; i < this->dimensions.size(); i++) {
         this->dimensions[i]->processTick();
     }
+}
+
+PyObject *py_setOnTickCallback(PyObject *self, PyObject *args, PyObject *kwargs) {
+    static char *kwlist[] = {(char*)"onTickCallback", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+        "O", kwlist,
+        &py_onTickCallback
+    )) return NULL;
+
+
+    return PyBool_FromLong(0);
 }

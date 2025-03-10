@@ -20,12 +20,49 @@ struct EntityPosition {
         return *this;
     }
 
+    EntityPosition& operator-=(const double scalar) {
+        this->x-=scalar;
+        this->y-=scalar;
+        this->z-=scalar;
+        return *this;
+    }
+
+    EntityPosition& operator+=(const double scalar) {
+        this->x+=scalar;
+        this->y+=scalar;
+        this->z+=scalar;
+        return *this;
+    }
+
     EntityPosition& operator*=(const double scalar) {
         this->x*=scalar;
         this->y*=scalar;
         this->z*=scalar;
         return *this;
     }
+
+    bool operator==(const EntityPosition& other) {
+        if (this->x != other.x) return false;
+        if (this->y != other.y) return false;
+        if (this->z != other.z) return false;
+        return true;
+    }
+
+    bool operator!=(const EntityPosition& other) {
+        return !(*this==other);
+    }
+
+    EntityPosition operator+(EntityPosition other) {
+        other+=*this;
+        return other;
+    }
+
+    EntityPosition operator-(EntityPosition other) {
+        other-=*this;
+        other*=-1;
+        return other;
+    }
+
 };
 
 double length(EntityPosition vector);
@@ -95,6 +132,8 @@ private:
     void addTask(EntityTask* task);
     void execTasks();
 
+    void checkWorldCollision();
+
     EntityPosition oldPosition;
 
     bool positionHasChanged;
@@ -144,6 +183,7 @@ PyObject *py_setEntityDimension(py_EntityClass* self, PyObject *args, PyObject *
 PyObject *py_setEntityPosition(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_moveEntity(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 
 static PyMethodDef pyMethodsEntity[] = {
     {"setDimension", (PyCFunction)py_setEntityDimension, METH_VARARGS | METH_KEYWORDS,
@@ -154,6 +194,8 @@ static PyMethodDef pyMethodsEntity[] = {
      "Change object's position by a delta."},
      {"applyForce", (PyCFunction)py_entityApplyForce, METH_VARARGS | METH_KEYWORDS,
      "Change object's velocity by a delta."},
+     {"addHitbox", (PyCFunction)py_addEntityHitbox, METH_VARARGS | METH_KEYWORDS,
+     "Add a hitbox to an entity."},
     {NULL, NULL, 0, NULL}
 };
 

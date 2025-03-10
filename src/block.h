@@ -5,7 +5,13 @@
 #include <string>
 
 class BlockTemplate;
+class BlockInstance;
 class Block;
+
+enum BlockFace {
+    Xpos, Ypos, Zpos,
+    Xneg, Yneg, Zneg
+};
 
 #include "dimension.h"
 #include "hitbox.h"
@@ -22,7 +28,27 @@ public:
     std::string getName();
     bool isSolid();
 
+    EntityPosition checkCollision(Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z);
+
     void draw(WorldPos x, WorldPos y, WorldPos z);
+};
+
+class BlockInstance {
+private:
+    WorldPos x;
+    WorldPos y;
+    WorldPos z;
+    Chunk* chunk;
+    Dimension* dimension;
+public:
+    BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z);
+
+    Block& get();
+    WorldPos getX();
+    WorldPos getY();
+    WorldPos getZ();
+
+    BlockInstance getInstanceAt(BlockFace face);
 };
 
 class BlockTemplate {
