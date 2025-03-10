@@ -112,6 +112,12 @@ BlockTemplate::BlockTemplate(std::string name) {
     this->name = name;
 }
 
+BlockTemplate::~BlockTemplate() {
+    for (int i = 0; i < this->hitboxes.size(); i++) {
+        delete this->hitboxes[i];
+    }
+}
+
 void BlockTemplate::setTexture(std::string fileName) {
     std::string filePath = "./data/textures/blocks/"+fileName;
     this->texture = LoadTexture(filePath.c_str());
