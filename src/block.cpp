@@ -27,7 +27,7 @@ Block::Block(PyObject* self) {
     this->propeties = blockTemplate->instance;
 }
 
-void Block::draw(WorldPos x, WorldPos y, WorldPos z, BlockNeighbourhood neighbours) {
+void Block::draw(WorldPos x, WorldPos y, WorldPos z) {
     if (this->propeties->visible == false) return;
     
     DrawCube({(float)(x), (float)(y), (float)(z)}, 1, 1, 1, GOLD);

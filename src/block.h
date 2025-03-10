@@ -36,7 +36,7 @@ public:
     bool isSolid();
     bool isVisible();
 
-    void draw(WorldPos x, WorldPos y, WorldPos z, BlockNeighbourhood neighbours);
+    void draw(WorldPos x, WorldPos y, WorldPos z);
 };
 
 class BlockTemplate {
