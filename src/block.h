@@ -17,6 +17,19 @@ enum BlockFace {
 #include "hitbox.h"
 #include "raylib.h"
 
+struct BlockNeighbourhood {
+    const uint8_t b;
+
+    constexpr BlockNeighbourhood(bool above, bool below, bool north, bool south, bool east, bool west) noexcept :
+        b((uint8_t)above 
+            | ((uint8_t)below << 1) 
+            | ((uint8_t)north << 2) 
+            | ((uint8_t)south << 3) 
+            | ((uint8_t)east << 4) 
+            | ((uint8_t)west << 5))
+    {}
+};
+
 class Block {
 private:
     BlockTemplate* propeties;
@@ -27,6 +40,7 @@ public:
 
     std::string getName();
     bool isSolid();
+    bool isVisible();
 
     EntityPosition checkCollision(Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z);
 
@@ -55,13 +69,16 @@ class BlockTemplate {
 public:
     int id;
     std::string name;
-    bool solid, visible;
+    struct {
+        bool solid : 1;
+        bool visible : 1;
+    };
 
     std::vector<Hitbox*> hitboxes;
 
     Texture2D texture;
 
-    BlockTemplate(std::string name);
+    explicit BlockTemplate(std::string name);
 
     void setTexture(std::string fileName);
 };

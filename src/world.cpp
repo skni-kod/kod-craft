@@ -40,7 +40,7 @@ void processTicksThreadFunction(World * world) {
     
     PyGILState_STATE state;
     while (keepTickProcessingGoing) {
-        lock.unlock();
+        //lock.unlock();
         state = PyGILState_Ensure();
         tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
         world->processTick();
