@@ -121,6 +121,9 @@ Entity::~Entity() {
     for (int i = 0; i < this->tasks.size(); i++) {
         delete this->tasks[i];
     }
+    for (int i = 0; i < this->hitboxes.size(); i++) {
+        delete this->hitboxes[i];
+    }
 }
 
 void Entity::checkWorldCollision() {
