@@ -12,15 +12,15 @@ class Block;
 #include "raylib.h"
 
 struct BlockNeighbourhood {
-    const bool above : 1;
-    const bool below: 1;
-    const bool north : 1;
-    const bool south : 1;
-    const bool east : 1;
-    const bool west : 1;
+    const uint8_t b;
 
     constexpr BlockNeighbourhood(bool above, bool below, bool north, bool south, bool east, bool west) noexcept :
-        above(above), below(below), north(north), south(south), east(east), west(west)
+        b((uint8_t)above 
+            | ((uint8_t)below << 1) 
+            | ((uint8_t)north << 2) 
+            | ((uint8_t)south << 3) 
+            | ((uint8_t)east << 4) 
+            | ((uint8_t)west << 5))
     {}
 };
 
@@ -36,7 +36,7 @@ public:
     bool isSolid();
     bool isVisible();
 
-    void draw(WorldPos x, WorldPos y, WorldPos z);
+    void draw(WorldPos x, WorldPos y, WorldPos z, BlockNeighbourhood neighbours);
 };
 
 class BlockTemplate {
