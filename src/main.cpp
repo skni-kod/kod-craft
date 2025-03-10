@@ -10,6 +10,9 @@
 #include "player.h"
 #include "spinlock.h"
 
+constexpr char FPS_FLAG_SMALL[] = "-f";
+constexpr char FPS_FLAG_LONG[] = "--fps";
+
 GameState gameState;
 extern spinlock lock;
 
@@ -20,8 +23,21 @@ inline void exitGame() {
     CloseWindow();
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    uint16_t fps = 60;
+    for (int i = 1; i < argc; i++) {
+        if (!strcmp(argv[i], FPS_FLAG_SMALL) || !strcmp(argv[i], FPS_FLAG_LONG)) {
+            if (i + 1 >= argc)
+                puts("Did not set fps in command line");
+            else {
+                fps = (uint16_t)atoi(argv[i + 1]);
+                break;
+            }
+        }
+    }
+
     InitWindow(800, 450, "Kod Craft");
+    SetTargetFPS(fps);
 
     gameState = STATE_MAIN_MENU;
     //load data from python files
