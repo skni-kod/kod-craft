@@ -106,18 +106,18 @@ void initPython() {
     PyImport_AppendInittab("game", &PyInit_Game);
 
     Py_Initialize();
-    PyEval_InitThreads();   
+    PyEval_InitThreads();
     mainThreadState = PyThreadState_Get();
     PyObject *obj = Py_BuildValue("s", "data/py/init.py");
     FILE* fp = _Py_fopen_obj(obj, "r+");;
     PyRun_SimpleFile(fp, "data/py/init.py");
-
-
-
     isPythonInitalized = true;
 }
 
-
+void finalizePython()
+{
+    Py_Finalize();
+}
 void defineGameData() {
     initPython();
 }

@@ -36,13 +36,15 @@ std::chrono::time_point<std::chrono::high_resolution_clock> tickDoneTargetTime;
 
 
 void processTicksThreadFunction(World * world) {
-    PyThreadState* threadState = PyThreadState_New(mainThreadState->interp);
+    
+    PyGILState_STATE state;
     while (keepTickProcessingGoing) {
+        lock.unlock();
+        state = PyGILState_Ensure();
         tickDoneTargetTime = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(1000 / tickRate);
-        PyEval_AcquireThread(threadState);
         world->processTick();
-        PyEval_ReleaseThread(threadState);
         lastTickDoneTime = std::chrono::high_resolution_clock::now();
+        PyGILState_Release(state);
         lock.lock();
         std::this_thread::sleep_until(tickDoneTargetTime);
     }
