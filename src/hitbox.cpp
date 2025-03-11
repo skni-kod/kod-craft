@@ -41,10 +41,11 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	distanceToEdge = std::min(distanceToEdge, checkDistanceAxis(z));
 
 	if (distanceToEdge <= 0) return noCollision;
+	distanceToEdge=1-distanceToEdge;
 
 	EntityPosition pushDistance = normalize(this->parent.ent->vel);
-	// TODO: fix pushDistance
-	pushDistance*=-0.01/distanceToEdge;
+	// TODO: fix pushDistance (probably idk if it works)
+	pushDistance*=-distanceToEdge;
 
 	return pushDistance;
 }
