@@ -28,7 +28,7 @@ def onWorldLoad():
     player.setDimension(kodland)
     game.setPlayerCameraOffset(0, 0, 1.75)
     player.addHitbox(0,0,1, 1,1,2)
-    player.setPosition(0, 0, 10)
+    player.setPosition(0, 0.1, 10)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
