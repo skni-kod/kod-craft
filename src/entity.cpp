@@ -134,7 +134,7 @@ void Entity::checkWorldCollision() {
     for (int i = 0; i < this->hitboxes.size(); i++) {
         Hitbox* hitbox = this->hitboxes[i];
         EntityPosition minPos = hitbox->getWorldMinimum();
-        EntityPosition maxPos = hitbox->getWorldMinimum();
+        EntityPosition maxPos = hitbox->getWorldMaximum();
 
         minPos-=maxHitboxSize;
         maxPos+=maxHitboxSize;
