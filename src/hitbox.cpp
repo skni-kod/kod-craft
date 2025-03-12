@@ -45,16 +45,11 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 		std::swap(sizeThis.z, sizeOther.z);
 	}
 
-
-	// EntityPosition distancesPos = (positionOther - sizeOther) - (positionThis + sizeThis);
 	EntityPosition distancesNeg = (positionOther + sizeOther) - (positionThis - sizeThis);
 
 	EntityPosition vel = this->parent.ent->vel;
 	EntityPosition distancesToEdges;
 
-	// distancesToEdges.x = vel.x > 0 ? distancesPos.x : distancesNeg.x;
-	// distancesToEdges.y = vel.y > 0 ? distancesPos.y : distancesNeg.y;
-	// distancesToEdges.z = vel.z > 0 ? distancesPos.z : distancesNeg.z;
 
 	distancesToEdges = distancesNeg;
 	distancesToEdges*=-1;
