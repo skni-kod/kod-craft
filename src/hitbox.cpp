@@ -17,7 +17,7 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 		break;
 	}
 }
-#include <iostream>
+
 EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
 	if (other->type != TYPE_BLOCK) return noCollision;
 	if (this->type != TYPE_ENTITY) return noCollision;
@@ -59,17 +59,11 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	distancesToEdges = distancesNeg;
 	distancesToEdges*=-1;
 
-	// double distanceToEdge = std::min(distancesToEdges.x, std::min(distancesToEdges.y, distancesToEdges.z));
-	double distanceToEdge = distancesToEdges.z;
-
-
-	if (distanceToEdge >= 0) return noCollision;
+	double distanceToEdge = std::max(distancesToEdges.x, std::max(distancesToEdges.y, distancesToEdges.z));
 
 	if (distancesToEdges.x >= 0) return noCollision;
 	if (distancesToEdges.y >= 0) return noCollision;
 	if (distancesToEdges.z >= 0) return noCollision;
-
-	std::cout << distancesToEdges.x << ", " << distancesToEdges.y << ", " << distancesToEdges.z << "\n";
 
 	EntityPosition pushDistance = normalize(vel);
 	pushDistance*=distanceToEdge;
