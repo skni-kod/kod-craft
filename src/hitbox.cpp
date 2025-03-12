@@ -61,8 +61,12 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	if (distancesToEdges.y >= 0) return noCollision;
 	if (distancesToEdges.z >= 0) return noCollision;
 
+
 	EntityPosition pushDistance = normalize(vel);
-	pushDistance*=distanceToEdge;
+
+	double maxAxisLength = std::max(std::abs(pushDistance.x), std::max(std::abs(pushDistance.y), std::abs(pushDistance.z)));
+
+	pushDistance*=distanceToEdge/maxAxisLength;
 
 	return pushDistance;
 }
