@@ -154,7 +154,7 @@ void Entity::checkWorldCollision() {
                     }
                     blockY = blockY.getInstanceAt(Zpos);
                 }
-                blockX = block.getInstanceAt(Ypos);
+                blockX = blockX.getInstanceAt(Ypos);
             }
             block = block.getInstanceAt(Xpos);
         }
