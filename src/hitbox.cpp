@@ -28,6 +28,7 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 
 	EntityPosition positionOther = other->offset;
 	positionOther += {(double)(x), (double)(y), (double)(z)};
+	positionOther += {0.5, 0.5, 0.5}; // static block offset - remove/change if necessary
 	EntityPosition sizeOther = other->size;
 
 
