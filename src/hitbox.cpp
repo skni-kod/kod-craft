@@ -17,34 +17,62 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 		break;
 	}
 }
-
+#include <iostream>
 EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
-	EntityPosition noCollision = {0, 0, 0};
 	if (other->type != TYPE_BLOCK) return noCollision;
 	if (this->type != TYPE_ENTITY) return noCollision;
 
-	EntityPosition positionDifference = this->offset;
-	positionDifference += this->parent.ent->pos;
-	positionDifference -= other->offset;
-	positionDifference -= {(double)(x), (double)(y), (double)(z)};
+	EntityPosition positionThis = this->offset;
+	positionThis += this->parent.ent->pos;
+	EntityPosition sizeThis = this->size;
+
+	EntityPosition positionOther = other->offset;
+	positionOther += {(double)(x), (double)(y), (double)(z)};
+	EntityPosition sizeOther = other->size;
 
 
-	EntityPosition hitboxSum = this->size;
-	hitboxSum += other->size;
 
-	// TODO: check distance to the nearest edge in the direction of motion (velocity) instead of the nearest edge (any)
+	if (positionOther.x>positionThis.x) {
+		std::swap(positionOther.x, positionThis.x);
+		std::swap(sizeThis.x, sizeOther.x);
+	}
+	if (positionOther.y>positionThis.y) {
+		std::swap(positionOther.y, positionThis.y);
+		std::swap(sizeThis.y, sizeOther.y);
+	}
+	if (positionOther.z>positionThis.z) {
+		std::swap(positionOther.z, positionThis.z);
+		std::swap(sizeThis.z, sizeOther.z);
+	}
 
-	#define checkDistance(axis, direction) (positionDifference.axis direction hitboxSum.axis)
-	#define checkDistanceAxis(axis) std::min(checkDistance(axis, -), checkDistance(axis, +))
-	double distanceToEdge = checkDistanceAxis(x);
-	distanceToEdge = std::min(distanceToEdge, checkDistanceAxis(y));
-	distanceToEdge = std::min(distanceToEdge, checkDistanceAxis(z));
 
-	if (distanceToEdge <= 0) return noCollision;
+	// EntityPosition distancesPos = (positionOther - sizeOther) - (positionThis + sizeThis);
+	EntityPosition distancesNeg = (positionOther + sizeOther) - (positionThis - sizeThis);
 
-	EntityPosition pushDistance = normalize(this->parent.ent->vel);
-	// bad solution but at least it works somewhat
-	pushDistance*=-0.001;
+	EntityPosition vel = this->parent.ent->vel;
+	EntityPosition distancesToEdges;
+
+	// distancesToEdges.x = vel.x > 0 ? distancesPos.x : distancesNeg.x;
+	// distancesToEdges.y = vel.y > 0 ? distancesPos.y : distancesNeg.y;
+	// distancesToEdges.z = vel.z > 0 ? distancesPos.z : distancesNeg.z;
+
+	distancesToEdges = distancesNeg;
+	distancesToEdges*=-1;
+
+	// double distanceToEdge = std::min(distancesToEdges.x, std::min(distancesToEdges.y, distancesToEdges.z));
+	double distanceToEdge = distancesToEdges.z;
+
+
+	if (distanceToEdge >= 0) return noCollision;
+
+	if (distancesToEdges.x >= 0) return noCollision;
+	if (distancesToEdges.y >= 0) return noCollision;
+	if (distancesToEdges.z >= 0) return noCollision;
+
+	std::cout << distancesToEdges.x << ", " << distancesToEdges.y << ", " << distancesToEdges.z << "\n";
+
+	EntityPosition pushDistance = normalize(vel);
+	pushDistance*=distanceToEdge;
 
 	return pushDistance;
 }
