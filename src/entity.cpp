@@ -127,43 +127,19 @@ Entity::~Entity() {
 }
 
 void Entity::checkWorldCollision() {
-    bool collided = false;
-
-    reset:
-
-    for (int i = 0; i < this->hitboxes.size(); i++) {
-        Hitbox* hitbox = this->hitboxes[i];
-        EntityPosition minPos = hitbox->getWorldMinimum();
-        EntityPosition maxPos = hitbox->getWorldMaximum();
-
-        minPos-=maxHitboxSize;
-        maxPos+=maxHitboxSize;
-
-        BlockInstance block = BlockInstance(this->dimension, minPos.x, minPos.y, minPos.z);
-
-        for (WorldPos x = minPos.x; x < maxPos.x; x++) {
-            BlockInstance blockX = block;
-            for (WorldPos y = minPos.y; y < maxPos.y; y++) {
-                BlockInstance blockY = blockX;
-                for (WorldPos z = minPos.z; z < maxPos.z; z++) {
-                    EntityPosition delta = blockY.get().checkCollision(hitbox, blockY.getX(), blockY.getY(), blockY.getZ());
-                    if (delta != noCollision) {
-                        collided = true;
-                        this->pos+=delta;
-                        goto reset;
-                    }
-                    blockY = blockY.getInstanceAt(Zpos);
-                }
-                blockX = blockX.getInstanceAt(Ypos);
+    EntityPosition collision = noCollision;
+ 
+    do {
+        for (int i = 0; i < this->hitboxes.size(); i++) {
+            collision = this->hitboxes[i]->collideWithTerrain();
+            if (collision != noCollision) {
+                this->pos+=collision;
+                this->vel+=collision;
+                break;
             }
-            block = block.getInstanceAt(Xpos);
         }
-    }
+    } while (collision!=noCollision);
 
-    // recalculate velocity
-    if (collided) {
-        this->vel = this->pos - this->oldPosition;
-    }
 }
 
 void Entity::addTask(EntityTask* task) {

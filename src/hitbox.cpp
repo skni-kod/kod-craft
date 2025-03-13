@@ -18,6 +18,36 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	}
 }
 
+EntityPosition Hitbox::collideWithTerrain() {
+	assert(this->type == TYPE_ENTITY);
+
+	EntityPosition minPos = this->getWorldMinimum();
+    EntityPosition maxPos = this->getWorldMaximum();
+
+    minPos-=maxHitboxSize;
+    maxPos+=maxHitboxSize;
+
+    BlockInstance block = BlockInstance(this->parent.ent->dimension, minPos.x, minPos.y, minPos.z);
+
+    for (WorldPos x = minPos.x; x < maxPos.x; x++) {
+        BlockInstance blockX = block;
+        for (WorldPos y = minPos.y; y < maxPos.y; y++) {
+            BlockInstance blockY = blockX;
+            for (WorldPos z = minPos.z; z < maxPos.z; z++) {
+                EntityPosition delta = blockY.get().checkCollision(this, blockY.getX(), blockY.getY(), blockY.getZ());
+                if (delta != noCollision) {
+                    return delta;
+                }
+                blockY = blockY.getInstanceAt(Zpos);
+            }
+            blockX = blockX.getInstanceAt(Ypos);
+        }
+        block = block.getInstanceAt(Xpos);
+    }
+
+    return noCollision;
+}
+
 EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
 	if (other->type != TYPE_BLOCK) return noCollision;
 	if (this->type != TYPE_ENTITY) return noCollision;
