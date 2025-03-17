@@ -13,6 +13,7 @@ set(PROJECT_SOURCE_FILES
     src/py.cpp
     src/entity.cpp
     src/hitbox.cpp
+    src/keyboard.cpp
 )
 
 set(PROJECT_HEADER_FILES
@@ -26,6 +27,7 @@ set(PROJECT_HEADER_FILES
     src/entity.h
     src/hitbox.h
     src/spinlock.h
+    src/keyboard.h
 )
 
 set(PROJECT_PYTHON_FILES
