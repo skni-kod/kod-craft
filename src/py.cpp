@@ -7,6 +7,7 @@
 #include "dimension.h"
 #include "world.h"
 #include "player.h"
+#include "keyboard.h"
 
 bool isPythonInitalized = false;
 PyThreadState* mainThreadState = NULL;
@@ -103,6 +104,11 @@ void initPython() {
     py_BlockInstanceClassType.tp_name = "game.BlockInstance";
     py_BlockInstanceClassType.tp_basicsize = sizeof(py_BlockInstanceClass);
     py_BlockInstanceClassType.tp_init = reinterpret_cast<initproc>(pyInitBlockInstance);
+
+    setClassDefaults(py_KeyboardKeyClassType)
+    py_KeyboardKeyClassType.tp_name = "game.Key";
+    py_KeyboardKeyClassType.tp_basicsize = sizeof(py_KeyboardKeyClass);
+    py_KeyboardKeyClassType.tp_init = reinterpret_cast<initproc>(pyInitKeyboardKey);
 
 
     PyImport_AppendInittab("game", &PyInit_Game);
