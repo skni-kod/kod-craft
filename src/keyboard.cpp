@@ -3,9 +3,13 @@
 
 #include "keyboard.h"
 
+std::vector<Keyboard::Key*> keyList;
+
 Keyboard::Key::Key(int keyCode) {
     this->keyCode = keyCode;
     this->state = KEY_DEPRESSED;
+
+    keyList.push_back(this);
 }
 
 void Keyboard::Key::onPressed() {

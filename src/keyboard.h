@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 const bool KEY_PRESSED = true;
 const bool KEY_DEPRESSED = false;
 
@@ -17,6 +19,8 @@ namespace Keyboard {
         bool getState();
     };
 }
+
+extern std::vector<Keyboard::Key*> keyList;
 
 #ifdef PYTHON_DEFINTION
 #define USE_PYTHON
