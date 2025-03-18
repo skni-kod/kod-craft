@@ -2,8 +2,24 @@
 #define USE_PYTHON
 
 #include "keyboard.h"
+#include "raylib.h"
 
 std::vector<Keyboard::Key*> keyList;
+
+void updateKeyboard() {
+    for (int i = 0; i < keyList.size(); i++) {
+        Keyboard::Key* key = keyList[i];
+        int keyCode = key->getKeyCode();
+
+        if (IsKeyPressed(keyCode)) {
+            key->onPressed();
+        }
+
+        if (IsKeyReleased(keyCode)) {
+            key->onDepressed();
+        }
+    }
+}
 
 Keyboard::Key::Key(int keyCode) {
     this->keyCode = keyCode;
@@ -22,6 +38,10 @@ void Keyboard::Key::onDepressed() {
 
 bool Keyboard::Key::getState() {
     return this->state;
+}
+
+int Keyboard::Key::getKeyCode() {
+    return this->keyCode;
 }
 
 int pyInitKeyboardKey(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwargs) {

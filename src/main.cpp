@@ -9,6 +9,7 @@
 #include "states.h"
 #include "player.h"
 #include "spinlock.h"
+#include "keyboard.h"
 
 constexpr char FPS_FLAG_SMALL[] = "-f";
 constexpr char FPS_FLAG_LONG[] = "--fps";
@@ -52,6 +53,7 @@ int main(int argc, char* argv[]) {
 
     while (!WindowShouldClose()){
         lock.unlock();
+        updateKeyboard();
         BeginDrawing();
         ClearBackground(RAYWHITE);
 

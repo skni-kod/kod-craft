@@ -17,8 +17,11 @@ namespace Keyboard {
         void onDepressed();
 
         bool getState();
+        int getKeyCode();
     };
 }
+
+void updateKeyboard();
 
 extern std::vector<Keyboard::Key*> keyList;
 
