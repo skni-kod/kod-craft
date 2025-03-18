@@ -12,7 +12,10 @@ stone = game.Block("stone",
 
 
 keys = {
-    "forward": game.Key(ord('w'))
+    "forward": game.Key(ord('W'))
+    "left": game.Key(ord('A'))
+    "backward": game.Key(ord('S'))
+    "right": game.Key(ord('D'))
 };
 
 
