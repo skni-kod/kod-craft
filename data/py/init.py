@@ -10,6 +10,12 @@ stone = game.Block("stone",
     solid = True
     )
 
+
+keys = {
+    "forward": game.Key(ord('w'))
+};
+
+
 def generateEmptyChunk(x, y, z, size):
     return [[["air"]*size]*size]*size # size³ 3D array of "air"
 

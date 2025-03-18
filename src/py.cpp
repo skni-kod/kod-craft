@@ -71,6 +71,7 @@ static PyObject* PyInit_Game() {
     addClassToModule(py_EntityClassType, Entity);
     addClassToModule(py_BlockClassType, Block);
     addClassToModule(py_BlockInstanceClassType, BlockInstance);
+    addClassToModule(py_KeyboardKeyClassType, Key);
 
     return module;
 }
