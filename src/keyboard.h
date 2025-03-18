@@ -3,18 +3,20 @@
 const bool KEY_PRESSED = true;
 const bool KEY_DEPRESSED = false;
 
-class KeyboardKey {
-    int keyCode;
-    bool state;
-public:
-    KeyboardKey(int keyCode);
-    ~KeyboardKey();
-    
-    void onPressed();
-    void onDepressed();
+namespace Keyboard {
+    class Key {
+        int keyCode;
+        bool state;
+    public:
+        Key(int keyCode);
+        ~Key();
+        
+        void onPressed();
+        void onDepressed();
 
-    bool getState();
-};
+        bool getState();
+    };
+}
 
 #ifdef PYTHON_DEFINTION
 #define USE_PYTHON
@@ -24,7 +26,7 @@ public:
 
 struct py_KeyboardKeyClass {
     PyObject_HEAD
-    KeyboardKey* instance;
+    Keyboard::Key* instance;
 };
 
 #endif

@@ -3,24 +3,24 @@
 
 #include "keyboard.h"
 
-KeyboardKey::KeyboardKey(int keyCode) {
+Keyboard::Key::Key(int keyCode) {
     this->keyCode = keyCode;
     this->state = KEY_DEPRESSED;
 }
 
-void KeyboardKey::onPressed() {
+void Keyboard::Key::onPressed() {
     this->state = KEY_PRESSED;
 }
 
-void KeyboardKey::onDepressed() {
+void Keyboard::Key::onDepressed() {
     this->state = KEY_DEPRESSED;
 }
 
-bool KeyboardKey::getState() {
+bool Keyboard::Key::getState() {
     return this->state;
 }
 
-int pyInitEntity(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwargs) {
+int pyInitKeyboardKey(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwargs) {
     int keyCode;
 
     static char *kwlist[] = {(char*)"keyCode", NULL};
@@ -31,6 +31,6 @@ int pyInitEntity(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwargs) {
     )) return -1;
 
 
-    self->instance = new KeyboardKey(keyCode);
+    self->instance = new Keyboard::Key(keyCode);
     return 0;
 }
