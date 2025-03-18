@@ -38,3 +38,7 @@ int pyInitKeyboardKey(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwarg
     self->instance = new Keyboard::Key(keyCode);
     return 0;
 }
+
+PyObject *py_KeyboardKeyGet(py_KeyboardKeyClass* self, PyObject *args, PyObject *kwargs) {
+    return PyBool_FromLong(self->instance->getState());
+}

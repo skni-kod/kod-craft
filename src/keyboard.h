@@ -42,4 +42,12 @@ PyTypeObject py_KeyboardKeyClassType;
 
 int pyInitKeyboardKey(py_KeyboardKeyClass* self, PyObject* args, PyObject* kwargs);
 
+PyObject *py_KeyboardKeyGet(py_KeyboardKeyClass* self, PyObject *args, PyObject *kwargs);
+
+static PyMethodDef pyMethodsKeyboardKey[] = {
+    {"get", (PyCFunction)py_KeyboardKeyGet, METH_VARARGS | METH_KEYWORDS,
+    "Get key state"},
+    {NULL, NULL, 0, NULL}
+};
+
 #endif

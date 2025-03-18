@@ -110,6 +110,7 @@ void initPython() {
     py_KeyboardKeyClassType.tp_name = "game.Key";
     py_KeyboardKeyClassType.tp_basicsize = sizeof(py_KeyboardKeyClass);
     py_KeyboardKeyClassType.tp_init = reinterpret_cast<initproc>(pyInitKeyboardKey);
+    py_KeyboardKeyClassType.tp_methods = pyMethodsKeyboardKey;
 
 
     PyImport_AppendInittab("game", &PyInit_Game);
