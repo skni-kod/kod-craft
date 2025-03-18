@@ -90,6 +90,9 @@ public:
     double getYaw();
     double getRoll();
 
+    EntityPosition getVector();
+    EntityPosition getXYVector();
+
     void setPitch(double pitch);
     void setYaw(double yaw);
     void setRoll(double roll);

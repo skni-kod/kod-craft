@@ -29,6 +29,31 @@ double Rotation::getRoll() {
     return this->roll;
 }
 
+EntityPosition Rotation::getVector() {
+    EntityPosition vector;
+
+    double yaw = this->getYaw();
+    double pitch = this->getPitch();
+
+    vector.x = cos(yaw) * abs(cos(pitch));
+    vector.y = sin(yaw) * abs(cos(pitch));
+    vector.z = sin(pitch);
+
+    return vector;
+}
+
+EntityPosition Rotation::getXYVector() {
+    EntityPosition vector;
+
+    double yaw = this->getYaw();
+
+    vector.x = cos(yaw);
+    vector.y = sin(yaw);
+    vector.z = 0;
+
+    return vector;
+}
+
 void Rotation::setPitch(double pitch) {
     this->pitch = pitch;
 }

@@ -33,14 +33,8 @@ void Player::render() {
 
     playerRotation->clamp();
 
-    Vector3 lookVector;
-
-    double playerYaw = playerRotation->getYaw();
-    double playerPitch = playerRotation->getPitch();
-
-    lookVector.x = cos(playerYaw) * abs(cos(playerPitch));
-    lookVector.y = sin(playerYaw) * abs(cos(playerPitch));
-    lookVector.z = sin(playerPitch);
+    EntityPosition lookVectorEP = this->rotation->getVector();
+    Vector3 lookVector = {(float)lookVectorEP.x, (float)lookVectorEP.y, (float)lookVectorEP.z};
 
     lookVector.x+= (float)cameraPosition.x;
     lookVector.y+= (float)cameraPosition.y;
