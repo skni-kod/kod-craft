@@ -91,6 +91,8 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 	if (distancesToEdges.y >= 0) return noCollision;
 	if (distancesToEdges.z >= 0) return noCollision;
 
+	if (distanceToEdge>-0.01) return noCollision; // short distances may cause infnite loops thx to floating point
+
 
 	EntityPosition pushDistance = normalize(vel);
 
