@@ -187,6 +187,8 @@ PyObject *py_setEntityPosition(py_EntityClass* self, PyObject *args, PyObject *k
 PyObject *py_moveEntity(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_EntityGetVector(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_EntityGetVectorXY(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 
 static PyMethodDef pyMethodsEntity[] = {
     {"setDimension", (PyCFunction)py_setEntityDimension, METH_VARARGS | METH_KEYWORDS,
@@ -199,6 +201,10 @@ static PyMethodDef pyMethodsEntity[] = {
      "Change object's velocity by a delta."},
      {"addHitbox", (PyCFunction)py_addEntityHitbox, METH_VARARGS | METH_KEYWORDS,
      "Add a hitbox to an entity."},
+     {"getLookVector", (PyCFunction)py_EntityGetVector, METH_VARARGS | METH_KEYWORDS,
+     "Get the vector the entity is looking at."},
+     {"getLookVectorXY", (PyCFunction)py_EntityGetVectorXY, METH_VARARGS | METH_KEYWORDS,
+     "Get the vector the entity is looking at in the XY plane only."},
     {NULL, NULL, 0, NULL}
 };
 

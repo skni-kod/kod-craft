@@ -400,3 +400,26 @@ PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwa
 
     return PyBool_FromLong(0);
 }
+
+PyObject *py_EntityGetVector(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    PyObject* returnValue = PyTuple_New(3);
+
+    EntityPosition vector = self->instance->getRotation()->getVector();
+
+    PyTuple_SetItem(returnValue, 0, PyFloat_FromDouble(vector.x));
+    PyTuple_SetItem(returnValue, 1, PyFloat_FromDouble(vector.y));
+    PyTuple_SetItem(returnValue, 2, PyFloat_FromDouble(vector.z));
+
+    return returnValue;
+}
+
+PyObject *py_EntityGetVectorXY(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    PyObject* returnValue = PyTuple_New(2);
+
+    EntityPosition vector = self->instance->getRotation()->getVectorXY();
+
+    PyTuple_SetItem(returnValue, 0, PyFloat_FromDouble(vector.x));
+    PyTuple_SetItem(returnValue, 1, PyFloat_FromDouble(vector.y));
+
+    return returnValue;
+}
