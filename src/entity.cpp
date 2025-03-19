@@ -42,7 +42,7 @@ EntityPosition Rotation::getVector() {
     return vector;
 }
 
-EntityPosition Rotation::getXYVector() {
+EntityPosition Rotation::getVectorXY() {
     EntityPosition vector;
 
     double yaw = this->getYaw();
