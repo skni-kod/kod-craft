@@ -42,7 +42,29 @@ def onWorldLoad():
 game.setOnWorldLoadCallback(onWorldLoad)
 
 def onTick():
-    player.applyForce(0.0, 0.0, -0.01)
+    playerLookX, playerLookY = player.getLookVectorXY()
+
+    forwardMoveIntent = keys["forward"].get() - keys["backward"].get()
+    sidewaysMoveIntent = keys["left"].get() - keys["right"].get()
+
+    moveIntentLength = (forwardMoveIntent**2 + sidewaysMoveIntent**2)**(1/2)
+    if (moveIntentLength > 1):
+        forwardMoveIntent = forwardMoveIntent / moveIntentLength
+        sidewaysMoveIntent = sidewaysMoveIntent / moveIntentLength
+        moveIntentLength = 1
+
+
+    playerMoveX = playerLookX * forwardMoveIntent - playerLookY * sidewaysMoveIntent
+    playerMoveY = playerLookY * forwardMoveIntent + playerLookX * sidewaysMoveIntent
+
+    playerSpeed = 0.1
+    playerMoveX = playerMoveX * playerSpeed
+    playerMoveY = playerMoveY * playerSpeed
+
+    gravity = -0.01
+
+    player.move(playerMoveX, playerMoveY, 0.0)
+    player.applyForce(0.0, 0.0, gravity)
 
 game.setOnTickCallback(onTick)
 
