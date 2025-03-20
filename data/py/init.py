@@ -63,7 +63,7 @@ def onTick():
 
     gravity = -0.01
 
-    player.move(playerMoveX, playerMoveY, 0.0)
+    player.applyForce(playerMoveX, playerMoveY, 0.0)
     player.applyForce(0.0, 0.0, gravity)
 
 game.setOnTickCallback(onTick)
