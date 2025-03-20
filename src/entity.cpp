@@ -115,14 +115,10 @@ void EntityTask::exec(Entity* entity) {
         entity->pos = this->data.position;
         break;
     case TASK_ENTITY_MOVE:
-        entity->pos.x+= this->data.position.x;
-        entity->pos.y+= this->data.position.y;
-        entity->pos.z+= this->data.position.z;
+        entity->pos+= this->data.position;
         break;
     case TASK_ENTITY_ADD_VELOCITY:
-        entity->vel.x+= this->data.position.x;
-        entity->vel.y+= this->data.position.y;
-        entity->vel.z+= this->data.position.z;
+        entity->vel+= this->data.position;
     }
 }
 
