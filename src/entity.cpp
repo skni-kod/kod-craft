@@ -149,6 +149,7 @@ Entity::~Entity() {
 
 void Entity::checkWorldCollision() {
     EntityPosition collision = noCollision;
+    bool collided = false;
  
     // check initial path
     do {
@@ -157,50 +158,56 @@ void Entity::checkWorldCollision() {
             if (collision != noCollision) {
                 this->pos+=collision;
                 this->vel+=collision;
+                collided = true;
                 break;
             }
         }
     } while (collision!=noCollision);
 
 
-    // check separated axis paths
+    if (collided) {
 
-    EntityPosition originalPosition = this->pos;
+        // check separated axis paths
 
-    #define checkCollisionAxis(axis) \
-    collision = noCollision; \
-    this->pos.axis+= this->vel.axis; \
-    do { \
-        for (int i = 0; i < this->hitboxes.size(); i++) { \
-            collision = this->hitboxes[i]->collideWithTerrain(); \
-            if (collision.axis != noCollision.axis) { \
-                double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
-                if (collision.axis<0) distance*=-1;\
-                this->pos.axis+=distance; \
-                this->vel.axis+=distance; \
-                break; \
+        EntityPosition originalPosition = this->pos;
+
+        #define checkCollisionAxis(axis) \
+        collision = noCollision; \
+        this->pos.axis+= this->vel.axis; \
+        do { \
+            for (int i = 0; i < this->hitboxes.size(); i++) { \
+                collision = this->hitboxes[i]->collideWithTerrain(); \
+                if (collision.axis != noCollision.axis) { \
+                    double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
+                    if (collision.axis<0) distance*=-1;\
+                    this->pos.axis+=distance; \
+                    this->vel.axis+=distance; \
+                    break; \
+                } \
             } \
-        } \
-    } while (collision.axis!=noCollision.axis); \
-    this->pos = originalPosition;
+        } while (collision.axis!=noCollision.axis); \
+        this->pos = originalPosition;
 
-    checkCollisionAxis(x);
-    checkCollisionAxis(y);
-    checkCollisionAxis(z);
+        checkCollisionAxis(x);
+        checkCollisionAxis(y);
+        checkCollisionAxis(z);
 
 
-    // check final path
-    do {
-        for (int i = 0; i < this->hitboxes.size(); i++) {
-            collision = this->hitboxes[i]->collideWithTerrain();
-            if (collision != noCollision) {
-                this->pos+=collision;
-                this->vel+=collision;
-                break;
+        // check final path
+        do {
+            for (int i = 0; i < this->hitboxes.size(); i++) {
+                collision = this->hitboxes[i]->collideWithTerrain();
+                if (collision != noCollision) {
+                    this->pos+=collision;
+                    this->vel+=collision;
+                    break;
+                }
             }
-        }
-    } while (collision!=noCollision);
+        } while (collision!=noCollision);
 
+
+        this->vel*=0.8;
+    }
 
 }
 
