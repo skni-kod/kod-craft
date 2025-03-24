@@ -15,7 +15,8 @@ keys = {
     "forward": game.Key(ord('W')),
     "left": game.Key(ord('A')),
     "backward": game.Key(ord('S')),
-    "right": game.Key(ord('D'))
+    "right": game.Key(ord('D')),
+    "jump": game.Key(ord(' '))
 };
 
 
@@ -43,6 +44,7 @@ game.setOnWorldLoadCallback(onWorldLoad)
 
 def onTick():
     playerLookX, playerLookY = player.getLookVectorXY()
+    playerCollisionX, playerCollisionY, playerCollisionZ = player.getCollisionVector()
 
     forwardMoveIntent = keys["forward"].get() - keys["backward"].get()
     sidewaysMoveIntent = keys["left"].get() - keys["right"].get()
@@ -65,6 +67,8 @@ def onTick():
 
     player.applyForce(playerMoveX, playerMoveY, 0.0)
     player.applyForce(0.0, 0.0, gravity)
+    if (playerCollisionZ>0):
+        player.applyForce(0.0, 0.0, keys["jump"].get()*0.25)
 
 game.setOnTickCallback(onTick)
 

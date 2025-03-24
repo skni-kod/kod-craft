@@ -18,7 +18,7 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	}
 }
 
-EntityPosition Hitbox::collideWithTerrain() {
+EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPosition velocity) {
 	assert(this->type == TYPE_ENTITY);
 
 	EntityPosition minPos = this->getWorldMinimum();
@@ -34,7 +34,7 @@ EntityPosition Hitbox::collideWithTerrain() {
         for (WorldPos y = minPos.y; y < maxPos.y; y++) {
             BlockInstance blockY = blockX;
             for (WorldPos z = minPos.z; z < maxPos.z; z++) {
-                EntityPosition delta = blockY.get().checkCollision(this, blockY.getX(), blockY.getY(), blockY.getZ());
+                EntityPosition delta = blockY.get().checkCollision(position, velocity, this, blockY.getX(), blockY.getY(), blockY.getZ());
                 if (delta != noCollision) {
                     return delta;
                 }
@@ -48,12 +48,12 @@ EntityPosition Hitbox::collideWithTerrain() {
     return noCollision;
 }
 
-EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
+EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity, Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
 	if (other->type != TYPE_BLOCK) return noCollision;
 	if (this->type != TYPE_ENTITY) return noCollision;
 
 	EntityPosition positionThis = this->offset;
-	positionThis += this->parent.ent->pos;
+	positionThis += position;
 	EntityPosition sizeThis = this->size;
 
 	EntityPosition positionOther = other->offset;
@@ -78,7 +78,7 @@ EntityPosition Hitbox::collideWithBlock(Hitbox * other, WorldPos x, WorldPos y, 
 
 	EntityPosition distancesNeg = (positionOther + sizeOther) - (positionThis - sizeThis);
 
-	EntityPosition vel = this->parent.ent->vel;
+	EntityPosition vel = velocity;
 	EntityPosition distancesToEdges;
 
 

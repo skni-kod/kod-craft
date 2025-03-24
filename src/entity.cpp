@@ -134,6 +134,8 @@ Entity::Entity() {
     this->dimension = NULL;
     this->initalized = false;
 
+    this->collisionVector = noCollision;
+
     this->rotation = new Rotation();
 }
 
@@ -147,17 +149,22 @@ Entity::~Entity() {
     }
 }
 
-void Entity::checkWorldCollision() {
+EntityPosition Entity::checkWorldCollision() {
     EntityPosition collision = noCollision;
+    EntityPosition collisionSum = noCollision;
     bool collided = false;
+
+    EntityPosition newPosition = this->pos;
+    EntityPosition newVelocity = this->vel;
  
     // check initial path
     do {
         for (int i = 0; i < this->hitboxes.size(); i++) {
-            collision = this->hitboxes[i]->collideWithTerrain();
+            collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
             if (collision != noCollision) {
-                this->pos+=collision;
-                this->vel+=collision;
+                newPosition+=collision;
+                collisionSum+=collision;
+                newVelocity+=collision;
                 collided = true;
                 break;
             }
@@ -166,49 +173,61 @@ void Entity::checkWorldCollision() {
 
 
     if (collided) {
+        EntityPosition firstCollisionSum = collisionSum;
 
         // check separated axis paths
 
-        EntityPosition originalPosition = this->pos;
+        EntityPosition originalPosition = newPosition;
+        EntityPosition originalVelocity = newVelocity;
+
+        EntityPosition secondCollisionSum = noCollision;
 
         #define checkCollisionAxis(axis) \
         collision = noCollision; \
-        this->pos.axis+= this->vel.axis; \
+        newVelocity = {0.0, 0.0, 0.0}; \
+        newPosition.axis+= firstCollisionSum.axis; \
+        newVelocity.axis = firstCollisionSum.axis; \
         do { \
             for (int i = 0; i < this->hitboxes.size(); i++) { \
-                collision = this->hitboxes[i]->collideWithTerrain(); \
+                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity); \
                 if (collision.axis != noCollision.axis) { \
                     double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
                     if (collision.axis<0) distance*=-1;\
-                    this->pos.axis+=distance; \
-                    this->vel.axis+=distance; \
+                    newPosition.axis+=distance; \
+                    secondCollisionSum.axis+=distance; \
                     break; \
                 } \
             } \
         } while (collision.axis!=noCollision.axis); \
-        this->pos = originalPosition;
+        newPosition = originalPosition;
 
         checkCollisionAxis(x);
         checkCollisionAxis(y);
         checkCollisionAxis(z);
 
+        newVelocity = originalVelocity + secondCollisionSum;
 
         // check final path
         do {
             for (int i = 0; i < this->hitboxes.size(); i++) {
-                collision = this->hitboxes[i]->collideWithTerrain();
+                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
                 if (collision != noCollision) {
-                    this->pos+=collision;
-                    this->vel+=collision;
+                    newPosition+=collision;
+                    collisionSum+=collision;
+                    newVelocity+=collision;
                     break;
                 }
             }
         } while (collision!=noCollision);
 
 
-        this->vel*=0.8;
+        newVelocity*=0.8;
     }
 
+    this->pos = newPosition;
+    this->vel = newVelocity;
+
+    return collisionSum;
 }
 
 void Entity::addTask(EntityTask* task) {
@@ -281,6 +300,10 @@ Rotation* Entity::getRotation() {
     return this->rotation;
 }
 
+EntityPosition Entity::getCollisionVector() {
+    return this->collisionVector;
+}
+
 void Entity::processTick() {
     this->oldPosition = this->pos;
     this->pos.x+= this->vel.x;
@@ -288,7 +311,7 @@ void Entity::processTick() {
     this->pos.z+= this->vel.z;
 
     this->execTasks();
-    this->checkWorldCollision();
+    this->collisionVector = this->checkWorldCollision();
 
     this->positionHasChanged =!(this->oldPosition == this->pos);
 
@@ -423,6 +446,18 @@ PyObject *py_EntityGetVectorXY(py_EntityClass* self, PyObject *args, PyObject *k
 
     PyTuple_SetItem(returnValue, 0, PyFloat_FromDouble(vector.x));
     PyTuple_SetItem(returnValue, 1, PyFloat_FromDouble(vector.y));
+
+    return returnValue;
+}
+
+PyObject *py_GetCollisionVector(py_EntityClass* self, PyObject *args, PyObject *kwargs) {
+    PyObject* returnValue = PyTuple_New(3);
+
+    EntityPosition vector = self->instance->getCollisionVector();
+
+    PyTuple_SetItem(returnValue, 0, PyFloat_FromDouble(vector.x));
+    PyTuple_SetItem(returnValue, 1, PyFloat_FromDouble(vector.y));
+    PyTuple_SetItem(returnValue, 2, PyFloat_FromDouble(vector.z));
 
     return returnValue;
 }

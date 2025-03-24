@@ -135,9 +135,10 @@ private:
     void addTask(EntityTask* task);
     void execTasks();
 
-    void checkWorldCollision();
+    EntityPosition checkWorldCollision();
 
     EntityPosition oldPosition;
+    EntityPosition collisionVector;
 
     bool positionHasChanged;
 public:
@@ -150,6 +151,7 @@ public:
 
     EntityPosition getInterpPosition();
     Rotation* getRotation();
+    EntityPosition getCollisionVector();
 
     void draw();
     void processTick();
@@ -189,6 +191,7 @@ PyObject *py_entityApplyForce(py_EntityClass* self, PyObject *args, PyObject *kw
 PyObject *py_addEntityHitbox(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_EntityGetVector(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 PyObject *py_EntityGetVectorXY(py_EntityClass* self, PyObject *args, PyObject *kwargs);
+PyObject *py_GetCollisionVector(py_EntityClass* self, PyObject *args, PyObject *kwargs);
 
 static PyMethodDef pyMethodsEntity[] = {
     {"setDimension", (PyCFunction)py_setEntityDimension, METH_VARARGS | METH_KEYWORDS,
@@ -205,6 +208,8 @@ static PyMethodDef pyMethodsEntity[] = {
      "Get the vector the entity is looking at."},
      {"getLookVectorXY", (PyCFunction)py_EntityGetVectorXY, METH_VARARGS | METH_KEYWORDS,
      "Get the vector the entity is looking at in the XY plane only."},
+     {"getCollisionVector", (PyCFunction)py_GetCollisionVector, METH_VARARGS | METH_KEYWORDS,
+     "Get the collision vector from the last tick."},
     {NULL, NULL, 0, NULL}
 };
 
