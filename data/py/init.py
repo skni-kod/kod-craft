@@ -24,7 +24,7 @@ def generateEmptyChunk(x, y, z, size):
     return [[["air"]*size]*size]*size # size³ 3D array of "air"
 
 def generateFlatLand(x, y, z, size):
-    if z<0:
+    if z<0 or y>5:
         return [[[stone]*size]*size]*size
 
     return [[[air]*size]*size]*size
@@ -39,6 +39,7 @@ def onWorldLoad():
     game.setPlayerCameraOffset(0, 0, 1.75)
     player.addHitbox(0,0,1, 1,1,2)
     player.setPosition(0.1, 0.2, 10)
+    player.applyForce(0.0, 1.0, 0.0)
 
 game.setOnWorldLoadCallback(onWorldLoad)
 
