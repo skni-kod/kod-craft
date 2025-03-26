@@ -10,6 +10,10 @@ stone = game.Block("stone",
     solid = True
     )
 
+blueStone = game.Block("blueStone",
+    texture = "stone.png",
+    solid = True)
+
 
 keys = {
     "forward": game.Key(ord('W')),
@@ -25,7 +29,17 @@ def generateEmptyChunk(x, y, z, size):
 
 def generateFlatLand(x, y, z, size):
     if z<0 or y>5:
-        return [[[stone]*size]*size]*size
+        chunk = []
+        for bX in range(0, size):
+            chunk.append([])
+            for bY in range(0, size):
+                chunk[bX].append([])
+                for bZ in range(0, size):
+                    chunk[bX][bY].append(stone)
+                    if ((bX+bY+bZ)%2 == 0):
+                        chunk[bX][bY][bZ] = blueStone
+
+        return chunk
 
     return [[[air]*size]*size]*size
 

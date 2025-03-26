@@ -30,7 +30,8 @@ Block::Block(PyObject* self) {
 void Block::draw(WorldPos x, WorldPos y, WorldPos z) {
     if (this->propeties->visible == false) return;
     
-    DrawCube({(float)(x), (float)(y), (float)(z)}, 1, 1, 1, GOLD);
+    if (this->propeties->name == "blueStone") DrawCube({(float)(x), (float)(y), (float)(z)}, 1, 1, 1, BLUE);
+    else DrawCube({(float)(x), (float)(y), (float)(z)}, 1, 1, 1, GOLD);
 }
 
 
