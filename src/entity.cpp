@@ -152,10 +152,11 @@ Entity::~Entity() {
 EntityPosition Entity::checkWorldCollision() {
     EntityPosition collision = noCollision;
     EntityPosition collisionSum = noCollision;
-    bool collided = false;
 
     EntityPosition newPosition = this->pos;
     EntityPosition newVelocity = this->vel;
+
+    bool recursiveCollision = false;
  
     // check initial path
     do {
@@ -163,66 +164,53 @@ EntityPosition Entity::checkWorldCollision() {
             collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
             if (collision != noCollision) {
                 newPosition+=collision;
-                collisionSum+=collision;
                 newVelocity+=collision;
-                collided = true;
-                break;
+                collisionSum+=collision;
+                if (recursiveCollision) break;
             }
         }
-    } while (collision!=noCollision);
+    } while (collision!=noCollision && recursiveCollision);
 
 
-    if (collided) {
-        EntityPosition firstCollisionSum = collisionSum;
+    // check separated axis paths
 
-        // check separated axis paths
+    EntityPosition originalPosition = newPosition;
 
-        EntityPosition originalPosition = newPosition;
-        EntityPosition originalVelocity = newVelocity;
-
-        EntityPosition secondCollisionSum = noCollision;
-
-        #define checkCollisionAxis(axis) \
-        collision = noCollision; \
-        newVelocity = {0.0, 0.0, 0.0}; \
-        newPosition.axis+= firstCollisionSum.axis; \
-        newVelocity.axis = firstCollisionSum.axis; \
-        do { \
-            for (int i = 0; i < this->hitboxes.size(); i++) { \
-                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity); \
-                if (collision.axis != noCollision.axis) { \
-                    double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
-                    if (collision.axis<0) distance*=-1;\
-                    newPosition.axis+=distance; \
-                    secondCollisionSum.axis+=distance; \
-                    break; \
-                } \
+    #define checkCollisionAxis(axis) \
+    collision = noCollision; \
+    newPosition.axis+= newVelocity.axis; \
+    do { \
+        for (int i = 0; i < this->hitboxes.size(); i++) { \
+            collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity); \
+            if (collision.axis != noCollision.axis) { \
+                double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
+                if (collision.axis<0) distance*=-1;\
+                newPosition.axis+=distance; \
+                newVelocity.axis+=distance; \
+                collisionSum.axis+=distance; \
+                if (recursiveCollision) break; \
             } \
-        } while (collision.axis!=noCollision.axis); \
-        newPosition = originalPosition;
+        } \
+    } while (collision.axis!=noCollision.axis && recursiveCollision); \
+    newPosition = originalPosition;
 
-        checkCollisionAxis(x);
-        checkCollisionAxis(y);
-        checkCollisionAxis(z);
+    checkCollisionAxis(x);
+    checkCollisionAxis(y);
+    checkCollisionAxis(z);
 
-        newVelocity = originalVelocity + secondCollisionSum;
 
-        // check final path
-        do {
-            for (int i = 0; i < this->hitboxes.size(); i++) {
-                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
-                if (collision != noCollision) {
-                    newPosition+=collision;
-                    collisionSum+=collision;
-                    newVelocity+=collision;
-                    break;
-                }
+    // check final path
+    do {
+        for (int i = 0; i < this->hitboxes.size(); i++) {
+            collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
+            if (collision != noCollision) {
+                newPosition+=collision;
+                newVelocity+=collision;
+                collisionSum+=collision;
+                if (recursiveCollision) break;
             }
-        } while (collision!=noCollision);
-
-
-        newVelocity*=0.8;
-    }
+        }
+    } while (collision!=noCollision && recursiveCollision);
 
     this->pos = newPosition;
     this->vel = newVelocity;

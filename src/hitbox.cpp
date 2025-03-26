@@ -58,7 +58,7 @@ EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition 
 
 	EntityPosition positionOther = other->offset;
 	positionOther += {(double)(x), (double)(y), (double)(z)};
-	positionOther += {0.5, 0.5, 0.5}; // static block offset - remove/change if necessary
+	// positionOther += {0.5, 0.5, 0.5}; // static block offset - remove/change if necessary
 	EntityPosition sizeOther = other->size;
 
 
@@ -91,7 +91,7 @@ EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition 
 	if (distancesToEdges.y >= 0) return noCollision;
 	if (distancesToEdges.z >= 0) return noCollision;
 
-	if (distanceToEdge>-0.01) return noCollision; // short distances may cause infnite loops thx to floating point
+	// if (distanceToEdge>-0.01) return noCollision; // short distances may cause infnite loops thx to floating point
 
 
 	EntityPosition pushDistance = normalize(vel);
