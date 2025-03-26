@@ -50,7 +50,7 @@ def onWorldLoad():
     global player
     player = game.getPlayer()
     player.setDimension(kodland)
-    game.setPlayerCameraOffset(0, 0, 1.75)
+    game.setPlayerCameraOffset(0, 0, 1.5)
     player.addHitbox(0,0,1, 1,1,2)
     player.setPosition(0.1, 0.2, 10)
     player.applyForce(0.0, 1.0, 0.0)
