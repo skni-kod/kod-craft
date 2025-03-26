@@ -179,18 +179,20 @@ EntityPosition Entity::checkWorldCollision() {
     if (collided) {
 
         EntityPosition originalPosition = newPosition;
+        EntityPosition removedVelocity = collisionSum;
+        removedVelocity*=-1;
 
         #define checkCollisionAxis(axis) \
         collision = noCollision; \
-        newPosition.axis+= newVelocity.axis; \
+        newPosition.axis+= removedVelocity.axis; \
         do { \
             for (int i = 0; i < this->hitboxes.size(); i++) { \
-                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity); \
+                collision = this->hitboxes[i]->collideWithTerrain(newPosition, removedVelocity); \
                 if (collision.axis != noCollision.axis) { \
                     double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
                     if (collision.axis<0) distance*=-1;\
                     newPosition.axis+=distance; \
-                    newVelocity.axis+=distance; \
+                    removedVelocity.axis+=distance; \
                     collisionSum.axis+=distance; \
                     if (recursiveCollision) break; \
                 } \
@@ -201,6 +203,8 @@ EntityPosition Entity::checkWorldCollision() {
         checkCollisionAxis(x);
         checkCollisionAxis(y);
         checkCollisionAxis(z);
+
+        newVelocity+=removedVelocity;
 
 
         // check final path
