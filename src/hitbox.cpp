@@ -18,6 +18,18 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	}
 }
 
+double miximum(double a, double b) {
+	if (b > a) return miximum(b, a);
+	if (a == 0) return b;
+	if (b == 0) return a;
+	if (a < 0) return std::min(a, b);
+	return std::max(a, b);
+}
+
+EntityPosition miximum(EntityPosition a, EntityPosition b) {
+	return {miximum(a.x, b.x), miximum(a.y, b.y), miximum(a.z, b.z)};
+}
+
 EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPosition velocity) {
 	assert(this->type == TYPE_ENTITY);
 
@@ -29,6 +41,8 @@ EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPositio
 
     BlockInstance block = BlockInstance(this->parent.ent->dimension, minPos.x, minPos.y, minPos.z);
 
+    EntityPosition collisionSum = noCollision;
+
     for (WorldPos x = minPos.x; x < maxPos.x; x++) {
         BlockInstance blockX = block;
         for (WorldPos y = minPos.y; y < maxPos.y; y++) {
@@ -36,7 +50,7 @@ EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPositio
             for (WorldPos z = minPos.z; z < maxPos.z; z++) {
                 EntityPosition delta = blockY.get().checkCollision(position, velocity, this, blockY.getX(), blockY.getY(), blockY.getZ());
                 if (delta != noCollision) {
-                    return delta;
+                    collisionSum = miximum(collisionSum, delta);
                 }
                 blockY = blockY.getInstanceAt(Zpos);
             }
@@ -45,7 +59,7 @@ EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPositio
         block = block.getInstanceAt(Xpos);
     }
 
-    return noCollision;
+    return collisionSum;
 }
 
 EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity, Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
