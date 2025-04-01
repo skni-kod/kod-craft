@@ -19,11 +19,8 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 }
 
 double miximum(double a, double b) {
-	if (b > a) return miximum(b, a);
-	if (a == 0) return b;
-	if (b == 0) return a;
-	if (a < 0) return std::min(a, b);
-	return std::max(a, b);
+	if (abs(a)>abs(b)) return a;
+	return b;
 }
 
 EntityPosition miximum(EntityPosition a, EntityPosition b) {
