@@ -42,7 +42,7 @@ public:
     bool isSolid();
     bool isVisible();
 
-    EntityPosition checkCollision(EntityPosition position, EntityPosition velocity, Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z);
+    double checkCollision(EntityPosition position, EntityPosition velocity, Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z);
 
     void draw(WorldPos x, WorldPos y, WorldPos z);
 };

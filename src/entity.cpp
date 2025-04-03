@@ -149,84 +149,75 @@ Entity::~Entity() {
     }
 }
 
-EntityPosition Entity::checkWorldCollision() {
-    EntityPosition collision = noCollision;
-    EntityPosition collisionSum = noCollision;
 
-    EntityPosition newPosition = this->pos;
-    EntityPosition newVelocity = this->vel;
+double addRange(double A, double B) {
+    return (1-A)*B+A;
+}
 
-    bool recursiveCollision = false;
-    bool collided = false;
- 
-    // check initial path
+const bool recursiveCollision = true;
+const int collisionLimit = 1;
+
+double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition B) {
+    double collision = 0;
+    double collisionSum = 0;
+    int collisionCount = 0;
+
+    EntityPosition position = A;
+    EntityPosition delta = A-B;
+    EntityPosition newDelta = delta;
+
     do {
         for (int i = 0; i < this->hitboxes.size(); i++) {
-            collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
-            if (collision != noCollision) {
-                newPosition+=collision;
-                newVelocity+=collision;
-                collisionSum+=collision;
-                collided = true;
+            collision = this->hitboxes[i]->collideWithTerrain(position, newDelta);
+            if (collision != 0) {
+                collisionSum = addRange(collisionSum, collision);
+                position=A+delta*collisionSum;
+                newDelta=delta*collisionSum;
                 if (recursiveCollision) break;
             }
         }
-    } while (collision!=noCollision && recursiveCollision);
+    } while (collision!=0 && recursiveCollision && collisionCount++<collisionLimit);
 
+    if (collisionCount>=collisionLimit) return 1;
 
-    // check separated axis paths
+    return collisionSum;
+}
+
+EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
+    bool collided = false;
+ 
+    double collision = checkMoveWithCollision(this->pos, delta);
+
+    if (collision!=0) collided = true;
+
+    EntityPosition totalData = delta*(1-collision);
+    EntityPosition newPosition = this->pos + totalData;
 
     if (collided) {
+        EntityPosition removedDelta = delta*collision;
 
-        EntityPosition originalPosition = newPosition;
-        EntityPosition removedVelocity = collisionSum;
-        removedVelocity*=-1;
-
-        #define checkCollisionAxis(axis) \
-        collision = noCollision; \
-        newPosition.axis+= removedVelocity.axis; \
-        do { \
-            for (int i = 0; i < this->hitboxes.size(); i++) { \
-                collision = this->hitboxes[i]->collideWithTerrain(newPosition, removedVelocity); \
-                if (collision.axis != noCollision.axis) { \
-                    double distance = std::max(std::abs(collision.x), std::max(std::abs(collision.y), std::abs(collision.z))); \
-                    if (collision.axis<0) distance*=-1;\
-                    newPosition.axis+=distance; \
-                    removedVelocity.axis+=distance; \
-                    collisionSum.axis+=distance; \
-                    if (recursiveCollision) break; \
-                } \
-            } \
-        } while (collision.axis!=noCollision.axis && recursiveCollision); \
-        newPosition = originalPosition;
-
-        checkCollisionAxis(x);
-        checkCollisionAxis(y);
-        checkCollisionAxis(z);
-
-        newVelocity+=removedVelocity;
+        double collisionX = checkMoveWithCollision(newPosition, {removedDelta.x, 0, 0});
+        double collisionY = checkMoveWithCollision(newPosition, {0, removedDelta.y, 0});
+        double collisionZ = checkMoveWithCollision(newPosition, {0, 0, removedDelta.z});
 
 
-        // check final path
-        do {
-            for (int i = 0; i < this->hitboxes.size(); i++) {
-                collision = this->hitboxes[i]->collideWithTerrain(newPosition, newVelocity);
-                if (collision != noCollision) {
-                    newPosition+=collision;
-                    newVelocity+=collision;
-                    collisionSum+=collision;
-                    if (recursiveCollision) break;
-                }
-            }
-        } while (collision!=noCollision && recursiveCollision);
+        EntityPosition newDelta = {removedDelta.x*collisionX, removedDelta.y*collisionY, removedDelta.z*collisionZ};
 
-        newVelocity*=0.75;
+        double finalCollision = checkMoveWithCollision(newPosition, newDelta);
+
+        EntityPosition slideDelta = newDelta*(1-finalCollision);
+        totalData = delta*(1-collision) + slideDelta;
+        
+        if (slideDelta.x!=0) totalData.x*=0.75;
+        if (slideDelta.y!=0) totalData.y*=0.75;
+        if (slideDelta.z!=0) totalData.z*=0.75;
+
+        newPosition = this->pos + totalData;
     }
 
     this->pos = newPosition;
-    this->vel = newVelocity;
 
-    return collisionSum;
+    return totalData;
 }
 
 void Entity::addTask(EntityTask* task) {
@@ -310,7 +301,8 @@ void Entity::processTick() {
     this->pos.z+= this->vel.z;
 
     this->execTasks();
-    this->collisionVector = this->checkWorldCollision();
+    this->collisionVector = this->execMoveWithCollision(this->vel);
+    this->vel = collisionVector;
 
     this->positionHasChanged =!(this->oldPosition == this->pos);
 

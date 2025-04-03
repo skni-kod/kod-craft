@@ -41,6 +41,13 @@ struct EntityPosition {
         return *this;
     }
 
+    EntityPosition& operator*=(const EntityPosition other) {
+        this->x*=other.x;
+        this->y*=other.y;
+        this->z*=other.z;
+        return *this;
+    }
+
     bool operator==(const EntityPosition& other) {
         if (this->x != other.x) return false;
         if (this->y != other.y) return false;
@@ -61,6 +68,19 @@ struct EntityPosition {
         other-=*this;
         other*=-1;
         return other;
+    }
+
+    EntityPosition operator*(EntityPosition other) {
+        other*=*this;
+        return other;
+    }
+
+    EntityPosition operator*(double scalar) {
+        EntityPosition newPos;
+        newPos.x = this->x * scalar;
+        newPos.y = this->y * scalar;
+        newPos.z = this->z * scalar;
+        return newPos;
     }
 
 };
@@ -135,7 +155,8 @@ private:
     void addTask(EntityTask* task);
     void execTasks();
 
-    EntityPosition checkWorldCollision();
+    double checkMoveWithCollision(EntityPosition A, EntityPosition B);
+    EntityPosition execMoveWithCollision(EntityPosition delta);
 
     EntityPosition oldPosition;
     EntityPosition collisionVector;

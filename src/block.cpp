@@ -43,14 +43,14 @@ bool Block::isSolid() {
     return this->propeties->solid;
 }
 
-EntityPosition Block::checkCollision(EntityPosition position, EntityPosition velocity, Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z) {
+double Block::checkCollision(EntityPosition position, EntityPosition velocity, Hitbox* hitbox, WorldPos x, WorldPos y, WorldPos z) {
     for (int i = 0; i < this->propeties->hitboxes.size(); i++) {
-        EntityPosition delta = hitbox->collideWithBlock(position, velocity, this->propeties->hitboxes[i], x, y, z);
-        if (delta == noCollision) continue;
+        double delta = hitbox->collideWithBlock(position, velocity, this->propeties->hitboxes[i], x, y, z);
+        if (delta == 0) continue;
         return delta;
     }
 
-    return noCollision;
+    return 0;
 }
 
 BlockInstance::BlockInstance(Dimension* dimension, WorldPos x, WorldPos y, WorldPos z) {

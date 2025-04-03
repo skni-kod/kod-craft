@@ -18,16 +18,7 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	}
 }
 
-double miximum(double a, double b) {
-	if (abs(a)>abs(b)) return a;
-	return b;
-}
-
-EntityPosition miximum(EntityPosition a, EntityPosition b) {
-	return {miximum(a.x, b.x), miximum(a.y, b.y), miximum(a.z, b.z)};
-}
-
-EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPosition velocity) {
+double Hitbox::collideWithTerrain(EntityPosition position, EntityPosition velocity) {
 	assert(this->type == TYPE_ENTITY);
 
 	EntityPosition minPos = this->getWorldMinimum();
@@ -38,16 +29,16 @@ EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPositio
 
     BlockInstance block = BlockInstance(this->parent.ent->dimension, minPos.x, minPos.y, minPos.z);
 
-    EntityPosition collisionSum = noCollision;
+    double collisionSum = 0;
 
     for (WorldPos x = minPos.x; x < maxPos.x; x++) {
         BlockInstance blockX = block;
         for (WorldPos y = minPos.y; y < maxPos.y; y++) {
             BlockInstance blockY = blockX;
             for (WorldPos z = minPos.z; z < maxPos.z; z++) {
-                EntityPosition delta = blockY.get().checkCollision(position, velocity, this, blockY.getX(), blockY.getY(), blockY.getZ());
-                if (delta != noCollision) {
-                    collisionSum = miximum(collisionSum, delta);
+                double delta = blockY.get().checkCollision(position, velocity, this, blockY.getX(), blockY.getY(), blockY.getZ());
+                if (delta != 0) {
+                    collisionSum = std::max(collisionSum, delta);
                 }
                 blockY = blockY.getInstanceAt(Zpos);
             }
@@ -59,9 +50,15 @@ EntityPosition Hitbox::collideWithTerrain(EntityPosition position, EntityPositio
     return collisionSum;
 }
 
-EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity, Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
-	if (other->type != TYPE_BLOCK) return noCollision;
-	if (this->type != TYPE_ENTITY) return noCollision;
+bool pointBetweenPoints(double A, double B, double C) {
+	if (A < B && B < C) return true;
+	if (A > B && B > C) return true;
+	return false;
+}
+
+double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity, Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
+	if (other->type != TYPE_BLOCK) return 0;
+	if (this->type != TYPE_ENTITY) return 0;
 
 	EntityPosition positionThis = this->offset;
 	positionThis += position;
@@ -69,49 +66,65 @@ EntityPosition Hitbox::collideWithBlock(EntityPosition position, EntityPosition 
 
 	EntityPosition positionOther = other->offset;
 	positionOther += {(double)(x), (double)(y), (double)(z)};
-	// positionOther += {0.5, 0.5, 0.5}; // static block offset - remove/change if necessary
 	EntityPosition sizeOther = other->size;
 
+	EntityPosition sizeSum = sizeThis + sizeOther;
+	EntityPosition minBound = positionOther - sizeSum;
+	EntityPosition maxBound = positionOther + sizeSum;
 
-
-	if (positionOther.x>positionThis.x) {
-		std::swap(positionOther.x, positionThis.x);
-		std::swap(sizeThis.x, sizeOther.x);
+	if (velocity.x>0) {
+		std::swap(minBound.x, maxBound.x);
 	}
-	if (positionOther.y>positionThis.y) {
-		std::swap(positionOther.y, positionThis.y);
-		std::swap(sizeThis.y, sizeOther.y);
+	if (velocity.y>0) {
+		std::swap(minBound.y, maxBound.y);
 	}
-	if (positionOther.z>positionThis.z) {
-		std::swap(positionOther.z, positionThis.z);
-		std::swap(sizeThis.z, sizeOther.z);
+	if (velocity.z>0) {
+		std::swap(minBound.z, maxBound.z);
 	}
 
-	EntityPosition distancesNeg = (positionOther + sizeOther) - (positionThis - sizeThis);
+	EntityPosition A = positionThis;
+	EntityPosition B = A+velocity;
 
-	EntityPosition vel = velocity;
-	EntityPosition distancesToEdges;
+	double intersectionPoint = 0;
+
+	if (pointBetweenPoints(A.x, maxBound.x, B.x)) {
+		double thisPoint = (maxBound.x - A.x)/velocity.x;
+		EntityPosition thisPoint3D = velocity*thisPoint+A;
+
+		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto xBoundCheckFail;
+		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto xBoundCheckFail;
+
+		intersectionPoint = std::max(intersectionPoint, thisPoint);
+	}
+	xBoundCheckFail:
+
+	if (pointBetweenPoints(A.y, maxBound.y, B.y)) {
+		double thisPoint = (maxBound.y - A.y)/velocity.y;
+		EntityPosition thisPoint3D = velocity*thisPoint+A;
+
+		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto yBoundCheckFail;
+		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto yBoundCheckFail;
+
+		intersectionPoint = std::max(intersectionPoint, thisPoint);
+	}
+	yBoundCheckFail:
+
+	if (pointBetweenPoints(A.z, maxBound.z, B.z)) {
+		double thisPoint = (maxBound.z - A.z)/velocity.z;
+		EntityPosition thisPoint3D = velocity*thisPoint+A;
+
+		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto zBoundCheckFail;
+		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto zBoundCheckFail;
+
+		intersectionPoint = std::max(intersectionPoint, thisPoint);
+	}
+	zBoundCheckFail:
 
 
-	distancesToEdges = distancesNeg;
-	distancesToEdges*=-1;
+	if (intersectionPoint>1) return 1;
+	if (intersectionPoint<0) return 0;
 
-	double distanceToEdge = std::max(distancesToEdges.x, std::max(distancesToEdges.y, distancesToEdges.z));
-
-	if (distancesToEdges.x >= 0) return noCollision;
-	if (distancesToEdges.y >= 0) return noCollision;
-	if (distancesToEdges.z >= 0) return noCollision;
-
-	// if (distanceToEdge>-0.01) return noCollision; // short distances may cause infnite loops thx to floating point
-
-
-	EntityPosition pushDistance = normalize(vel);
-
-	double maxAxisLength = std::max(std::abs(pushDistance.x), std::max(std::abs(pushDistance.y), std::abs(pushDistance.z)));
-
-	pushDistance*=distanceToEdge/maxAxisLength;
-
-	return pushDistance;
+	return intersectionPoint;
 }
 
 EntityPosition Hitbox::getWorldCenter() {
