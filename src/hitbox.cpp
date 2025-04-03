@@ -113,8 +113,8 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 		double thisPoint = (maxBound.z - A.z)/velocity.z;
 		EntityPosition thisPoint3D = velocity*thisPoint+A;
 
+		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto zBoundCheckFail;
 		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto zBoundCheckFail;
-		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto zBoundCheckFail;
 
 		intersectionPoint = std::max(intersectionPoint, thisPoint);
 	}
