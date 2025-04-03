@@ -155,15 +155,14 @@ double addRange(double A, double B) {
 }
 
 const bool recursiveCollision = true;
-const int collisionLimit = 1;
+const int collisionLimit = 100;
 
-double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition B) {
+double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition delta) {
     double collision = 0;
     double collisionSum = 0;
     int collisionCount = 0;
 
     EntityPosition position = A;
-    EntityPosition delta = A-B;
     EntityPosition newDelta = delta;
 
     do {
@@ -172,13 +171,15 @@ double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition B) {
             if (collision != 0) {
                 collisionSum = addRange(collisionSum, collision);
                 position=A+delta*collisionSum;
-                newDelta=delta*collisionSum;
+                newDelta=delta*(1-collisionSum);
                 if (recursiveCollision) break;
             }
         }
     } while (collision!=0 && recursiveCollision && collisionCount++<collisionLimit);
-
     if (collisionCount>=collisionLimit) return 1;
+
+    if (collisionSum>1) return 1;
+    if (collisionSum<0) return 0;
 
     return collisionSum;
 }
@@ -192,6 +193,8 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
 
     EntityPosition totalData = delta*(1-collision);
     EntityPosition newPosition = this->pos + totalData;
+
+    collided = false;
 
     if (collided) {
         EntityPosition removedDelta = delta*collision;
@@ -296,9 +299,6 @@ EntityPosition Entity::getCollisionVector() {
 
 void Entity::processTick() {
     this->oldPosition = this->pos;
-    this->pos.x+= this->vel.x;
-    this->pos.y+= this->vel.y;
-    this->pos.z+= this->vel.z;
 
     this->execTasks();
     this->collisionVector = this->execMoveWithCollision(this->vel);
