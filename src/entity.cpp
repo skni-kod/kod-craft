@@ -163,15 +163,14 @@ double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition delta) {
     int collisionCount = 0;
 
     EntityPosition position = A;
-    EntityPosition newDelta = delta;
+    EntityPosition B = A + delta;
 
     do {
         for (int i = 0; i < this->hitboxes.size(); i++) {
-            collision = this->hitboxes[i]->collideWithTerrain(position, newDelta);
+            collision = this->hitboxes[i]->collideWithTerrain(position, B);
             if (collision != 0) {
                 collisionSum = addRange(collisionSum, collision);
-                position=A+delta*collisionSum;
-                newDelta=delta*(1-collisionSum);
+                position=A+delta*(1-collisionSum);
                 if (recursiveCollision) break;
             }
         }

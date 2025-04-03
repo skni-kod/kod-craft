@@ -18,7 +18,7 @@ Hitbox::Hitbox(void * parent, HitboxParentType type, EntityPosition offset, Enti
 	}
 }
 
-double Hitbox::collideWithTerrain(EntityPosition position, EntityPosition velocity) {
+double Hitbox::collideWithTerrain(EntityPosition A, EntityPosition B) {
 	assert(this->type == TYPE_ENTITY);
 
 	EntityPosition minPos = this->getWorldMinimum();
@@ -36,7 +36,7 @@ double Hitbox::collideWithTerrain(EntityPosition position, EntityPosition veloci
         for (WorldPos y = minPos.y; y < maxPos.y; y++) {
             BlockInstance blockY = blockX;
             for (WorldPos z = minPos.z; z < maxPos.z; z++) {
-                double delta = blockY.get().checkCollision(position, velocity, this, blockY.getX(), blockY.getY(), blockY.getZ());
+                double delta = blockY.get().checkCollision(A, B-A, this, blockY.getX(), blockY.getY(), blockY.getZ());
                 if (delta != 0) {
                     collisionSum = std::max(collisionSum, delta);
                 }
@@ -54,6 +54,13 @@ bool pointBetweenPoints(double A, double B, double C) {
 	if (A < B && B < C) return true;
 	if (A > B && B > C) return true;
 	return false;
+}
+
+bool pointInsideCube(EntityPosition point, EntityPosition cubePos, EntityPosition cubeSize) {
+	if (pointBetweenPoints(cubePos.x-cubeSize.x, point.x, cubePos.x+cubeSize.x)==false) return false;
+	if (pointBetweenPoints(cubePos.y-cubeSize.y, point.y, cubePos.y+cubeSize.y)==false) return false;
+	if (pointBetweenPoints(cubePos.z-cubeSize.z, point.z, cubePos.z+cubeSize.z)==false) return false;
+	return true;
 }
 
 double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity, Hitbox * other, WorldPos x, WorldPos y, WorldPos z) {
