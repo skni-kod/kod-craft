@@ -92,10 +92,12 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 	EntityPosition A = positionThis;
 	EntityPosition B = A+velocity;
 
+	if (pointInsideCube(A, positionOther, sizeSum) == true || pointInsideCube(B, positionOther, sizeSum) == false) return 0; 
+
 	double intersectionPoint = 0;
 
 	if (pointBetweenPoints(A.x, maxBound.x, B.x)) {
-		double thisPoint = (maxBound.x - A.x)/velocity.x;
+		double thisPoint = 1-(maxBound.x - B.x)/velocity.x;
 		EntityPosition thisPoint3D = velocity*thisPoint+A;
 
 		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto xBoundCheckFail;
@@ -106,7 +108,7 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 	xBoundCheckFail:
 
 	if (pointBetweenPoints(A.y, maxBound.y, B.y)) {
-		double thisPoint = (maxBound.y - A.y)/velocity.y;
+		double thisPoint = 1-(maxBound.y - B.y)/velocity.y;
 		EntityPosition thisPoint3D = velocity*thisPoint+A;
 
 		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto yBoundCheckFail;
@@ -117,7 +119,7 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 	yBoundCheckFail:
 
 	if (pointBetweenPoints(A.z, maxBound.z, B.z)) {
-		double thisPoint = (maxBound.z - A.z)/velocity.z;
+		double thisPoint = 1-(maxBound.z - B.z)/velocity.z;
 		EntityPosition thisPoint3D = velocity*thisPoint+A;
 
 		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto zBoundCheckFail;

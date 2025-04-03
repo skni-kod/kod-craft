@@ -115,7 +115,7 @@ void EntityTask::exec(Entity* entity) {
         entity->pos = this->data.position;
         break;
     case TASK_ENTITY_MOVE:
-        entity->pos+= this->data.position;
+        entity->execMoveWithCollision(this->data.position);
         break;
     case TASK_ENTITY_ADD_VELOCITY:
         entity->vel+= this->data.position;
@@ -219,6 +219,8 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
 
     this->pos = newPosition;
 
+    this->collisionVector = delta*collision;
+
     return totalData;
 }
 
@@ -300,8 +302,7 @@ void Entity::processTick() {
     this->oldPosition = this->pos;
 
     this->execTasks();
-    this->collisionVector = this->execMoveWithCollision(this->vel);
-    this->vel = collisionVector;
+    this->vel = this->execMoveWithCollision(this->vel);;
 
     this->positionHasChanged =!(this->oldPosition == this->pos);
 
