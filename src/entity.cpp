@@ -193,7 +193,6 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
     EntityPosition totalData = delta*(1-collision);
     EntityPosition newPosition = this->pos + totalData;
 
-    collided = false;
 
     if (collided) {
         EntityPosition removedDelta = delta*collision;
