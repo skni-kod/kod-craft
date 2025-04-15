@@ -170,7 +170,7 @@ double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition delta) {
             collision = this->hitboxes[i]->collideWithTerrain(position, B);
             if (collision != 0) {
                 collisionSum = addRange(collisionSum, collision);
-                position=A+delta*(1-collisionSum);
+                position=B-delta*collisionSum;
                 if (recursiveCollision) break;
             }
         }
@@ -191,8 +191,7 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
     if (collision!=0) collided = true;
 
     EntityPosition totalData = delta*(1-collision);
-    EntityPosition newPosition = this->pos + totalData;
-
+    EntityPosition newPosition = this->pos + delta - delta*collision;
 
     if (collided) {
         EntityPosition removedDelta = delta*collision;
@@ -202,7 +201,7 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
         double collisionZ = checkMoveWithCollision(newPosition, {0, 0, removedDelta.z});
 
 
-        EntityPosition newDelta = {removedDelta.x*collisionX, removedDelta.y*collisionY, removedDelta.z*collisionZ};
+        EntityPosition newDelta = {removedDelta.x*(1-collisionX), removedDelta.y*(1-collisionY), removedDelta.z*(1-collisionZ)};
 
         double finalCollision = checkMoveWithCollision(newPosition, newDelta);
 
@@ -218,7 +217,7 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
 
     this->pos = newPosition;
 
-    this->collisionVector = delta*collision;
+    this->collisionVector = totalData;
 
     return totalData;
 }
