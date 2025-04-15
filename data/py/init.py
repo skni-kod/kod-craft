@@ -74,13 +74,17 @@ def onTick():
     playerMoveX = playerLookX * forwardMoveIntent - playerLookY * sidewaysMoveIntent
     playerMoveY = playerLookY * forwardMoveIntent + playerLookX * sidewaysMoveIntent
 
-    playerSpeed = 0.2
+    playerSpeed = 0.1
+
+    if (playerCollisionZ<=0):
+        playerSpeed = 0.025
+
     playerMoveX = playerMoveX * playerSpeed
     playerMoveY = playerMoveY * playerSpeed
 
     gravity = -0.01
 
-    player.move(playerMoveX, playerMoveY, 0.0)
+    player.applyForce(playerMoveX, playerMoveY, 0.0)
     player.applyForce(0.0, 0.0, gravity)
     if (playerCollisionZ>0):
         player.applyForce(0.0, 0.0, keys["jump"].get()*0.25)
