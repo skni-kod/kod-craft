@@ -5,20 +5,6 @@
 #include <algorithm>
 #include <cmath>
 
-double multiplyRoundUp(double bigger, double smaller) {
-    assert(sizeof(double) == sizeof(long));
-    if (smaller!=0) {
-        long * smallerInt = (long*)&smaller;
-        (*smallerInt)++;
-    }
-    double result = bigger * smaller;
-    return result;
-}
-
-EntityPosition multiplyRoundUp(EntityPosition bigger, double smaller) {
-    return {multiplyRoundUp(bigger.x, smaller), multiplyRoundUp(bigger.y, smaller), multiplyRoundUp(bigger.z, smaller)};
-}
-
 Rotation::Rotation(double pitch, double yaw, double roll) {
     this->pitch = pitch;
     this->yaw = yaw;
@@ -184,7 +170,7 @@ double Entity::checkMoveWithCollision(EntityPosition A, EntityPosition delta) {
             collision = this->hitboxes[i]->collideWithTerrain(position, B);
             if (collision != 0) {
                 collisionSum = addRange(collisionSum, collision);
-                position=B-multiplyRoundUp(delta,collisionSum);
+                position=B-delta*collisionSum;
                 if (recursiveCollision) break;
             }
         }
@@ -205,10 +191,10 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
     if (collision!=0) collided = true;
 
     EntityPosition totalData = delta*(1-collision);
-    EntityPosition newPosition = this->pos + delta - multiplyRoundUp(delta, collision);
+    EntityPosition newPosition = this->pos + delta - delta*collision;
 
     if (collided) {
-        EntityPosition removedDelta = multiplyRoundUp(delta, collision);
+        EntityPosition removedDelta = delta*collision;
 
         double collisionX = checkMoveWithCollision(newPosition, {removedDelta.x, 0, 0});
         double collisionY = checkMoveWithCollision(newPosition, {0, removedDelta.y, 0});
@@ -219,7 +205,7 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
 
         double finalCollision = checkMoveWithCollision(newPosition, newDelta);
 
-        EntityPosition slideDelta = multiplyRoundUp(newDelta, 1-finalCollision);
+        EntityPosition slideDelta = newDelta*(1-finalCollision);
         totalData = delta*(1-collision) + slideDelta;
         
         if (slideDelta.x!=0) totalData.x*=0.75;
