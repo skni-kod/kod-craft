@@ -217,7 +217,7 @@ EntityPosition Entity::execMoveWithCollision(EntityPosition delta) {
 
     this->pos = newPosition;
 
-    this->collisionVector = totalData;
+    this->collisionVector = totalData - delta;
 
     return totalData;
 }
