@@ -7,11 +7,11 @@
 
 double multiplyRoundUp(double bigger, double smaller) {
     assert(sizeof(double) == sizeof(long));
-    double result = bigger * smaller;
     if (smaller!=0) {
-        long * resultInt = (long*)&result;
-        (*resultInt)+=1<<16;
+        long * smallerInt = (long*)&smaller;
+        (*smallerInt)++;
     }
+    double result = bigger * smaller;
     return result;
 }
 
