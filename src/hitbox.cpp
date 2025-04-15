@@ -103,7 +103,7 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 
 	if (pointBetweenPoints(A.x, maxBound.x, B.x)) {
 		double thisPoint = (maxBound.x - B.x)/(A.x-B.x);
-		EntityPosition thisPoint3D = B-multiplyRoundUp(velocity,intersectionPoint);
+		EntityPosition thisPoint3D = B-velocity*intersectionPoint;
 
 		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto xBoundCheckFail;
 		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto xBoundCheckFail;
@@ -114,7 +114,7 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 
 	if (pointBetweenPoints(A.y, maxBound.y, B.y)) {
 		double thisPoint = (maxBound.y - B.y)/(A.y-B.y);
-		EntityPosition thisPoint3D = B-multiplyRoundUp(velocity,intersectionPoint);
+		EntityPosition thisPoint3D = B-velocity*intersectionPoint;
 
 		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto yBoundCheckFail;
 		if (pointBetweenPoints(minBound.z, thisPoint3D.z, maxBound.z) == false) goto yBoundCheckFail;
@@ -125,7 +125,7 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 
 	if (pointBetweenPoints(A.z, maxBound.z, B.z)) {
 		double thisPoint = (maxBound.z - B.z)/(A.z-B.z);
-		EntityPosition thisPoint3D = B-multiplyRoundUp(velocity,intersectionPoint);
+		EntityPosition thisPoint3D = B-velocity*intersectionPoint;
 
 		if (pointBetweenPoints(minBound.x, thisPoint3D.x, maxBound.x) == false) goto zBoundCheckFail;
 		if (pointBetweenPoints(minBound.y, thisPoint3D.y, maxBound.y) == false) goto zBoundCheckFail;
@@ -134,7 +134,12 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 	}
 	zBoundCheckFail:
 
-	EntityPosition thisPoint3D = B-multiplyRoundUp(velocity,intersectionPoint);
+	if (intersectionPoint>0) {
+		long * intersectionPointInt = (long*)&intersectionPoint;
+		(*intersectionPointInt)++;
+	}
+
+	EntityPosition thisPoint3D = B-velocity*intersectionPoint;
 
 	if (pointInsideCube(thisPoint3D, positionOther, sizeSum) == true) {
 		return 1;
