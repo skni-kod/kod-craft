@@ -88,6 +88,9 @@ struct EntityPosition {
 double length(EntityPosition vector);
 EntityPosition normalize(EntityPosition vector);
 
+double multiplyRoundUp(double bigger, double smaller);
+EntityPosition multiplyRoundUp(EntityPosition bigger, double smaller);
+
 #include "dimension.h"
 #include "hitbox.h"
 #include <string>
