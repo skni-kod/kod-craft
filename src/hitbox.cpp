@@ -134,11 +134,6 @@ double Hitbox::collideWithBlock(EntityPosition position, EntityPosition velocity
 	}
 	zBoundCheckFail:
 
-	if (intersectionPoint>0) {
-		long * intersectionPointInt = (long*)&intersectionPoint;
-		(*intersectionPointInt)++;
-	}
-
 	EntityPosition thisPoint3D = B-velocity*intersectionPoint;
 
 	if (pointInsideCube(thisPoint3D, positionOther, sizeSum) == true) {
